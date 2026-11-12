@@ -2,7 +2,7 @@
 
 正式名稱是 Spinnin-Up。完整的計劃和使用者的期待在私人倉庫 `DaichiaYu/Spin-Up` 的 `plan.md`，兩邊有出入時以那份為準。這個倉庫是公開的，不要放使用者個人的身體狀況。
 
-給接手這個倉庫的 AI 和人看的說明。開始工作前先讀完這份，再讀 `docs/decisions.md`。
+給接手這個倉庫的 AI 和人看的說明。新的工作階段先讀 `project-state.json`，再讀這份、`docs/decisions.md`、`docs/roadmap.md`。需要判斷產品意圖或未決事項時，再去讀私人倉庫 `DaichiaYu/Spin-Up` 的 `plan.md`；不要把 AI 建議自行升格成使用者決定。
 
 ## 這是什麼
 
@@ -32,6 +32,9 @@ tools/
   build_catalog.py  產生 catalog.html
   validate.py       檢查資料有沒有對得上
 catalog.html        動作總覽頁（程式產生的，不要手改）
+project-state.json  給 Agent 先讀的機器可解析專案狀態
+tests/              不可被功能改動破壞的 repository contracts
+.github/workflows/  push / PR 自動驗證
 docs/
   decisions.md      已經決定的事、還沒決定的事
   data-format.md    exercises.json 每個欄位的意思
@@ -55,3 +58,27 @@ docs/
 - 提示用短句，一句一件事，寫身體上感覺得到的事（「腳跟往下踩」），不寫解剖術語。
 - `watch` 是「如果這個地方有感覺，代表什麼、怎麼調」。之後回饋功能會直接用它。
 - 能讓左右兩邊做得不一樣的動作，在提示裡寫明「兩邊不一樣是可以的」。
+
+
+## Agent-first 維護流程
+
+每次功能或資料改動完成前，至少跑：
+
+```
+python3 -m unittest discover -s tests -v
+python3 tools/validate.py
+python3 tools/build_figures.py
+python3 tools/build_catalog.py
+git diff --exit-code -- assets/exercises catalog.html
+```
+
+GitHub Actions 也會跑同一組 guardrails。CI 沒過不要合併，也不要用刪測試或放寬檢查來掩蓋問題；應先確認是產品規則改了，還是真的改壞。
+
+`project-state.json` 只放已確定、適合機器判讀的目前狀態，不取代 `plan.md`。以下情況要同步更新：
+
+- 階段改變
+- 功能從 planned / pending 變成 done 或 blocked
+- 架構改變（例如加入後端、帳號、框架）
+- source of truth 的位置或優先順序改變
+
+如果產品規格、公開文件、程式實作彼此不一致，先回到私人 `Spin-Up/plan.md` 查明意圖，再修正衝突；不要自行挑一份看起來最新的文件當真相。
