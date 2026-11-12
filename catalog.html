@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>動作總覽</title>
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#232a33;--mute:#667080;--line:#e3e0d8;--accent:#f0791f;--accent-bg:#fdebd9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+header{padding:20px 16px 8px;max-width:960px;margin:auto}
+h1{font-size:1.5rem;margin:0 0 4px}
+header p{margin:0;color:var(--mute);font-size:.92rem}
+.legend{display:inline-block;width:.8em;height:.8em;border-radius:50%;background:var(--accent);vertical-align:-1px}
+nav{position:sticky;top:0;background:var(--bg);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;max-width:960px;margin:auto;z-index:2}
+nav button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer}
+nav button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+nav button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:6px 16px 40px;max-width:960px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.fig{background:#fbfaf7;border-bottom:1px solid var(--line);padding:6px 10px}
+.fig svg{display:block;width:100%;height:auto}
+.body{padding:12px 14px 14px}
+h2{font-size:1.12rem;margin:0}
+h2 small{font-weight:400;color:var(--mute);font-size:.8rem;margin-left:4px}
+h3{font-size:.92rem;margin:12px 0 2px}
+.meta{color:var(--mute);font-size:.86rem;margin:2px 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{font-size:.8rem;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
+.chip.p{background:var(--accent-bg);border-color:#f6c9a0;color:#8a3d05;font-weight:600}
+.effect{margin:6px 0}
+details{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}
+summary{cursor:pointer;color:var(--mute);font-size:.92rem;padding:4px 0}
+ol,ul{margin:2px 0;padding-left:1.3em;font-size:.94rem}
+footer{max-width:960px;margin:auto;padding:0 16px 40px;color:var(--mute);font-size:.84rem}
+</style></head><body>
+<header><h1>動作總覽</h1>
+<p>目前有 22 個動作。<span class="legend"></span> 橘色和橘色標籤是主要發力的位置，灰色標籤是會一起用到的部位。</p></header>
+<nav aria-label="篩選部位">
+<button data-f="all" aria-pressed="true">全部</button><button data-f="lower" aria-pressed="false">下半身</button><button data-f="core" aria-pressed="false">核心</button><button data-f="upper" aria-pressed="false">上半身</button><button data-f="full" aria-pressed="false">暖身／收操</button>
+</nav>
+<main>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="glute-bridge-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="122.0" y1="130.0" x2="155.4" y2="116.5" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="155.4" y1="116.5" x2="157.3" y2="152.5" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="157.3" y1="152.5" x2="168.3" y2="152.5" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="82.1" y1="148.6" x2="105.9" y2="151.9" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="105.9" y1="151.9" x2="127.9" y2="151.9" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="78.1" y1="151.6" x2="101.9" y2="154.9" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="78.1" y1="151.6" x2="101.9" y2="154.9" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="101.9" y1="154.9" x2="123.9" y2="154.9" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="101.9" y1="154.9" x2="123.9" y2="154.9" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="151.4" y2="119.5" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="151.4" y2="119.5" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="151.4" y1="119.5" x2="153.3" y2="155.5" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="151.4" y1="119.5" x2="153.3" y2="155.5" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="153.3" y1="155.5" x2="164.3" y2="155.5" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="153.3" y1="155.5" x2="164.3" y2="155.5" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="78.1" y2="151.6" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="78.1" y2="151.6" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="64.1" cy="151.6" r="10.5" fill="#ffffff" /><circle cx="64.1" cy="151.6" r="9" fill="#2b3440" /><ellipse cx="120.6" cy="139.5" rx="12" ry="7" fill="#f0791f" opacity="0.9" transform="rotate(-22 120.6 139.5)"/></svg>
+</div>
+  <div class="body">
+    <h2>臀橋維持 <small>Glute Bridge Hold</small></h2>
+    <p class="meta">下半身｜難度 1/5｜20 秒 × 2 組｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">臀部</span><span class="chip">大腿後側</span><span class="chip">腹部</span></div>
+    <p class="effect">練臀部出力和骨盆的穩定，久坐後特別有用。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>仰躺，膝蓋彎曲，雙腳踩地，與髖同寬。</li><li>腳跟往下踩，把臀部抬起來，到肩膀、髖、膝蓋大約一直線。</li><li>停住，正常呼吸。</li></ol>
+      <h3>提示</h3><ul><li>用臀部往上推，不是用腰往上拱。</li><li>肋骨往下收，肚子保持一點張力。</li><li>手臂放鬆放在身體兩側。</li></ul>
+      <h3>避免</h3><ul><li>抬得太高，腰凹下去。</li><li>膝蓋往外倒或往內夾。</li><li>用脖子頂地板。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：抬太高、變成腰在出力。降低一點高度，先夾臀再抬。</li><li><b>大腿後側</b>：大腿後側很緊或快抽筋，通常是腳離臀部太遠。把腳跟往臀部收近一點。</li><li><b>脖子</b>：重量壓到脖子了。重量應該在上背和肩膀。</li></ul>
+      <p class="meta">太難的話：臀部只抬離地板一點點也可以。</p>
+      <p class='meta'>難一點：單腳臀橋維持</p><p class='meta'>可以換成：站姿髖鉸鏈、側躺抬腿維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="chair-sit-to-stand"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="54.0" y1="78.0" x2="54.0" y2="162.0" stroke="#7b8794" stroke-width="4" stroke-linecap="round" /><line x1="54.0" y1="131.0" x2="98.0" y2="131.0" stroke="#7b8794" stroke-width="5" stroke-linecap="round" /><line x1="96.0" y1="131.0" x2="96.0" y2="162.0" stroke="#7b8794" stroke-width="4" stroke-linecap="round" /><line x1="103.0" y1="113.0" x2="138.5" y2="119.3" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="138.5" y1="119.3" x2="137.2" y2="155.2" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="137.2" y1="155.2" x2="148.2" y2="155.2" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="122.3" y1="73.5" x2="142.6" y2="86.2" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="142.6" y1="86.2" x2="164.6" y2="86.2" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="98.0" y1="116.0" x2="133.5" y2="122.3" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="98.0" y1="116.0" x2="133.5" y2="122.3" stroke="#f0791f" stroke-width="11" stroke-linecap="round" /><line x1="133.5" y1="122.3" x2="132.2" y2="158.2" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="133.5" y1="122.3" x2="132.2" y2="158.2" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="132.2" y1="158.2" x2="143.2" y2="158.2" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="132.2" y1="158.2" x2="143.2" y2="158.2" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="98.0" y1="116.0" x2="117.3" y2="76.5" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="98.0" y1="116.0" x2="117.3" y2="76.5" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="123.4" cy="63.9" r="10.5" fill="#ffffff" /><circle cx="123.4" cy="63.9" r="9" fill="#2b3440" /><line x1="117.3" y1="76.5" x2="137.6" y2="89.2" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="117.3" y1="76.5" x2="137.6" y2="89.2" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="137.6" y1="89.2" x2="159.6" y2="89.2" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="137.6" y1="89.2" x2="159.6" y2="89.2" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="105.2" cy="119.5" rx="8" ry="7" fill="#f0791f" opacity="0.9" transform="rotate(-64 105.2 119.5)"/></svg>
+</div>
+  <div class="body">
+    <h2>椅子坐站 <small>Chair Sit-to-Stand</small></h2>
+    <p class="meta">下半身｜難度 1/5｜8 下 × 2 組｜手不用承重</p>
+    <p class="meta">器材：穩固的椅子</p>
+    <div class="chips"><span class="chip p">大腿前側</span><span class="chip p">臀部</span><span class="chip">腹部</span></div>
+    <p class="effect">最基本的蹲，練腿和臀一起出力。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>坐在椅子前半部，雙腳踩地，與髖同寬。</li><li>身體微微前傾，腳踩地站起來。</li><li>慢慢坐回去，臀部輕輕碰到椅子就再站起來。</li></ol>
+      <h3>提示</h3><ul><li>坐下的時候慢，數三秒。</li><li>膝蓋對著腳尖。</li><li>站直時臀部夾一下。</li></ul>
+      <h3>避免</h3><ul><li>用甩的站起來。</li><li>整個人跌坐回椅子。</li><li>膝蓋往內夾。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>膝蓋</b>：腳可能太靠近椅子。腳往前踩一點，或換高一點的椅子。</li><li><b>腰（下背）</b>：身體前傾太多、背彎了。胸口保持打開。</li></ul>
+      <p class="meta">太難的話：換高一點的椅子，或手扶大腿輕輕借力。</p>
+      <p class='meta'>難一點：靠牆蹲</p><p class='meta'>可以換成：靠牆蹲</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="seated-knee-extension-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="62.0" y1="78.0" x2="62.0" y2="162.0" stroke="#7b8794" stroke-width="4" stroke-linecap="round" /><line x1="62.0" y1="128.0" x2="106.0" y2="128.0" stroke="#7b8794" stroke-width="5" stroke-linecap="round" /><line x1="104.0" y1="128.0" x2="104.0" y2="162.0" stroke="#7b8794" stroke-width="4" stroke-linecap="round" /><line x1="87.0" y1="119.0" x2="123.0" y2="119.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="123.0" y1="119.0" x2="123.0" y2="155.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="123.0" y1="155.0" x2="134.0" y2="155.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="87.0" y1="75.0" x2="86.2" y2="99.0" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="86.2" y1="99.0" x2="86.9" y2="121.0" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="84.0" y1="119.0" x2="120.0" y2="119.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="84.0" y1="119.0" x2="120.0" y2="119.0" stroke="#f0791f" stroke-width="11" stroke-linecap="round" /><line x1="120.0" y1="119.0" x2="156.0" y2="119.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="120.0" y1="119.0" x2="156.0" y2="119.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="156.0" y1="119.0" x2="157.9" y2="108.2" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="156.0" y1="119.0" x2="157.9" y2="108.2" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="84.0" y1="119.0" x2="84.0" y2="75.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="84.0" y1="119.0" x2="84.0" y2="75.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="84.0" cy="61.0" r="10.5" fill="#ffffff" /><circle cx="84.0" cy="61.0" r="9" fill="#2b3440" /><line x1="84.0" y1="75.0" x2="83.2" y2="99.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="84.0" y1="75.0" x2="83.2" y2="99.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="83.2" y1="99.0" x2="83.9" y2="121.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="83.2" y1="99.0" x2="83.9" y2="121.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /></svg>
+</div>
+  <div class="body">
+    <h2>坐姿伸膝維持 <small>Seated Knee Extension Hold</small></h2>
+    <p class="meta">下半身｜難度 1/5｜15 秒 × 2 組（每邊）｜手不用承重</p>
+    <p class="meta">器材：穩固的椅子</p>
+    <div class="chips"><span class="chip p">大腿前側</span><span class="chip">髖部前側</span></div>
+    <p class="effect">單獨練大腿前側，幾乎不會動到上半身。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>坐在椅子上，背挺直。</li><li>一隻腳往前伸直，腳尖朝上。</li><li>大腿前側用力，停住。</li></ol>
+      <h3>提示</h3><ul><li>膝蓋盡量伸直，大腿前側繃緊。</li><li>腳尖勾向自己。</li><li>身體不要往後倒。</li></ul>
+      <h3>避免</h3><ul><li>身體後仰借力。</li><li>手抓椅子抓得很緊。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>膝蓋</b>：不用鎖到最直，停在不會不舒服的角度。</li><li><b>髖部前側</b>：腿抬太高了。大腿留在椅面上，只伸直膝蓋。</li></ul>
+      <p class="meta">太難的話：縮短秒數，或膝蓋不用完全伸直。</p>
+      <p class='meta'>難一點：靠牆蹲</p><p class='meta'>可以換成：靠牆蹲、椅子坐站</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="calf-raise-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><rect x="160" y="14" width="6" height="148" fill="#7b8794" opacity="0.55"/><line x1="115.0" y1="77.0" x2="115.0" y2="113.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="115.0" y1="113.0" x2="115.0" y2="149.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="115.0" y1="149.0" x2="123.4" y2="156.1" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="115.0" y1="33.0" x2="115.8" y2="57.0" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="115.8" y1="57.0" x2="118.1" y2="78.9" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="110.0" y1="80.0" x2="110.0" y2="116.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="110.0" y1="80.0" x2="110.0" y2="116.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="110.0" y1="116.0" x2="110.0" y2="152.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="110.0" y1="116.0" x2="110.0" y2="152.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="110.0" y1="152.0" x2="118.4" y2="159.1" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="110.0" y1="152.0" x2="118.4" y2="159.1" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="110.0" y1="80.0" x2="110.0" y2="36.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="110.0" y1="80.0" x2="110.0" y2="36.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="110.0" cy="22.0" r="10.5" fill="#ffffff" /><circle cx="110.0" cy="22.0" r="9" fill="#2b3440" /><line x1="110.0" y1="36.0" x2="133.5" y2="41.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="110.0" y1="36.0" x2="133.5" y2="41.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="133.5" y1="41.0" x2="155.1" y2="37.2" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="133.5" y1="41.0" x2="155.1" y2="37.2" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="104.0" cy="130.4" rx="11" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(90 104.0 130.4)"/></svg>
+</div>
+  <div class="body">
+    <h2>踮腳維持 <small>Calf Raise Hold</small></h2>
+    <p class="meta">下半身｜難度 1/5｜15 秒 × 2 組｜手不用承重</p>
+    <p class="meta">器材：不需要器材</p>
+    <div class="chips"><span class="chip p">小腿</span><span class="chip">腳掌與腳踝周圍</span></div>
+    <p class="effect">練小腿和腳踝的穩定，走路、平衡會用到。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>站在牆或椅背旁邊，手輕輕扶著。</li><li>腳跟慢慢抬高，用前腳掌站。</li><li>停在最高的地方。</li></ol>
+      <h3>提示</h3><ul><li>重量壓在大拇指和第二趾後面的腳掌。</li><li>腳踝不要往外翻。</li><li>身體直直往上，不要往前倒。</li></ul>
+      <h3>避免</h3><ul><li>腳踝外翻、重量跑到小趾那側。</li><li>膝蓋鎖死後頂。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腳踝</b>：腳踝在晃或外翻。抬低一點，手扶穩。</li><li><b>腳掌與腳踝周圍</b>：腳底快抽筋的話先休息，下次縮短秒數。</li></ul>
+      <p class="meta">太難的話：腳跟只抬一點點，手扶穩。</p>
+      <p class='meta'>難一點：單腳站立</p><p class='meta'>可以換成：單腳站立</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="side-lying-leg-raise-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="126.0" y1="152.0" x2="162.0" y2="153.3" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="162.0" y1="153.3" x2="198.0" y2="154.5" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="198.0" y1="154.5" x2="203.5" y2="145.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="82.0" y1="152.0" x2="58.1" y2="150.3" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="58.1" y1="150.3" x2="36.1" y2="150.3" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="126.0" y1="150.0" x2="159.8" y2="137.7" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="126.0" y1="150.0" x2="159.8" y2="137.7" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="159.8" y1="137.7" x2="193.7" y2="125.4" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="159.8" y1="137.7" x2="193.7" y2="125.4" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="193.7" y1="125.4" x2="191.7" y2="114.5" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="193.7" y1="125.4" x2="191.7" y2="114.5" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="126.0" y1="150.0" x2="82.0" y2="150.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="126.0" y1="150.0" x2="82.0" y2="150.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="68.0" cy="150.0" r="10.5" fill="#ffffff" /><circle cx="68.0" cy="150.0" r="9" fill="#2b3440" /><line x1="82.0" y1="150.0" x2="105.9" y2="147.5" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="82.0" y1="150.0" x2="105.9" y2="147.5" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="105.9" y1="147.5" x2="127.7" y2="149.8" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="105.9" y1="147.5" x2="127.7" y2="149.8" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="125.6" cy="143.7" rx="9" ry="6" fill="#f0791f" opacity="0.9" transform="rotate(-20 125.6 143.7)"/></svg>
+</div>
+  <div class="body">
+    <h2>側躺抬腿維持 <small>Side-Lying Leg Raise Hold</small></h2>
+    <p class="meta">下半身｜難度 1/5｜15 秒 × 2 組（每邊）｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">臀部外側</span><span class="chip">側腹</span></div>
+    <p class="effect">練臀部外側，讓走路和單腳站時骨盆不晃。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>側躺，頭枕在下面那隻手臂上，下面的腳可以彎曲。</li><li>上面的腳伸直，稍微往身體後方一點，抬到大約與髖同高再多一點。</li><li>停住。</li></ol>
+      <h3>提示</h3><ul><li>腳尖朝前或微微朝下，不要朝天花板。</li><li>骨盆上下疊好，不要往後倒。</li><li>感覺在屁股側邊偏後面。</li></ul>
+      <h3>避免</h3><ul><li>腿抬太高、腰跟著側彎。</li><li>腿跑到身體前面。</li><li>身體往後翻。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>髖部前側</b>：腿跑到身體前面了。把腿往後收一點，腳尖朝前。</li><li><b>腰（下背）</b>：抬太高了。降低高度。</li></ul>
+      <p class="meta">太難的話：抬低一點，或縮短秒數。</p>
+      <p class='meta'>可以換成：臀橋維持、單腳站立</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="wall-sit"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><rect x="58" y="14" width="6" height="148" fill="#7b8794" opacity="0.55"/><line x1="79.0" y1="118.0" x2="115.0" y2="118.0" stroke="#f0791f" stroke-width="11" stroke-linecap="round" /><line x1="115.0" y1="118.0" x2="115.0" y2="154.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="115.0" y1="154.0" x2="126.0" y2="154.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="79.0" y1="74.0" x2="81.5" y2="97.9" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="81.5" y1="97.9" x2="85.3" y2="119.5" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="74.0" y1="121.0" x2="110.0" y2="121.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="74.0" y1="121.0" x2="110.0" y2="121.0" stroke="#f0791f" stroke-width="11" stroke-linecap="round" /><line x1="110.0" y1="121.0" x2="110.0" y2="157.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="110.0" y1="121.0" x2="110.0" y2="157.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="110.0" y1="157.0" x2="121.0" y2="157.0" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="110.0" y1="157.0" x2="121.0" y2="157.0" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="74.0" y1="121.0" x2="74.0" y2="77.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="74.0" y1="121.0" x2="74.0" y2="77.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="74.0" cy="63.0" r="10.5" fill="#ffffff" /><circle cx="74.0" cy="63.0" r="9" fill="#2b3440" /><line x1="74.0" y1="77.0" x2="76.5" y2="100.9" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="74.0" y1="77.0" x2="76.5" y2="100.9" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="76.5" y1="100.9" x2="80.3" y2="122.5" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="76.5" y1="100.9" x2="80.3" y2="122.5" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /></svg>
+</div>
+  <div class="body">
+    <h2>靠牆蹲 <small>Wall Sit</small></h2>
+    <p class="meta">下半身｜難度 2/5｜20 秒 × 2 組｜手不用承重</p>
+    <p class="meta">器材：牆面</p>
+    <div class="chips"><span class="chip p">大腿前側</span><span class="chip">臀部</span><span class="chip">腹部</span></div>
+    <p class="effect">練大腿前側撐住體重的能力，上下樓梯、久站會用到。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>背貼牆，腳往前踩出一步半，雙腳與髖同寬。</li><li>沿著牆往下滑，停在做得到的高度，不必蹲到 90 度。</li><li>停住，正常呼吸。</li></ol>
+      <h3>提示</h3><ul><li>膝蓋對著腳尖的方向。</li><li>整個腳掌踩地，重心偏腳跟。</li><li>下背輕輕貼牆。</li></ul>
+      <h3>避免</h3><ul><li>膝蓋往內夾。</li><li>手壓在大腿上借力。</li><li>憋氣。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>膝蓋</b>：蹲得太低或腳離牆太近。先蹲高一點，腳再往前踩一些。</li><li><b>腰（下背）</b>：腰離開牆面了。肚子輕輕收，讓下背貼回牆。</li></ul>
+      <p class="meta">太難的話：蹲高一點，只彎一點點也算。</p>
+      <p class='meta'>難一點：分腿蹲維持</p><p class='meta'>可以換成：椅子坐站、坐姿伸膝維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="hip-hinge"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="101.0" y1="85.0" x2="107.3" y2="120.5" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="107.3" y1="120.5" x2="102.9" y2="156.2" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="102.9" y1="156.2" x2="113.9" y2="156.2" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="140.9" y1="66.4" x2="138.4" y2="90.3" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="138.4" y1="90.3" x2="137.6" y2="112.3" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="96.0" y1="88.0" x2="102.3" y2="123.5" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="96.0" y1="88.0" x2="102.3" y2="123.5" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="102.3" y1="123.5" x2="97.9" y2="159.2" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="102.3" y1="123.5" x2="97.9" y2="159.2" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="97.9" y1="159.2" x2="108.9" y2="159.2" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="97.9" y1="159.2" x2="108.9" y2="159.2" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="96.0" y1="88.0" x2="135.9" y2="69.4" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="96.0" y1="88.0" x2="135.9" y2="69.4" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="148.6" cy="63.5" r="10.5" fill="#ffffff" /><circle cx="148.6" cy="63.5" r="9" fill="#2b3440" /><line x1="135.9" y1="69.4" x2="133.4" y2="93.3" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="135.9" y1="69.4" x2="133.4" y2="93.3" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="133.4" y1="93.3" x2="132.6" y2="115.3" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="133.4" y1="93.3" x2="132.6" y2="115.3" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="92.2" cy="106.9" rx="13" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(80 92.2 106.9)"/><ellipse cx="99.4" cy="95.3" rx="8" ry="7" fill="#f0791f" opacity="0.9" transform="rotate(-25 99.4 95.3)"/></svg>
+</div>
+  <div class="body">
+    <h2>站姿髖鉸鏈 <small>Hip Hinge</small></h2>
+    <p class="meta">下半身｜難度 2/5｜8 下 × 2 組｜手不用承重</p>
+    <p class="meta">器材：不需要器材</p>
+    <div class="chips"><span class="chip p">大腿後側</span><span class="chip p">臀部</span><span class="chip">下背肌肉</span><span class="chip">腹部</span></div>
+    <p class="effect">學會用臀部和大腿後側彎腰，搬東西、抱小孩時保護腰。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>站直，雙腳與髖同寬，膝蓋微彎，手放在髖部兩側。</li><li>臀部往後推，上半身跟著往前傾，背保持平直。</li><li>大腿後側有拉緊的感覺就停，夾臀站回來。</li></ol>
+      <h3>提示</h3><ul><li>想像用屁股去關後面的門。</li><li>背像一塊板子，從頭到尾巴一直線。</li><li>膝蓋只微彎，不要變成蹲。</li></ul>
+      <h3>避免</h3><ul><li>彎腰駝背。</li><li>膝蓋彎太多變成深蹲。</li><li>站起來時腰往後仰。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：背彎掉了，或前傾超過自己的範圍。動作小一點，先顧背平直。</li><li><b>膝蓋</b>：變成在蹲了。膝蓋固定微彎，只動髖。</li></ul>
+      <p class="meta">太難的話：背對牆站一步遠，臀部往後輕碰牆就回來。</p>
+      <p class='meta'>可以換成：臀橋維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="single-leg-stand"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="117.0" y1="83.0" x2="152.5" y2="89.3" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="152.5" y1="89.3" x2="149.3" y2="125.1" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="149.3" y1="125.1" x2="160.1" y2="127.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="117.0" y1="39.0" x2="112.8" y2="62.6" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="112.8" y1="62.6" x2="123.2" y2="82.1" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="112.0" y1="86.0" x2="112.0" y2="122.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="112.0" y1="86.0" x2="112.0" y2="122.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="112.0" y1="122.0" x2="112.0" y2="158.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="112.0" y1="122.0" x2="112.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="112.0" y1="158.0" x2="123.0" y2="158.0" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="112.0" y1="158.0" x2="123.0" y2="158.0" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="112.0" y1="86.0" x2="112.0" y2="42.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="112.0" y1="86.0" x2="112.0" y2="42.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="112.0" cy="28.0" r="10.5" fill="#ffffff" /><circle cx="112.0" cy="28.0" r="9" fill="#2b3440" /><line x1="112.0" y1="42.0" x2="107.8" y2="65.6" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="112.0" y1="42.0" x2="107.8" y2="65.6" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="107.8" y1="65.6" x2="118.2" y2="85.1" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="107.8" y1="65.6" x2="118.2" y2="85.1" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="106.0" cy="87.8" rx="8" ry="7" fill="#f0791f" opacity="0.9" transform="rotate(90 106.0 87.8)"/><ellipse cx="115.3" cy="158.0" rx="8" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(0 115.3 158.0)"/></svg>
+</div>
+  <div class="body">
+    <h2>單腳站立 <small>Single-Leg Stand</small></h2>
+    <p class="meta">下半身｜難度 2/5｜20 秒 × 2 組（每邊）｜手不用承重</p>
+    <p class="meta">器材：不需要器材</p>
+    <div class="chips"><span class="chip p">臀部外側</span><span class="chip p">腳掌與腳踝周圍</span><span class="chip">小腿</span><span class="chip">腹部</span></div>
+    <p class="effect">練平衡，也很容易看出左右兩邊的差別。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>站在牆或椅背旁邊，需要時可以扶。</li><li>一隻腳離地，膝蓋抬到舒服的高度。</li><li>站穩，眼睛看前方固定一點。</li></ol>
+      <h3>提示</h3><ul><li>站立腳整個腳掌貼地，腳趾放鬆不要抓地。</li><li>兩邊骨盆一樣高。</li><li>站立腳膝蓋微彎，不鎖死。</li></ul>
+      <h3>避免</h3><ul><li>骨盆往一邊歪。</li><li>身體大幅度傾斜來平衡。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腳踝</b>：腳踝晃動是正常的。晃得很厲害就用手指輕扶牆。</li><li><b>腰（下背）</b>：骨盆歪掉了。扶著牆，先把骨盆擺平。</li></ul>
+      <p class="meta">太難的話：手指輕扶牆，或抬起的腳尖輕點地。</p>
+      <p class='meta'>可以換成：踮腳維持、側躺抬腿維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="single-leg-glute-bridge-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="122.0" y1="130.0" x2="155.4" y2="116.5" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="155.4" y1="116.5" x2="188.8" y2="103.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="188.8" y1="103.0" x2="188.8" y2="92.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="82.1" y1="148.6" x2="105.9" y2="151.9" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="105.9" y1="151.9" x2="127.9" y2="151.9" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="78.1" y1="151.6" x2="101.9" y2="154.9" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="78.1" y1="151.6" x2="101.9" y2="154.9" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="101.9" y1="154.9" x2="123.9" y2="154.9" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="101.9" y1="154.9" x2="123.9" y2="154.9" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="151.4" y2="119.5" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="151.4" y2="119.5" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="151.4" y1="119.5" x2="153.3" y2="155.5" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="151.4" y1="119.5" x2="153.3" y2="155.5" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="153.3" y1="155.5" x2="164.3" y2="155.5" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="153.3" y1="155.5" x2="164.3" y2="155.5" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="78.1" y2="151.6" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="118.0" y1="133.0" x2="78.1" y2="151.6" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="64.1" cy="151.6" r="10.5" fill="#ffffff" /><circle cx="64.1" cy="151.6" r="9" fill="#2b3440" /><ellipse cx="120.6" cy="139.5" rx="12" ry="7" fill="#f0791f" opacity="0.9" transform="rotate(-22 120.6 139.5)"/></svg>
+</div>
+  <div class="body">
+    <h2>單腳臀橋維持 <small>Single-Leg Glute Bridge Hold</small></h2>
+    <p class="meta">下半身｜難度 3/5｜15 秒 × 2 組（每邊）｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">臀部</span><span class="chip">大腿後側</span><span class="chip">腹部</span><span class="chip">臀部外側</span></div>
+    <p class="effect">左右分開練臀部，容易看出兩邊的差別。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>先做出雙腳的臀橋。</li><li>一隻腳離地，膝蓋保持彎曲或往前伸直。</li><li>骨盆保持水平，停住。</li></ol>
+      <h3>提示</h3><ul><li>踩地那隻腳的腳跟用力往下踩。</li><li>兩邊骨盆一樣高，不要往抬腳那側掉。</li><li>肚子保持張力。</li></ul>
+      <h3>避免</h3><ul><li>骨盆歪一邊。</li><li>用腰往上頂。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：臀部撐不住，腰在代償。先換回雙腳臀橋。</li><li><b>大腿後側</b>：踩地的腳離臀部太遠。把腳跟收近一點。</li></ul>
+      <p class="meta">太難的話：抬起的那隻腳腳尖輕輕點地。</p>
+      <p class='meta'>簡單一點：臀橋維持</p><p class='meta'>可以換成：臀橋維持、分腿蹲維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="lower">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="split-squat-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="116.0" y1="114.0" x2="102.5" y2="147.4" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="102.5" y1="147.4" x2="69.1" y2="160.9" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="69.1" y1="160.9" x2="78.7" y2="166.4" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="117.5" y1="70.0" x2="118.4" y2="94.0" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="118.4" y1="94.0" x2="120.7" y2="115.9" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="116.0" y1="114.0" x2="150.8" y2="123.3" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="116.0" y1="114.0" x2="150.8" y2="123.3" stroke="#f0791f" stroke-width="11" stroke-linecap="round" /><line x1="150.8" y1="123.3" x2="152.0" y2="159.3" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="150.8" y1="123.3" x2="152.0" y2="159.3" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="152.0" y1="159.3" x2="163.0" y2="159.3" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="152.0" y1="159.3" x2="163.0" y2="159.3" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="116.0" y1="114.0" x2="117.5" y2="70.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="116.0" y1="114.0" x2="117.5" y2="70.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="118.0" cy="56.0" r="10.5" fill="#ffffff" /><circle cx="118.0" cy="56.0" r="9" fill="#2b3440" /><line x1="117.5" y1="70.0" x2="118.4" y2="94.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="117.5" y1="70.0" x2="118.4" y2="94.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="118.4" y1="94.0" x2="120.7" y2="115.9" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="118.4" y1="94.0" x2="120.7" y2="115.9" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="123.0" cy="114.2" rx="8" ry="7" fill="#f0791f" opacity="0.9" transform="rotate(-88 123.0 114.2)"/></svg>
+</div>
+  <div class="body">
+    <h2>分腿蹲維持 <small>Split Squat Hold</small></h2>
+    <p class="meta">下半身｜難度 3/5｜15 秒 × 2 組（每邊）｜手不用承重</p>
+    <p class="meta">器材：不需要器材</p>
+    <div class="chips"><span class="chip p">大腿前側</span><span class="chip p">臀部</span><span class="chip">大腿內側</span><span class="chip">腹部</span><span class="chip">腳掌與腳踝周圍</span></div>
+    <p class="effect">一次練一邊的腿和臀，同時練平衡。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>前後腳站開，大約一大步，兩腳左右保持與髖同寬。</li><li>身體直直往下，後腳膝蓋靠近地板但不碰地。</li><li>停在做得到的高度。</li></ol>
+      <h3>提示</h3><ul><li>重量大部分在前腳，整個腳掌踩穩。</li><li>前腳膝蓋對著腳尖。</li><li>上半身挺直，可以微微前傾。</li></ul>
+      <h3>避免</h3><ul><li>兩腳踩在同一條線上（會站不穩）。</li><li>前腳膝蓋往內倒。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>膝蓋</b>：蹲太低或步伐太小。蹲高一點，或把步伐拉大。</li><li><b>腰（下背）</b>：身體往後仰了。肋骨往下收，身體稍微前傾。</li></ul>
+      <p class="meta">太難的話：手扶牆或椅背，蹲高一點。</p>
+      <p class='meta'>簡單一點：靠牆蹲</p><p class='meta'>可以換成：靠牆蹲、椅子坐站</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="core">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="single-leg-tabletop-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="128.0" y1="147.0" x2="153.0" y2="121.1" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="153.0" y1="121.1" x2="161.7" y2="156.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="161.7" y1="156.0" x2="172.5" y2="157.9" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="84.0" y1="147.0" x2="107.8" y2="150.3" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="107.8" y1="150.3" x2="129.8" y2="150.3" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="80.0" y1="150.0" x2="103.8" y2="153.3" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="80.0" y1="150.0" x2="103.8" y2="153.3" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="103.8" y1="153.3" x2="125.8" y2="153.3" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="103.8" y1="153.3" x2="125.8" y2="153.3" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="124.0" y2="114.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="124.0" y2="114.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="124.0" y1="114.0" x2="160.0" y2="114.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="124.0" y1="114.0" x2="160.0" y2="114.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="160.0" y1="114.0" x2="161.9" y2="103.2" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="160.0" y1="114.0" x2="161.9" y2="103.2" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="66.0" cy="150.0" r="10.5" fill="#ffffff" /><circle cx="66.0" cy="150.0" r="9" fill="#2b3440" /><ellipse cx="105.5" cy="145.0" rx="13" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(180 105.5 145.0)"/></svg>
+</div>
+  <div class="body">
+    <h2>仰躺單腳抬起維持 <small>Single-Leg Tabletop Hold</small></h2>
+    <p class="meta">核心｜難度 1/5｜15 秒 × 2 組（每邊）｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">腹部</span><span class="chip">髖部前側</span></div>
+    <p class="effect">核心的入門動作：腿在動的時候，腰和骨盆不跟著動。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>仰躺，膝蓋彎曲，雙腳踩地。</li><li>肚子輕輕收，下背自然貼近地板。</li><li>一隻腳抬起，大腿垂直地板、膝蓋彎 90 度，停住。</li></ol>
+      <h3>提示</h3><ul><li>吐氣時肋骨往下沉。</li><li>腰和地板的空隙不要變大。</li><li>肩膀、脖子放鬆。</li></ul>
+      <h3>避免</h3><ul><li>腰拱起來離開地板。</li><li>憋氣。</li><li>下巴往上抬。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：腰拱起來了。腿抬低一點，或先縮短秒數。</li><li><b>脖子</b>：脖子在用力。頭完全放在地上，可以墊一條毛巾。</li><li><b>髖部前側</b>：髖前側有感覺是正常的；如果只有那裡有感覺，吐氣時把肚子再收一點。</li></ul>
+      <p class="meta">太難的話：腳只離地一點點。</p>
+      <p class='meta'>難一點：90/90 仰躺核心維持</p><p class='meta'>可以換成：90/90 仰躺核心維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="core">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="tabletop-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="128.0" y1="147.0" x2="128.0" y2="111.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="128.0" y1="111.0" x2="164.0" y2="111.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="164.0" y1="111.0" x2="165.9" y2="100.2" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="84.0" y1="147.0" x2="107.8" y2="150.3" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="107.8" y1="150.3" x2="129.8" y2="150.3" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="80.0" y1="150.0" x2="103.8" y2="153.3" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="80.0" y1="150.0" x2="103.8" y2="153.3" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="103.8" y1="153.3" x2="125.8" y2="153.3" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="103.8" y1="153.3" x2="125.8" y2="153.3" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="124.0" y2="114.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="124.0" y2="114.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="124.0" y1="114.0" x2="160.0" y2="114.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="124.0" y1="114.0" x2="160.0" y2="114.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="160.0" y1="114.0" x2="161.9" y2="103.2" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="160.0" y1="114.0" x2="161.9" y2="103.2" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="66.0" cy="150.0" r="10.5" fill="#ffffff" /><circle cx="66.0" cy="150.0" r="9" fill="#2b3440" /><ellipse cx="105.5" cy="145.0" rx="13" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(180 105.5 145.0)"/></svg>
+</div>
+  <div class="body">
+    <h2>90/90 仰躺核心維持 <small>Tabletop Hold</small></h2>
+    <p class="meta">核心｜難度 2/5｜15 秒 × 2 組｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">腹部</span><span class="chip">髖部前側</span><span class="chip">側腹</span></div>
+    <p class="effect">不用手撐地的核心訓練，可以代替平板支撐。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>仰躺，手放在身體兩側。</li><li>一次一隻腳抬起，到兩邊大腿都垂直地板、膝蓋彎 90 度。</li><li>肚子持續出力，停住。</li></ol>
+      <h3>提示</h3><ul><li>腰和地板的空隙保持一樣，不要變大。</li><li>吐氣時肋骨往下沉。</li><li>膝蓋在髖的正上方，不要往胸口收。</li></ul>
+      <h3>避免</h3><ul><li>腰拱起來。</li><li>膝蓋抱向胸口（這樣會變太輕鬆）。</li><li>憋氣。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：腰拱起來了。換成單腳版本。</li><li><b>脖子</b>：脖子在用力。頭放鬆，可以墊毛巾。</li></ul>
+      <p class="meta">太難的話：換成一隻腳踩地的版本。</p>
+      <p class='meta'>簡單一點：仰躺單腳抬起維持</p><p class='meta'>難一點：死蟲式</p><p class='meta'>可以換成：仰躺單腳抬起維持、死蟲式</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="core">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="band-anti-rotation-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="40.0" y1="44.0" x2="40.0" y2="162.0" stroke="#7b8794" stroke-width="5" stroke-linecap="round" /><line x1="119.0" y1="104.0" x2="116.5" y2="131.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="116.5" y1="131.0" x2="114.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="137.0" y1="104.0" x2="139.5" y2="131.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="139.5" y1="131.0" x2="142.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><rect x="113" y="53" width="30" height="56" rx="11" fill="#2b3440"/><circle cx="128.0" cy="38.0" r="9" fill="#2b3440" /><ellipse cx="128" cy="92" rx="13" ry="9" fill="#f0791f" opacity="0.92"/><line x1="113.0" y1="58.0" x2="116.0" y2="72.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="116.0" y1="72.0" x2="126.0" y2="80.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="113.0" y1="58.0" x2="116.0" y2="72.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="116.0" y1="72.0" x2="126.0" y2="80.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="143.0" y1="58.0" x2="140.0" y2="72.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="140.0" y1="72.0" x2="130.0" y2="80.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="143.0" y1="58.0" x2="140.0" y2="72.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="140.0" y1="72.0" x2="130.0" y2="80.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="40.0" y1="80.0" x2="124.0" y2="80.0" stroke="#d6336c" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 5"/><circle cx="127.0" cy="80.0" r="5" fill="#2b3440" /></svg>
+</div>
+  <div class="body">
+    <h2>彈力帶抗旋轉維持 <small>Band Anti-Rotation Hold</small></h2>
+    <p class="meta">核心｜難度 2/5｜15 秒 × 2 組（每邊）｜手輕度出力</p>
+    <p class="meta">器材：彈力帶、可以固定彈力帶的地方（門把、桌腳）</p>
+    <div class="chips"><span class="chip p">側腹</span><span class="chip p">腹部</span><span class="chip">臀部</span><span class="chip">肩膀</span></div>
+    <p class="effect">站著練核心：彈力帶想把你轉過去，你不被它轉走。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>彈力帶固定在胸口高度，身體側對固定點站好。</li><li>雙手握住彈力帶放在胸口，往旁邊站開到帶子有張力。</li><li>雙手往正前方推直，停住，身體不轉。</li></ol>
+      <h3>提示</h3><ul><li>肚臍和胸口都朝正前方。</li><li>雙腳與髖同寬，膝蓋微彎。</li><li>手推得越直越難，可以自己調。</li></ul>
+      <h3>避免</h3><ul><li>身體被拉著轉過去。</li><li>聳肩。</li><li>身體往另一邊倒來對抗。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>肩關節</b>：手不用推到全直，或站近一點減少張力。兩隻手出力不一樣是可以的。</li><li><b>腰（下背）</b>：腰在扭。站近一點，肚子先收好再推。</li></ul>
+      <p class="meta">太難的話：站近固定點一點，或手不要推直。</p>
+      <p class='meta'>可以換成：90/90 仰躺核心維持、仰躺單腳抬起維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="core">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="dead-bug"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="128.0" y1="147.0" x2="162.2" y2="135.9" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="162.2" y1="135.9" x2="197.2" y2="127.2" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="197.2" y1="127.2" x2="199.1" y2="116.3" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="84.0" y1="147.0" x2="61.7" y2="138.0" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="61.7" y1="138.0" x2="41.1" y2="130.5" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="124.0" y2="114.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="124.0" y2="114.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="124.0" y1="114.0" x2="160.0" y2="114.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="124.0" y1="114.0" x2="160.0" y2="114.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="160.0" y1="114.0" x2="161.9" y2="103.2" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="160.0" y1="114.0" x2="161.9" y2="103.2" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="66.0" cy="150.0" r="10.5" fill="#ffffff" /><circle cx="66.0" cy="150.0" r="9" fill="#2b3440" /><line x1="80.0" y1="150.0" x2="80.0" y2="126.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="80.0" y1="150.0" x2="80.0" y2="126.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="80.0" y1="126.0" x2="80.0" y2="104.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="80.0" y1="126.0" x2="80.0" y2="104.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="105.5" cy="145.0" rx="13" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(180 105.5 145.0)"/></svg>
+</div>
+  <div class="body">
+    <h2>死蟲式 <small>Dead Bug</small></h2>
+    <p class="meta">核心｜難度 3/5｜6 下 × 2 組｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">腹部</span><span class="chip">側腹</span><span class="chip">髖部前側</span></div>
+    <p class="effect">手腳在動的時候，身體中段保持不動。次數是左右各算一次。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>仰躺成 90/90，雙手往天花板伸直。</li><li>一隻手往頭頂方向放、對側的腳往前伸直，都不碰地。</li><li>慢慢回來，換另一邊。</li></ol>
+      <h3>提示</h3><ul><li>動得很慢，一邊至少三秒。</li><li>腰和地板的空隙全程不變。</li><li>腳伸出去時吐氣。</li></ul>
+      <h3>避免</h3><ul><li>腰拱起來。</li><li>動太快用甩的。</li><li>肩膀聳起。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：腳伸太低了。腳伸高一點，或只動腳不動手。</li><li><b>肩關節</b>：手往頭頂放得太遠。只放到舒服的範圍，或手留在原位只動腳。</li><li><b>脖子</b>：脖子在用力。頭放鬆貼地。</li></ul>
+      <p class="meta">太難的話：只動腳，手留在原位。</p>
+      <p class='meta'>簡單一點：90/90 仰躺核心維持</p><p class='meta'>可以換成：90/90 仰躺核心維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="core">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="forearm-plank"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="131.0" y1="132.0" x2="166.2" y2="139.5" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="166.2" y1="139.5" x2="201.4" y2="147.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="201.4" y1="147.0" x2="202.4" y2="157.9" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="88.0" y1="122.9" x2="88.0" y2="146.9" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="88.0" y1="146.9" x2="66.0" y2="146.9" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="128.0" y1="134.0" x2="163.2" y2="141.5" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="128.0" y1="134.0" x2="163.2" y2="141.5" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="163.2" y1="141.5" x2="198.4" y2="149.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="163.2" y1="141.5" x2="198.4" y2="149.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="198.4" y1="149.0" x2="199.4" y2="159.9" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="198.4" y1="149.0" x2="199.4" y2="159.9" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="128.0" y1="134.0" x2="85.0" y2="124.9" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="128.0" y1="134.0" x2="85.0" y2="124.9" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="71.0" cy="123.4" r="10.5" fill="#ffffff" /><circle cx="71.0" cy="123.4" r="9" fill="#2b3440" /><line x1="85.0" y1="124.9" x2="85.0" y2="148.9" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="85.0" y1="124.9" x2="85.0" y2="148.9" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="85.0" y1="148.9" x2="63.0" y2="148.9" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="85.0" y1="148.9" x2="63.0" y2="148.9" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="109.5" cy="136.2" rx="14" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(-168 109.5 136.2)"/></svg>
+</div>
+  <div class="body">
+    <h2>前臂平板支撐 <small>Forearm Plank</small></h2>
+    <p class="meta">核心｜難度 3/5｜15 秒 × 2 組｜手要撐體重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">腹部</span><span class="chip">肩膀</span><span class="chip">臀部</span><span class="chip">大腿前側</span></div>
+    <p class="effect">核心和肩膀一起撐住身體。需要兩邊手臂平均承重。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>前臂撐地，手肘在肩膀正下方。</li><li>腳往後伸直，腳尖踩地。</li><li>從頭到腳跟一直線，停住。</li></ol>
+      <h3>提示</h3><ul><li>臀部夾緊，肚子收。</li><li>前臂往下推地，上背微微撐開。</li><li>眼睛看地板，脖子拉長。</li></ul>
+      <h3>避免</h3><ul><li>腰往下塌。</li><li>屁股翹太高。</li><li>聳肩。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>腰（下背）</b>：腰塌下去了。先結束這一組，下次換成膝蓋著地或仰躺的核心動作。</li><li><b>肩關節</b>：肩膀承重不舒服，或左右支撐不平均。換成不用手撐的核心動作。</li><li><b>脖子</b>：頭抬太高或垂太低。眼睛看兩手之間的地板。</li></ul>
+      <p class="meta">太難的話：膝蓋著地，或直接換成 90/90 仰躺核心維持。</p>
+      <p class='meta'>簡單一點：90/90 仰躺核心維持</p><p class='meta'>可以換成：90/90 仰躺核心維持、死蟲式、彈力帶抗旋轉維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="upper">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="prone-w-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="140.0" y1="149.0" x2="176.0" y2="149.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="176.0" y1="149.0" x2="212.0" y2="149.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="212.0" y1="149.0" x2="222.0" y2="153.6" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="96.0" y1="149.0" x2="116.4" y2="136.3" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="116.4" y1="136.3" x2="94.4" y2="136.3" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="138.0" y1="151.0" x2="174.0" y2="151.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="138.0" y1="151.0" x2="174.0" y2="151.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="174.0" y1="151.0" x2="210.0" y2="151.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="174.0" y1="151.0" x2="210.0" y2="151.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="210.0" y1="151.0" x2="220.0" y2="155.6" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="210.0" y1="151.0" x2="220.0" y2="155.6" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="138.0" y1="151.0" x2="94.0" y2="151.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="138.0" y1="151.0" x2="94.0" y2="151.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="80.0" cy="151.0" r="10.5" fill="#ffffff" /><circle cx="80.0" cy="151.0" r="9" fill="#2b3440" /><line x1="94.0" y1="151.0" x2="114.4" y2="138.3" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="94.0" y1="151.0" x2="114.4" y2="138.3" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="114.4" y1="138.3" x2="92.4" y2="138.3" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="114.4" y1="138.3" x2="92.4" y2="138.3" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><ellipse cx="103.7" cy="145.0" rx="11" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(180 103.7 145.0)"/></svg>
+</div>
+  <div class="body">
+    <h2>趴姿 W 字維持 <small>Prone W Hold</small></h2>
+    <p class="meta">上半身｜難度 1/5｜10 秒 × 2 組｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"><span class="chip p">上背（肩胛骨之間）</span><span class="chip p">肩膀後側</span><span class="chip">下背肌肉</span></div>
+    <p class="effect">不用器材練上背，手臂不需要承重。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>趴著，額頭輕靠地板或毛巾，手肘彎曲放在身體兩側，像英文字母 W。</li><li>肩胛骨往中間、往下收，把手肘和手抬離地板一點點。</li><li>停住。</li></ol>
+      <h3>提示</h3><ul><li>抬的是手臂，不是胸口。</li><li>肩膀遠離耳朵。</li><li>眼睛看地板，脖子放鬆。</li></ul>
+      <h3>避免</h3><ul><li>抬頭、脖子後仰。</li><li>腰用力把上半身撐起來。</li><li>聳肩。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>脖子</b>：頭抬起來了。額頭靠回地板。</li><li><b>腰（下背）</b>：胸口抬太高。胸口留在地上，只抬手臂。</li><li><b>肩關節</b>：手臂抬到做得到的高度就好；兩邊高度不一樣是可以的。</li></ul>
+      <p class="meta">太難的話：手只抬離地板一公分也算。</p>
+      <p class='meta'>難一點：彈力帶水平拉開維持</p><p class='meta'>可以換成：彈力帶水平拉開維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="upper">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="wall-press-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><rect x="174" y="14" width="6" height="148" fill="#7b8794" opacity="0.55"/><line x1="116.0" y1="85.0" x2="106.7" y2="119.8" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="106.7" y1="119.8" x2="97.4" y2="154.5" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="97.4" y1="154.5" x2="108.4" y2="154.5" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="128.1" y1="42.7" x2="150.4" y2="51.7" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="150.4" y1="51.7" x2="170.5" y2="42.7" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="112.0" y1="88.0" x2="102.7" y2="122.8" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="112.0" y1="88.0" x2="102.7" y2="122.8" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="102.7" y1="122.8" x2="93.4" y2="157.5" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="102.7" y1="122.8" x2="93.4" y2="157.5" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="93.4" y1="157.5" x2="104.4" y2="157.5" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="93.4" y1="157.5" x2="104.4" y2="157.5" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="112.0" y1="88.0" x2="124.1" y2="45.7" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="112.0" y1="88.0" x2="124.1" y2="45.7" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="128.0" cy="32.2" r="10.5" fill="#ffffff" /><circle cx="128.0" cy="32.2" r="9" fill="#2b3440" /><ellipse cx="126.3" cy="56.4" rx="9" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(-74 126.3 56.4)"/><line x1="124.1" y1="45.7" x2="146.4" y2="54.7" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="124.1" y1="45.7" x2="146.4" y2="54.7" stroke="#f0791f" stroke-width="8" stroke-linecap="round" /><line x1="146.4" y1="54.7" x2="166.5" y2="45.7" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="146.4" y1="54.7" x2="166.5" y2="45.7" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /></svg>
+</div>
+  <div class="body">
+    <h2>推牆維持 <small>Wall Press Hold</small></h2>
+    <p class="meta">上半身｜難度 1/5｜15 秒 × 2 組｜手輕度出力</p>
+    <p class="meta">器材：牆面</p>
+    <div class="chips"><span class="chip p">胸部</span><span class="chip p">肩膀</span><span class="chip">上臂後側</span><span class="chip">腹部</span></div>
+    <p class="effect">站著練推的力量，手上的重量可以自己控制。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>面對牆站，距離大約一個手臂長，手掌貼牆，在肩膀高度。</li><li>身體保持一直線往牆靠，手肘彎到大約一半。</li><li>停住，手掌持續往牆推。</li></ol>
+      <h3>提示</h3><ul><li>從頭到腳跟一直線。</li><li>手肘朝斜下方，不要往兩邊平舉。</li><li>腳站得離牆越遠越難。</li></ul>
+      <h3>避免</h3><ul><li>屁股往後翹。</li><li>聳肩。</li><li>手肘張開到和肩膀同高。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>手腕</b>：手腕折太多。手放低一點，或改用拳頭、前臂貼牆。</li><li><b>肩關節</b>：腳站近一點減少重量。兩隻手可以放在不同高度，找各自舒服的位置。</li><li><b>腰（下背）</b>：腰塌了。臀部夾一下，肚子收。</li></ul>
+      <p class="meta">太難的話：腳站近牆一點。</p>
+      <p class='meta'>可以換成：啞鈴彎舉維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="upper">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="dumbbell-curl-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="113.0" y1="83.0" x2="113.0" y2="119.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="113.0" y1="119.0" x2="113.0" y2="155.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="113.0" y1="155.0" x2="124.0" y2="155.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="113.0" y1="39.0" x2="113.8" y2="63.0" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="113.8" y1="63.0" x2="116.1" y2="84.9" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="108.0" y1="86.0" x2="108.0" y2="122.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="108.0" y1="86.0" x2="108.0" y2="122.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="108.0" y1="122.0" x2="108.0" y2="158.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="108.0" y1="122.0" x2="108.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="108.0" y1="158.0" x2="119.0" y2="158.0" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="108.0" y1="158.0" x2="119.0" y2="158.0" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="108.0" y1="86.0" x2="108.0" y2="42.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="108.0" y1="86.0" x2="108.0" y2="42.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="108.0" cy="28.0" r="10.5" fill="#ffffff" /><circle cx="108.0" cy="28.0" r="9" fill="#2b3440" /><line x1="108.0" y1="42.0" x2="108.0" y2="66.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="108.0" y1="42.0" x2="108.0" y2="66.0" stroke="#f0791f" stroke-width="8" stroke-linecap="round" /><line x1="108.0" y1="66.0" x2="130.0" y2="66.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="108.0" y1="66.0" x2="130.0" y2="66.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="123.0" y1="66.0" x2="137.0" y2="66.0" stroke="#7b8794" stroke-width="3" stroke-linecap="round" /><rect x="120.0" y="61.0" width="5" height="10" rx="1.5" fill="#7b8794"/><rect x="135.0" y="61.0" width="5" height="10" rx="1.5" fill="#7b8794"/></svg>
+</div>
+  <div class="body">
+    <h2>啞鈴彎舉維持 <small>Dumbbell Curl Hold</small></h2>
+    <p class="meta">上半身｜難度 1/5｜15 秒 × 2 組（每邊）｜手輕度出力</p>
+    <p class="meta">器材：啞鈴（或裝水的寶特瓶）</p>
+    <div class="chips"><span class="chip p">上臂前側</span><span class="chip">前臂</span></div>
+    <p class="effect">練手臂彎著撐住重量的能力，像抱小孩、提東西。一次做一邊。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>站或坐，一手拿啞鈴，手心朝上。</li><li>手肘貼在身體側邊，彎到 90 度。</li><li>停住。</li></ol>
+      <h3>提示</h3><ul><li>手肘固定在肋骨旁邊。</li><li>手腕和前臂一直線。</li><li>肩膀放鬆往下。</li></ul>
+      <h3>避免</h3><ul><li>身體往後仰。</li><li>聳肩。</li><li>手腕往後折。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>手腕</b>：手腕折到了。握緊一點，手腕打直；或換輕一點的重量。</li><li><b>脖子</b>：聳肩了。換輕一點，肩膀往下沉。</li><li><b>腰（下背）</b>：身體後仰了。改成坐著做。</li></ul>
+      <p class="meta">太難的話：換輕一點的重量，或縮短秒數。左右可以用不同重量。</p>
+      <p class='meta'>可以換成：彈力帶划船維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="upper">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="band-pull-apart-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="111.0" y1="104.0" x2="109.5" y2="131.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="109.5" y1="131.0" x2="108.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="129.0" y1="104.0" x2="130.5" y2="131.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="130.5" y1="131.0" x2="132.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><rect x="105" y="53" width="30" height="56" rx="11" fill="#2b3440"/><circle cx="120.0" cy="38.0" r="9" fill="#2b3440" /><ellipse cx="120" cy="68" rx="10" ry="8" fill="#f0791f" opacity="0.92"/><ellipse cx="104" cy="57" rx="5" ry="4" fill="#f0791f" opacity="0.92"/><ellipse cx="136" cy="57" rx="5" ry="4" fill="#f0791f" opacity="0.92"/><line x1="105.0" y1="58.0" x2="80.0" y2="60.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="80.0" y1="60.0" x2="56.0" y2="60.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="105.0" y1="58.0" x2="80.0" y2="60.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="80.0" y1="60.0" x2="56.0" y2="60.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="135.0" y1="58.0" x2="160.0" y2="60.0" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="160.0" y1="60.0" x2="184.0" y2="60.0" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="135.0" y1="58.0" x2="160.0" y2="60.0" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="160.0" y1="60.0" x2="184.0" y2="60.0" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /><line x1="56.0" y1="60.0" x2="184.0" y2="60.0" stroke="#d6336c" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 5"/></svg>
+</div>
+  <div class="body">
+    <h2>彈力帶水平拉開維持 <small>Band Pull-Apart Hold</small></h2>
+    <p class="meta">上半身｜難度 2/5｜10 秒 × 2 組｜手輕度出力</p>
+    <p class="meta">器材：彈力帶</p>
+    <div class="chips"><span class="chip p">上背（肩胛骨之間）</span><span class="chip p">肩膀後側</span><span class="chip">前臂</span></div>
+    <p class="effect">練上背和肩膀後側，對抗駝背、圓肩。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>站直，雙手握彈力帶，舉到胸口高度，手臂伸直。</li><li>雙手往兩邊拉開，肩胛骨往中間靠。</li><li>停在做得到的寬度。</li></ol>
+      <h3>提示</h3><ul><li>用肩胛骨往中間夾，不是只用手拉。</li><li>肩膀往下沉，遠離耳朵。</li><li>肋骨不要往前頂。</li></ul>
+      <h3>避免</h3><ul><li>聳肩。</li><li>身體往後仰。</li><li>手腕往後折。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>脖子</b>：聳肩了。肩膀往下沉，拉窄一點。</li><li><b>肩關節</b>：拉太開或彈力帶太緊。握寬一點減少張力；兩邊拉開的距離不一樣是可以的。</li><li><b>手腕</b>：手腕折到了。手腕保持和前臂一直線。</li></ul>
+      <p class="meta">太難的話：握寬一點，或拉開的距離小一點。</p>
+      <p class='meta'>簡單一點：趴姿 W 字維持</p><p class='meta'>可以換成：趴姿 W 字維持、彈力帶划船維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="upper">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="band-row-hold"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="204.0" y1="50.0" x2="204.0" y2="162.0" stroke="#7b8794" stroke-width="5" stroke-linecap="round" /><line x1="104.8" y1="67.3" x2="204.0" y2="78.0" stroke="#d6336c" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 5"/><line x1="97.0" y1="83.0" x2="98.3" y2="119.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="98.3" y1="119.0" x2="97.0" y2="155.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="97.0" y1="155.0" x2="108.0" y2="155.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="97.0" y1="39.0" x2="88.0" y2="61.3" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="88.0" y1="61.3" x2="109.8" y2="64.3" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="92.0" y1="86.0" x2="93.3" y2="122.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="92.0" y1="86.0" x2="93.3" y2="122.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="93.3" y1="122.0" x2="92.0" y2="158.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="93.3" y1="122.0" x2="92.0" y2="158.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="92.0" y1="158.0" x2="103.0" y2="158.0" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="92.0" y1="158.0" x2="103.0" y2="158.0" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="92.0" y1="86.0" x2="92.0" y2="42.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="92.0" y1="86.0" x2="92.0" y2="42.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="92.0" cy="28.0" r="10.5" fill="#ffffff" /><circle cx="92.0" cy="28.0" r="9" fill="#2b3440" /><ellipse cx="97.0" cy="58.7" rx="12" ry="5" fill="#f0791f" opacity="0.9" transform="rotate(-90 97.0 58.7)"/><line x1="92.0" y1="42.0" x2="83.0" y2="64.3" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="92.0" y1="42.0" x2="83.0" y2="64.3" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="83.0" y1="64.3" x2="104.8" y2="67.3" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="83.0" y1="64.3" x2="104.8" y2="67.3" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /></svg>
+</div>
+  <div class="body">
+    <h2>彈力帶划船維持 <small>Band Row Hold</small></h2>
+    <p class="meta">上半身｜難度 2/5｜10 秒 × 2 組｜手輕度出力</p>
+    <p class="meta">器材：彈力帶、可以固定彈力帶的地方（門把、桌腳）</p>
+    <div class="chips"><span class="chip p">背部兩側</span><span class="chip p">上背（肩胛骨之間）</span><span class="chip">上臂前側</span><span class="chip">肩膀後側</span></div>
+    <p class="effect">練背部往後拉的力量。也可以一次只拉一邊，左右分開調整。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>彈力帶固定在肚臍到胸口的高度，面對固定點，雙手各握一端。</li><li>往後站到帶子有張力，手肘往後拉，貼近身體兩側。</li><li>手拉到肋骨旁邊，停住。</li></ol>
+      <h3>提示</h3><ul><li>想著手肘往後口袋走。</li><li>胸口打開，肩膀往下沉。</li><li>身體站直，不往後躺。</li></ul>
+      <h3>避免</h3><ul><li>聳肩。</li><li>身體後仰借力。</li><li>手肘往外張太開。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>脖子</b>：聳肩了。站近一點減少張力，肩膀先往下沉再拉。</li><li><b>上臂前側</b>：只有手臂有感覺的話，想著用手肘帶動、手只是鉤子。</li><li><b>腰（下背）</b>：身體往後躺了。站近一點，雙腳前後站。</li></ul>
+      <p class="meta">太難的話：站近一點，或改成一次拉一邊。</p>
+      <p class='meta'>可以換成：彈力帶水平拉開維持、趴姿 W 字維持</p>
+    </details>
+  </div>
+</article>
+<article class="card" data-region="full">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="march-in-place"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="121.0" y1="83.0" x2="121.0" y2="119.0" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="121.0" y1="119.0" x2="121.0" y2="155.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="121.0" y1="155.0" x2="132.0" y2="155.0" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="121.0" y1="39.0" x2="134.8" y2="58.7" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="134.8" y1="58.7" x2="156.0" y2="53.0" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="116.0" y1="86.0" x2="151.6" y2="91.0" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="116.0" y1="86.0" x2="151.6" y2="91.0" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="151.6" y1="91.0" x2="151.6" y2="127.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="151.6" y1="91.0" x2="151.6" y2="127.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="151.6" y1="127.0" x2="162.5" y2="128.9" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="151.6" y1="127.0" x2="162.5" y2="128.9" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="116.0" y1="86.0" x2="116.0" y2="42.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="116.0" y1="86.0" x2="116.0" y2="42.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="116.0" cy="28.0" r="10.5" fill="#ffffff" /><circle cx="116.0" cy="28.0" r="9" fill="#2b3440" /><line x1="116.0" y1="42.0" x2="105.9" y2="63.8" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="116.0" y1="42.0" x2="105.9" y2="63.8" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="105.9" y1="63.8" x2="109.7" y2="85.4" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="105.9" y1="63.8" x2="109.7" y2="85.4" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /></svg>
+</div>
+  <div class="body">
+    <h2>原地踏步 <small>March in Place</small></h2>
+    <p class="meta">暖身／收操｜難度 1/5｜60 秒 × 1 組｜手不用承重</p>
+    <p class="meta">器材：不需要器材</p>
+    <div class="chips"><span class="chip p">髖部前側</span><span class="chip p">小腿</span><span class="chip">腹部</span></div>
+    <p class="effect">暖身，讓身體熱起來。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>站直，原地輕鬆踏步。</li><li>手臂自然擺動。</li><li>慢慢把膝蓋抬高一點。</li></ol>
+      <h3>提示</h3><ul><li>呼吸自然。</li><li>腳掌輕輕落地。</li></ul>
+      <h3>避免</h3><ul><li>一開始就抬很高、踏很快。</li></ul>
+      <h3>如果這些地方有感覺</h3><ul><li><b>膝蓋</b>：膝蓋抬低一點、落地輕一點。</li></ul>
+      <p class="meta">太難的話：步伐小一點、慢一點。</p>
+      
+    </details>
+  </div>
+</article>
+<article class="card" data-region="full">
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-label="supine-breathing"><line x1="14.0" y1="163.5" x2="226.0" y2="163.5" stroke="#cfd6dd" stroke-width="2" stroke-linecap="round" /><line x1="30.0" y1="160.5" x2="214.0" y2="160.5" stroke="#9fd0c8" stroke-width="4" stroke-linecap="round" /><line x1="128.0" y1="147.0" x2="153.0" y2="121.1" stroke="#aab4be" stroke-width="11" stroke-linecap="round" /><line x1="153.0" y1="121.1" x2="161.7" y2="156.0" stroke="#aab4be" stroke-width="9.5" stroke-linecap="round" /><line x1="161.7" y1="156.0" x2="172.5" y2="157.9" stroke="#aab4be" stroke-width="7" stroke-linecap="round" /><line x1="84.0" y1="147.0" x2="107.2" y2="153.2" stroke="#aab4be" stroke-width="8" stroke-linecap="round" /><line x1="107.2" y1="153.2" x2="122.7" y2="137.7" stroke="#aab4be" stroke-width="7.5" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="149.0" y2="124.1" stroke="#ffffff" stroke-width="14" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="149.0" y2="124.1" stroke="#2b3440" stroke-width="11" stroke-linecap="round" /><line x1="149.0" y1="124.1" x2="157.7" y2="159.0" stroke="#ffffff" stroke-width="12.5" stroke-linecap="round" /><line x1="149.0" y1="124.1" x2="157.7" y2="159.0" stroke="#2b3440" stroke-width="9.5" stroke-linecap="round" /><line x1="157.7" y1="159.0" x2="168.5" y2="160.9" stroke="#ffffff" stroke-width="10" stroke-linecap="round" /><line x1="157.7" y1="159.0" x2="168.5" y2="160.9" stroke="#2b3440" stroke-width="7" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#ffffff" stroke-width="17" stroke-linecap="round" /><line x1="124.0" y1="150.0" x2="80.0" y2="150.0" stroke="#2b3440" stroke-width="14" stroke-linecap="round" /><circle cx="66.0" cy="150.0" r="10.5" fill="#ffffff" /><circle cx="66.0" cy="150.0" r="9" fill="#2b3440" /><line x1="80.0" y1="150.0" x2="103.2" y2="156.2" stroke="#ffffff" stroke-width="11" stroke-linecap="round" /><line x1="80.0" y1="150.0" x2="103.2" y2="156.2" stroke="#2b3440" stroke-width="8" stroke-linecap="round" /><line x1="103.2" y1="156.2" x2="118.7" y2="140.7" stroke="#ffffff" stroke-width="10.5" stroke-linecap="round" /><line x1="103.2" y1="156.2" x2="118.7" y2="140.7" stroke="#2b3440" stroke-width="7.5" stroke-linecap="round" /></svg>
+</div>
+  <div class="body">
+    <h2>仰躺放鬆呼吸 <small>Supine Breathing</small></h2>
+    <p class="meta">暖身／收操｜難度 1/5｜60 秒 × 1 組｜手不用承重</p>
+    <p class="meta">器材：地墊或瑜珈墊</p>
+    <div class="chips"></div>
+    <p class="effect">收操，讓呼吸和心跳慢下來。</p>
+    <details><summary>怎麼做、注意什麼</summary>
+      <h3>步驟</h3><ol><li>仰躺，膝蓋彎曲、雙腳踩地，手放在肚子或身體兩側。</li><li>鼻子吸氣，肚子和肋骨往四周脹開。</li><li>嘴巴慢慢吐氣，吐得比吸得久。</li></ol>
+      <h3>提示</h3><ul><li>肩膀、下巴放鬆。</li><li>不用刻意用力吸。</li></ul>
+      
+      
+      
+      
+    </details>
+  </div>
+</article></main>
+<footer>內容是一般訓練常識的整理，以個人狀況為準；有疼痛或疑慮，請洽自己的物理治療師或醫師。</footer>
+<script>
+document.querySelectorAll('nav button').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+  document.querySelectorAll('.card').forEach(function(c){c.hidden=b.dataset.f!=='all'&&c.dataset.region!==b.dataset.f});
+})});
+</script>
+</body></html>

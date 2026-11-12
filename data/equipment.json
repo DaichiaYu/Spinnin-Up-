@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "equipment": [
+    {"id": "none", "name": "不需要器材"},
+    {"id": "mat", "name": "地墊或瑜珈墊"},
+    {"id": "wall", "name": "牆面"},
+    {"id": "chair", "name": "穩固的椅子"},
+    {"id": "band", "name": "彈力帶"},
+    {"id": "dumbbell", "name": "啞鈴（或裝水的寶特瓶）"},
+    {"id": "anchor", "name": "可以固定彈力帶的地方（門把、桌腳）"}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "note": "身體部位詞彙。kind=muscle 是可以當作「主要發力」的部位；kind=joint 只用在回饋時點選「哪裡有感覺」，點到這些通常代表需要調整。",
+  "areas": [
+    {"id": "quads", "name": "大腿前側", "region": "lower", "kind": "muscle"},
+    {"id": "hamstrings", "name": "大腿後側", "region": "lower", "kind": "muscle"},
+    {"id": "glutes", "name": "臀部", "region": "lower", "kind": "muscle"},
+    {"id": "glute_side", "name": "臀部外側", "region": "lower", "kind": "muscle"},
+    {"id": "adductors", "name": "大腿內側", "region": "lower", "kind": "muscle"},
+    {"id": "calves", "name": "小腿", "region": "lower", "kind": "muscle"},
+    {"id": "feet", "name": "腳掌與腳踝周圍", "region": "lower", "kind": "muscle"},
+    {"id": "hip_flexors", "name": "髖部前側", "region": "lower", "kind": "muscle"},
+    {"id": "abs", "name": "腹部", "region": "core", "kind": "muscle"},
+    {"id": "obliques", "name": "側腹", "region": "core", "kind": "muscle"},
+    {"id": "lower_back_muscle", "name": "下背肌肉", "region": "core", "kind": "muscle"},
+    {"id": "upper_back", "name": "上背（肩胛骨之間）", "region": "upper", "kind": "muscle"},
+    {"id": "lats", "name": "背部兩側", "region": "upper", "kind": "muscle"},
+    {"id": "rear_shoulders", "name": "肩膀後側", "region": "upper", "kind": "muscle"},
+    {"id": "shoulders", "name": "肩膀", "region": "upper", "kind": "muscle"},
+    {"id": "chest", "name": "胸部", "region": "upper", "kind": "muscle"},
+    {"id": "biceps", "name": "上臂前側", "region": "upper", "kind": "muscle"},
+    {"id": "triceps", "name": "上臂後側", "region": "upper", "kind": "muscle"},
+    {"id": "forearms", "name": "前臂", "region": "upper", "kind": "muscle"},
+    {"id": "neck", "name": "脖子", "region": "upper", "kind": "joint"},
+    {"id": "shoulder_joint", "name": "肩關節", "region": "upper", "kind": "joint"},
+    {"id": "elbow", "name": "手肘", "region": "upper", "kind": "joint"},
+    {"id": "wrist", "name": "手腕", "region": "upper", "kind": "joint"},
+    {"id": "lower_back", "name": "腰（下背）", "region": "core", "kind": "joint"},
+    {"id": "hip_joint", "name": "髖關節", "region": "lower", "kind": "joint"},
+    {"id": "knee", "name": "膝蓋", "region": "lower", "kind": "joint"},
+    {"id": "ankle", "name": "腳踝", "region": "lower", "kind": "joint"}
+  ]
+}
