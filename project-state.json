@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "project": {
+    "name": "Spinnin-Up",
+    "repository": "DaichiaYu/Spinnin-Up-",
+    "default_branch": "main",
+    "delivery": "GitHub Pages"
+  },
+  "source_of_truth": {
+    "product_spec": {
+      "repository": "DaichiaYu/Spin-Up",
+      "path": "plan.md",
+      "visibility": "private",
+      "precedence": "highest"
+    },
+    "implementation_decisions": "docs/decisions.md",
+    "implementation_progress": "docs/roadmap.md"
+  },
+  "architecture": {
+    "frontend": "static-html-css-javascript",
+    "backend": false,
+    "account_system": false,
+    "automatic_user_data_storage": false,
+    "exercise_data": "data/exercises.json",
+    "generated_assets": [
+      "assets/exercises/*.svg",
+      "catalog.html"
+    ]
+  },
+  "phase": {
+    "current": 2,
+    "status": "complete_pending_mobile_validation",
+    "next": 3
+  },
+  "features": {
+    "exercise_data_model": "done",
+    "exercise_figures": "done",
+    "exercise_catalog": "done",
+    "manual_workout_editor": "done",
+    "workout_preview_editing": "done",
+    "workout_player": "done",
+    "routine_link": "done",
+    "calendar_export": "done",
+    "mobile_background_validation": "pending",
+    "onboarding_questionnaire": "planned",
+    "workout_generation_rules": "planned",
+    "post_workout_feedback": "planned",
+    "adaptive_adjustment": "planned"
+  },
+  "product_constraints": {
+    "human_keeps_final_control": true,
+    "workout_must_be_editable_before_start": true,
+    "body_data_in_share_link": false,
+    "external_exercise_images": false,
+    "pain_feedback_action": "stop",
+    "medical_treatment_claims": false
+  },
+  "agent_contract": {
+    "read_order": [
+      "project-state.json",
+      "AGENTS.md",
+      "docs/decisions.md",
+      "docs/roadmap.md",
+      "private:DaichiaYu/Spin-Up/plan.md when product intent is needed"
+    ],
+    "required_checks": [
+      "python3 -m unittest discover -s tests -v",
+      "python3 tools/validate.py",
+      "python3 tools/build_figures.py",
+      "python3 tools/build_catalog.py",
+      "git diff --exit-code -- assets/exercises catalog.html"
+    ],
+    "update_project_state_when": [
+      "phase changes",
+      "feature status changes",
+      "architecture changes",
+      "source-of-truth location changes"
+    ]
+  }
+}
