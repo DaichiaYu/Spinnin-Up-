@@ -56,18 +56,17 @@ class RepositoryContracts(unittest.TestCase):
         )
 
     def test_public_test_hooks_are_not_removed(self):
-        match = re.search(r"window\.__spin\s*=\s*\{(?P<body>.*?)\n\}", self.app_js, re.S)
+        match = re.search(r"window\.__spin\s*=\s*\{(?P<body>.*?)\};", self.app_js, re.S)
         self.assertIsNotNone(match, "window.__spin test hook must remain available")
         body = match.group("body")
         for name in ("state", "db", "buildSteps", "totalSec", "encode", "decode", "buildICS", "player"):
             self.assertRegex(body, rf"\b{re.escape(name)}\b", f"window.__spin must expose {name}")
 
     def test_routine_format_keeps_version_marker(self):
-        # The current documented Routine Code format starts with version 1.
-        self.assertRegex(
+        self.assertIn(
+            "return '1;' + state.items.map",
             self.app_js,
-            r"(?:^|[^0-9])1(?:;|['\"])",
-            "app.js should retain the current Routine Code version marker",
+            "Routine Code v1 marker changed; update migration/compatibility deliberately",
         )
 
 
