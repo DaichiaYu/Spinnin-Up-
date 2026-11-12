@@ -14,9 +14,30 @@
     items: [],                 // [{id, dose, sets, rest}]
     freq: { every: 2, count: 10 },
     owned: null,               // Set：手邊有的器材
-    voice: true
+    sound: loadSound()          // 播報模式和音量（只記在這台裝置的瀏覽器）
   };
   var app = document.getElementById('app');
+
+  /* ---------- 聲音設定 ---------- */
+  var SOUND_KEY = 'spinnin-up.sound';
+  var SOUND_MODES = {
+    voice: { name: '語音＋提示音', desc: '唸出動作名稱和提示。說話時，影片的聲音會暫時變小。' },
+    beep: { name: '只有提示音', desc: '不說話，只有嗶聲。適合邊看影片邊做，提示文字會在畫面上變色。' },
+    off: { name: '全部靜音', desc: '沒有任何聲音，只看畫面。' }
+  };
+  function loadSound() {
+    var d = { mode: 'voice', voiceVol: 0.8, beepVol: 0.6 };
+    try {
+      var v = JSON.parse(localStorage.getItem(SOUND_KEY) || 'null');
+      if (v && SOUND_MODES[v.mode]) d.mode = v.mode;
+      if (v && v.voiceVol >= 0 && v.voiceVol <= 1) d.voiceVol = v.voiceVol;
+      if (v && v.beepVol >= 0 && v.beepVol <= 1) d.beepVol = v.beepVol;
+    } catch (e) { /* 存不了就用預設 */ }
+    return d;
+  }
+  function saveSound() {
+    try { localStorage.setItem(SOUND_KEY, JSON.stringify(state.sound)); } catch (e) { /* 存不了也能用 */ }
+  }
 
   /* ---------- 小工具 ---------- */
   function h(tag, attrs) {
@@ -186,6 +207,7 @@
     wrap.appendChild(h('div', { class: 'row' },
       h('button', { class: 'btn small', id: 'btn-link', text: '複製訓練連結', onclick: copyLink }),
       h('button', { class: 'btn small', id: 'btn-ics', text: '加入行事曆', onclick: openCalendar }),
+      h('button', { class: 'btn small', id: 'btn-sound', text: soundLabel(), onclick: openSound }),
       h('span', { class: 'spacer' }),
       h('button', { class: 'btn small ghost danger', text: '全部清空', onclick: function () {
         if (confirm('確定要清空這組課表嗎？')) { state.items = []; syncHash(); renderPlan(); }
@@ -392,25 +414,106 @@
   /* ========== 播放器 ========== */
   var P = null, audio = null, wake = null;
 
-  function beep(freq, ms) {
-    if (!audio) return;
+  function ensureAudio() {
+    try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); audio.resume(); } catch (e) { audio = null; }
+    applyAudioSession();
+  }
+  // 支援的瀏覽器（較新的 iPhone Safari）上，「只有提示音」時讓嗶聲和影片混在一起播，不壓低影片。
+  function applyAudioSession() {
     try {
+      if (navigator.audioSession) navigator.audioSession.type = state.sound.mode === 'beep' ? 'ambient' : 'auto';
+    } catch (e) { /* 不支援就算了 */ }
+  }
+  function beep(freq, ms, delay) {
+    if (!audio || state.sound.mode === 'off' || state.sound.beepVol <= 0) return;
+    try {
+      var t = audio.currentTime + (delay || 0) / 1000;
       var o = audio.createOscillator(), g = audio.createGain();
       o.frequency.value = freq; o.connect(g); g.connect(audio.destination);
-      g.gain.setValueAtTime(0.18, audio.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + ms / 1000);
-      o.start(); o.stop(audio.currentTime + ms / 1000);
+      g.gain.setValueAtTime(0.0001, audio.currentTime);
+      g.gain.setValueAtTime(0.5 * state.sound.beepVol, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + ms / 1000);
+      o.start(t); o.stop(t + ms / 1000 + 0.02);
     } catch (e) { /* 沒有聲音也能繼續 */ }
   }
-  function speak(text) {
-    if (!state.voice || !('speechSynthesis' in window)) return;
+  // 提示音的意思：倒數＝短嗶、開始＝高長音、這組結束＝低長音、換邊＝兩聲、全部完成＝上升兩聲
+  var SFX = {
+    count: function (work) { beep(work ? 660 : 440, 120); },
+    start: function () { beep(880, 380); },
+    end: function () { beep(520, 520); },
+    side: function () { beep(740, 140); beep(740, 140, 220); },
+    finish: function () { beep(880, 200); beep(1100, 420, 230); }
+  };
+
+  /* 播報：說話（語音模式）＋讓畫面上對應的文字變色（所有模式） */
+  function say(text, key) {
+    if (P) { P.hl = { key: key, until: Date.now() + Math.max(3000, text.length * 260) }; paintHighlight(); }
+    if (state.sound.mode !== 'voice' || state.sound.voiceVol <= 0 || !('speechSynthesis' in window)) return;
     try {
       speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text);
-      u.lang = 'zh-TW'; u.rate = 1;
+      u.lang = 'zh-TW'; u.rate = 1; u.volume = state.sound.voiceVol;
+      u.onend = function () { if (P && P.hl && P.hl.key === key) { P.hl.until = Date.now() + 400; } };
       speechSynthesis.speak(u);
     } catch (e) { /* 沒有語音也能繼續 */ }
   }
+  function paintHighlight() {
+    var on = P && P.hl && Date.now() < P.hl.until ? P.hl.key : null;
+    var els = document.querySelectorAll('[data-say]'), i;
+    for (i = 0; i < els.length; i++) els[i].classList.toggle('speaking', els[i].getAttribute('data-say') === on);
+  }
+
+  function openSound() {
+    ensureAudio();
+    var dlg = h('dialog', { 'aria-label': '聲音設定' });
+    function close() { dlg.close(); dlg.remove(); if (P) renderStep(); else renderPlanSoundLabel(); }
+    function slider(id, label, key, test) {
+      var out = h('output', { text: Math.round(state.sound[key] * 100) + '%' });
+      var r = h('input', { type: 'range', id: id, min: 0, max: 100, step: 5, value: Math.round(state.sound[key] * 100),
+        'aria-label': label, oninput: function () { state.sound[key] = r.value / 100; out.textContent = r.value + '%'; saveSound(); } });
+      return h('div', { class: 'vol' }, h('div', { class: 'row' }, h('b', { text: label }), h('span', { class: 'spacer' }), out),
+        r, h('button', { class: 'btn small', text: '試聽', onclick: test }));
+    }
+    var voiceBox = slider('vol-voice', '語音大小', 'voiceVol', function () {
+      var m = state.sound.mode; state.sound.mode = 'voice';
+      say('下一個：靠牆蹲。二十秒。', 'test'); state.sound.mode = m;
+    });
+    var beepBox = slider('vol-beep', '提示音大小', 'beepVol', function () {
+      var m = state.sound.mode; if (m === 'off') state.sound.mode = 'beep';
+      SFX.count(true); beep(660, 120, 1000); beep(660, 120, 2000); beep(880, 380, 3000);
+      state.sound.mode = m;
+    });
+    function sync() {
+      voiceBox.hidden = state.sound.mode !== 'voice';
+      beepBox.hidden = state.sound.mode === 'off';
+    }
+    var modes = h('fieldset', {}, h('legend', { text: '播報方式' }), Object.keys(SOUND_MODES).map(function (k) {
+      return h('label', { class: 'mode' }, h('input', { type: 'radio', name: 'sound-mode', value: k, checked: state.sound.mode === k,
+        onchange: function () {
+          state.sound.mode = k; saveSound(); applyAudioSession(); sync();
+          if (k !== 'voice' && 'speechSynthesis' in window) speechSynthesis.cancel();
+        } }),
+        h('span', {}, h('b', { text: SOUND_MODES[k].name }), h('small', { text: SOUND_MODES[k].desc })));
+    }));
+    dlg.appendChild(h('div', { class: 'dlg-head' }, h('div', { class: 'row' }, h('h2', { text: '聲音設定' }),
+      h('button', { class: 'btn small', id: 'sound-close', text: '完成', onclick: close }))));
+    dlg.appendChild(h('div', { class: 'dlg-body' }, modes, voiceBox, beepBox,
+      h('p', { class: 'mute', text: '這裡調的是「相對於手機音量」的大小，最大就是手機目前的音量。可以先把手機音量調到看影片舒服的大小，再在這裡把播報調小。' }),
+      h('p', { class: 'mute', text: '有些手機（特別是 iPhone）不讓網頁調整語音的大小。如果試聽時拉動沒有差別，邊看影片時可以改用「只有提示音」。' }),
+      h('h3', { class: 'group-title', text: '提示音代表什麼' }),
+      h('ul', { class: 'mute' },
+        h('li', { text: '短短的嗶、嗶、嗶：最後 3 秒倒數' }),
+        h('li', { text: '高的長音：開始' }),
+        h('li', { text: '低的長音：這一組結束，休息' }),
+        h('li', { text: '連續兩聲：換邊' }),
+        h('li', { text: '往上的兩聲：全部完成' }))));
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+    document.body.appendChild(dlg);
+    sync();
+    dlg.showModal();
+  }
+  function soundLabel() { return '聲音：' + { voice: '語音', beep: '只有提示音', off: '靜音' }[state.sound.mode]; }
+  function renderPlanSoundLabel() { var b = document.getElementById('btn-sound'); if (b) b.textContent = soundLabel(); }
   function keepAwake() {
     if (!('wakeLock' in navigator) || !P) return;
     navigator.wakeLock.request('screen').then(function (w) { wake = w; }, function () {});
@@ -418,7 +521,7 @@
 
   function startPlayer() {
     if (!state.items.length) return;
-    try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); audio.resume(); } catch (e) { audio = null; }
+    ensureAudio();
     P = { steps: buildSteps(state.items), pos: -1, endAt: 0, startAt: 0, paused: false, remain: 0, t0: Date.now(), lastSec: null, said: {} };
     P.total = P.steps.reduce(function (a, s) { return a + s.dur; }, 0);
     P.timer = setInterval(tick, 200);
@@ -444,15 +547,17 @@
     renderStep();
     if (!fresh) return;                  // 從背景回來補進度時不補唸
     if (s.kind === 'ready') {
-      var w = s.next, line;
-      if (s.label === '換邊') line = '換' + w.side + '。';
-      else if (s.newEx) line = (pos === 0 ? '準備。第一個：' : '休息。下一個：') + w.ex.name + '。' + (w.side ? w.side + '。' : '') +
-        w.it.dose + (w.ex.mode === 'hold' ? '秒。' : '下。');
-      else line = '休息。第 ' + w.set + ' 組。' + (w.side ? w.side + '。' : '');
-      speak(line);
+      var w = s.next;
+      if (s.label === '換邊') { SFX.side(); say('換' + w.side + '。', 'side'); }
+      else if (s.newEx) say((pos === 0 ? '準備。第一個：' : '休息。下一個：') + w.ex.name + '。' + (w.side ? w.side + '。' : '') +
+        w.it.dose + (w.ex.mode === 'hold' ? '秒。' : '下。'), 'name');
+      else say('休息。第 ' + w.set + ' 組。' + (w.side ? w.side + '。' : ''), 'set');
     } else {
-      beep(880, 350);
-      speak(s.timed ? '開始。' + (s.set === 1 && !(/右/.test(s.side || '')) ? s.ex.cues[0] : '') : '開始，' + s.it.dose + '下。做完按一下。');
+      SFX.start();
+      var first = s.set === 1 && !(/右/.test(s.side || ''));
+      if (!s.timed) say('開始，' + s.it.dose + '下。做完按一下。' + (first ? s.ex.cues[0] : ''), first ? 'cue-0' : 'clock');
+      else if (first) say('開始。' + s.ex.cues[0], 'cue-0');
+      else say('開始。', 'clock');
     }
   }
 
@@ -460,7 +565,7 @@
     if (!P || P.paused) return;
     var now = Date.now(), s = P.steps[P.pos];
     while (P && s && (s.kind === 'ready' || s.timed) && now >= P.endAt) {
-      if (s.kind === 'work' && now - P.endAt < 1500) beep(520, 500);
+      if (s.kind === 'work' && now - P.endAt < 1500) SFX.end();
       enter(P.pos + 1, P.endAt);
       if (!P) return;
       s = P.steps[P.pos];
@@ -478,10 +583,11 @@
       clock.firstChild.nodeValue = String(sec);
       done += s.dur - left / 1000;
       if (sec !== P.lastSec && !P.paused) {
-        if (sec <= 3 && sec >= 1) beep(s.kind === 'work' ? 660 : 440, 120);
-        if (s.kind === 'work' && s.dur >= 20 && sec === Math.floor(s.dur / 2) && !P.said.mid) {
+        if (sec <= 3 && sec >= 1) SFX.count(s.kind === 'work');
+        if (s.kind === 'work' && s.dur >= 20 && sec === Math.floor(s.dur / 2) && !P.said.mid && s.ex.cues.length) {
           P.said.mid = 1;
-          speak(s.ex.cues[(s.set) % s.ex.cues.length] || '');
+          var k = s.set % s.ex.cues.length;
+          say(s.ex.cues[k], 'cue-' + k);
         }
         P.lastSec = sec;
       }
@@ -489,6 +595,7 @@
       clock.firstChild.nodeValue = String(s.it.dose);
     }
     if (bar) bar.style.width = Math.min(100, done / P.total * 100).toFixed(1) + '%';
+    paintHighlight();
   }
 
   function renderStep() {
@@ -504,14 +611,14 @@
       h('div', { class: 'where' },
         h('span', { text: '第 ' + (w.idx + 1) + '／' + state.items.length + ' 個動作' }),
         h('span', { text: '第 ' + w.set + '／' + w.sets + ' 組' })),
-      h('div', {}, h('span', { class: 'phase' + (isRest ? ' rest' : ''), id: 'phase', text: isRest ? s.label + '，接下來是' : '進行中' })),
-      h('h2', { id: 'ex-name', text: ex.name }),
-      w.side ? h('div', { class: 'side', text: w.side }) : null,
+      h('div', {}, h('span', { class: 'phase' + (isRest ? ' rest' : ''), id: 'phase', 'data-say': 'set', text: isRest ? s.label + '，接下來是' : '進行中' })),
+      h('h2', { id: 'ex-name', 'data-say': 'name', text: ex.name }),
+      w.side ? h('div', { class: 'side', 'data-say': 'side', text: w.side }) : null,
       h('div', { class: 'fig' }, img(ex)),
-      h('div', { class: 'clock', id: 'clock', 'aria-live': 'off' }, '',
+      h('div', { class: 'clock', id: 'clock', 'data-say': 'clock', 'aria-live': 'off' }, '',
         h('small', { text: isRest ? '秒後開始' : (s.timed ? '秒' : '下，做完按「做完了」') })),
       h('p', { class: 'feel' }, '應該有感覺的地方：', h('b', { text: ex.primary.length ? ex.primary.map(areaName).join('、') : '全身放鬆' })),
-      h('ul', { class: 'cues' }, ex.cues.map(function (c) { return h('li', { text: c }); })),
+      h('ul', { class: 'cues' }, ex.cues.map(function (c, i) { return h('li', { 'data-say': 'cue-' + i, text: c }); })),
       h('div', { class: 'grow' }),
       h('p', { class: 'mute', text: next ? '之後：' + next.ex.name : '這是最後一個動作' }),
       h('div', { class: 'ctrl' },
@@ -521,8 +628,7 @@
           : h('button', { class: 'btn primary', id: 'p-pause', text: P.paused ? '繼續' : '暫停', onclick: togglePause }),
         h('button', { class: 'btn', id: 'p-next', text: '跳過', onclick: goNext })),
       h('div', { class: 'ctrl2' },
-        h('button', { class: 'btn small ghost', id: 'p-voice', 'aria-pressed': String(state.voice), text: state.voice ? '語音：開' : '語音：關',
-          onclick: function () { state.voice = !state.voice; if (!state.voice && 'speechSynthesis' in window) speechSynthesis.cancel(); renderStep(); } }),
+        h('button', { class: 'btn small ghost', id: 'p-sound', text: soundLabel(), onclick: openSound }),
         h('button', { class: 'btn small ghost danger', id: 'p-quit', text: '結束', onclick: function () {
           if (confirm('要結束這次訓練嗎？')) renderPlan();
         } })));
@@ -545,8 +651,8 @@
 
   function finish() {
     var mins = Math.max(1, Math.round((Date.now() - P.t0) / 60000));
-    beep(880, 200); setTimeout(function () { beep(1100, 400); }, 220);
-    speak('完成了。辛苦了。');
+    SFX.finish();
+    say('完成了。辛苦了。', 'none');
     stopPlayer();
     app.textContent = '';
     app.appendChild(h('div', { class: 'wrap' }, h('div', { class: 'done', id: 'done' },
@@ -578,5 +684,5 @@
 
   // 測試用：讓自動測試可以讀到內部狀態
   window.__spin = { state: state, db: db, buildSteps: buildSteps, totalSec: totalSec, encode: encode, decode: decode,
-    buildICS: buildICS, player: function () { return P; } };
+    buildICS: buildICS, player: function () { return P; }, say: say };
 })();

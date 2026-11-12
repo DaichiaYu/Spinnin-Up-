@@ -107,3 +107,20 @@ label.field input,label.field select{width:100%;padding:10px;border:1px solid va
 .done .big{font-size:2rem;font-weight:800;margin:0}
 footer.note{color:var(--mute);font-size:.82rem;margin-top:24px}
 @media (prefers-reduced-motion:no-preference){.player .progress span{transition:width .3s linear}}
+
+/* 播報時變色 */
+[data-say]{transition:background-color .25s,color .25s;border-radius:8px}
+.cues li{padding:2px 6px;margin:2px 0}
+.cues li.speaking,.player h2.speaking,.side.speaking{background:var(--accent);color:#fff}
+.player h2.speaking,.side.speaking{display:inline-block;padding:0 8px}
+.phase.speaking{background:var(--accent);color:#fff}
+.clock.speaking{color:var(--accent)}
+
+/* 聲音設定 */
+label.mode{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
+label.mode:last-child{border-bottom:0}
+label.mode input{margin-top:6px;width:20px;height:20px}
+label.mode small{display:block;color:var(--mute);font-size:.86rem}
+.vol{margin:12px 0}
+.vol input[type=range]{width:100%;margin:6px 0;accent-color:var(--accent)}
+.vol output{font-variant-numeric:tabular-nums;color:var(--mute)}
