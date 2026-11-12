@@ -12,6 +12,7 @@ import math, pathlib
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets" / "exercises"
 W, H, GROUND = 240, 180, 162
 NEAR, FAR, PROP, ACCENT, FLOOR = "#2b3440", "#aab4be", "#7b8794", "#f0791f", "#cfd6dd"
+TOWEL = "#4c9aa8"
 L = dict(torso=44, neck=14, upper=24, fore=22, thigh=36, shin=36, foot=11)
 SW = dict(torso=14, upper=8, fore=7.5, thigh=11, shin=9.5, foot=7)
 HEAD_R = 9
@@ -209,6 +210,18 @@ POSES = {
                             spots_mid=[("hip", "shoulder", 0.78, 5, 9, 5)], props=wall(174)),
     "dumbbell-curl-hold": dict(hip=(108, 86), torso=-90, n_leg=STAND_LEG, n_arm=(90, 0),
                                f_arm=HANG_ARM, hl=["n_upper"], dumbbell_at="n_hand"),
+    "towel-curl-hold": dict(hip=(108, 86), torso=-90, n_leg=STAND_LEG, n_arm=(90, 0), hl=["n_upper"],
+                            strap_to="n_toe"),
+    "front-carry-hold": dict(hip=(108, 86), torso=-90, n_leg=STAND_LEG, n_arm=(72, -25), hl=["n_upper"],
+                             spots_mid=[("hip", "shoulder", 0.75, 5, 9, 5)], bag_at=("n_hand", -14, -22, 20, 28)),
+    "suitcase-carry-hold": dict(hip=(108, 86), torso=-90, n_leg=STAND_LEG, n_arm=(72, 80), f_arm=HANG_ARM,
+                                hl=["n_fore"], spots_mid=[("hip", "shoulder", 0.42, -2, 13, 6)],
+                                bag_at=("n_hand", -10, 3, 20, 24)),
+    "step-up": dict(hip=(102, 84), torso=-80, n_leg=(23, 90, 0), f_leg=STAND_LEG, n_arm=HANG_ARM,
+                    depth=(4, 2), hl=["n_thigh"], spots=[("hip", "shoulder", 0.0, 8, 8, 7)],
+                    props=[f'<rect x="118" y="141" width="56" height="{GROUND-141}" rx="3" fill="{PROP}" opacity="0.6"/>']),
+    "pillow-squeeze-hold": dict(**SUPINE, n_leg=BENT_ON_FLOOR, n_arm=(8, 0), order="arms-legs-torso",
+                                spots=[("hip", "n_knee", 0.55, 7, 11, 4)], pillow_at="n_knee", props=mat()),
     "march-in-place": dict(hip=(116, 86), torso=-90, n_leg=(8, 90, 10), f_leg=STAND_LEG,
                            n_arm=(115, 80), f_arm=(55, -15)),
     "supine-breathing": dict(**SUPINE, n_leg=BENT_ON_FLOOR, n_arm=(15, -45), order="legs-torso-arms",
@@ -222,6 +235,10 @@ BACK_POSES = {
                                  spots=[(120, 68, 10, 8), (104, 57, 5, 4), (136, 57, 5, 4)],
                                  band=((56, 60), (184, 60))),
     # 正面：彈力帶從左邊拉過來，雙手往正前方推（手臂朝向畫面外，所以看起來短）
+    "towel-pull-apart-hold": dict(cx=120, shoulder_y=58, feet=((108, 158), (132, 158)),
+                                  arms=(((86, 66), (66, 62)), ((154, 66), (174, 62))),
+                                  spots=[(120, 68, 10, 8), (104, 57, 5, 4), (136, 57, 5, 4)],
+                                  towel=((66, 62), (174, 62))),
     "band-anti-rotation-hold": dict(cx=128, shoulder_y=58, feet=((114, 158), (142, 158)),
                                     arms=(((116, 72), (126, 80)), ((140, 72), (130, 80))),
                                     spots=[(128, 92, 13, 9)],
@@ -245,13 +262,24 @@ def build():
         body += fig
         if "dumbbell_at" in pose:
             body += dumbbell(j[pose["dumbbell_at"]])
+        if "strap_to" in pose:
+            body += [line(j["n_hand"], j[pose["strap_to"]], TOWEL, 4)]
+        if "bag_at" in pose:
+            jn, dx, dy, w, h = pose["bag_at"]
+            x, y = j[jn][0] + dx, j[jn][1] + dy
+            body += [f'<rect x="{x:.1f}" y="{y:.1f}" width="{w}" height="{h}" rx="5" fill="{PROP}"/>']
+        if "pillow_at" in pose:
+            x, y = j[pose["pillow_at"]]
+            body += [f'<ellipse cx="{x+4:.1f}" cy="{y+2:.1f}" rx="9" ry="12" fill="{TOWEL}" opacity="0.95"/>']
         (OUT / f"{name}.svg").write_text(svg(body, name), encoding="utf-8")
     for name, p in BACK_POSES.items():
         body = []
         if "post" in p:
             body += post(p["post"], 44)
         fig = back_figure(p)
-        if name == "band-pull-apart-hold":
+        if "towel" in p:
+            body += fig + [line(p["towel"][0], p["towel"][1], TOWEL, 4)]
+        elif name == "band-pull-apart-hold":
             body += fig + band(*p["band"])
         else:
             body += fig + band(*p["band"]) + [circle((127, 80), 5, NEAR)]

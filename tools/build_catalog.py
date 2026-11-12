@@ -5,7 +5,7 @@ import json, pathlib, html
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 areas = {a["id"]: a["name"] for a in json.load(open(ROOT / "data/areas.json", encoding="utf-8"))["areas"]}
-equip = {e["id"]: e["name"] for e in json.load(open(ROOT / "data/equipment.json", encoding="utf-8"))["equipment"]}
+equip = {e["id"]: e["name"] + (f"（可用{e['substitute']}代替）" if e.get("substitute") else "") for e in json.load(open(ROOT / "data/equipment.json", encoding="utf-8"))["equipment"]}
 exs = json.load(open(ROOT / "data/exercises.json", encoding="utf-8"))["exercises"]
 names = {e["id"]: e["name"] for e in exs}
 REGION = {"lower": "下半身", "core": "核心", "upper": "上半身", "full": "暖身／收操"}
@@ -23,7 +23,7 @@ def card(e):
     dose = f"{d['default']} {'秒' if d['unit'] == 'sec' else '下'} × {e['sets']} 組" + ("（每邊）" if e["sided"] else "")
     prim = "".join(f'<span class="chip p">{esc(areas[a])}</span>' for a in e["primary"])
     sec = "".join(f'<span class="chip">{esc(areas[a])}</span>' for a in e["secondary"])
-    eq = "、".join(equip[q] for q in e["equipment"])
+    eq = "；".join(equip[q] for q in e["equipment"])
     watch = "".join(f"<li><b>{esc(areas[w['area']])}</b>：{esc(w['meaning'])}</li>" for w in e["watch"])
     links = []
     if e["easier"]:

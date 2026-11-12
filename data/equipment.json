@@ -1,12 +1,61 @@
 {
-  "version": 1,
+  "version": 2,
+  "note": "substitute 是可以拿來代替的東西。",
   "equipment": [
-    {"id": "none", "name": "不需要器材"},
-    {"id": "mat", "name": "地墊或瑜珈墊"},
-    {"id": "wall", "name": "牆面"},
-    {"id": "chair", "name": "穩固的椅子"},
-    {"id": "band", "name": "彈力帶"},
-    {"id": "dumbbell", "name": "啞鈴（或裝水的寶特瓶）"},
-    {"id": "anchor", "name": "可以固定彈力帶的地方（門把、桌腳）"}
+    {
+      "id": "none",
+      "name": "不需要器材",
+      "substitute": ""
+    },
+    {
+      "id": "mat",
+      "name": "地墊或瑜珈墊",
+      "substitute": "厚毯子、摺起來的大浴巾"
+    },
+    {
+      "id": "wall",
+      "name": "牆面",
+      "substitute": "關好的門"
+    },
+    {
+      "id": "chair",
+      "name": "穩固的椅子",
+      "substitute": "床邊、沙發邊（不會滑動的）"
+    },
+    {
+      "id": "band",
+      "name": "彈力帶",
+      "substitute": "撐著不動的動作可以改用毛巾"
+    },
+    {
+      "id": "dumbbell",
+      "name": "啞鈴",
+      "substitute": "裝水的寶特瓶、罐頭"
+    },
+    {
+      "id": "anchor",
+      "name": "可以固定彈力帶的地方",
+      "substitute": "門把、桌腳、樓梯扶手"
+    },
+    {
+      "id": "towel",
+      "name": "毛巾",
+      "substitute": "圍巾、舊 T 恤、皮帶"
+    },
+    {
+      "id": "weight_bag",
+      "name": "有重量的包包",
+      "substitute": "背包裝書或水瓶、米袋、一桶洗衣精"
+    },
+    {
+      "id": "step",
+      "name": "矮階",
+      "substitute": "樓梯最下面一階、穩固的矮凳、厚的精裝書疊起來"
+    },
+    {
+      "id": "pillow",
+      "name": "枕頭或抱枕",
+      "substitute": "摺起來的毛巾、軟球"
+    }
   ]
 }
