@@ -23,9 +23,11 @@
 
 ```
 data/
-  areas.json        身體部位詞彙（肌肉 + 關節）
-  equipment.json    器材
-  exercises.json    動作資料庫（整個產品的核心）
+  areas.json                身體部位詞彙（肌肉 + 關節）
+  equipment.json            器材
+  exercises.json            正式上線動作（approved）
+  exercise-facets.json      正式動作的姿勢／場景／支撐等搜尋標籤
+  exercise-candidates.json  外部候選池；不可直接給使用者
 assets/exercises/   動作線稿 SVG（程式產生的，不要手改）
 tools/
   build_figures.py  產生線稿
@@ -52,10 +54,15 @@ project-state.json  給 Agent 先讀的機器可解析專案狀態
 tests/              不可被功能改動破壞的 repository contracts
 tests/js/           src/ 邏輯的單元測試（node --test，不用 npm）
 .github/workflows/  push / PR 自動驗證
+research/exercise-sources/
+  sources.json      外部動作來源、授權與可否匯入
 docs/
-  decisions.md      已經決定的事、還沒決定的事
-  data-format.md    exercises.json 每個欄位的意思
-  roadmap.md        分階段要做什麼、做到哪
+  decisions.md                 已經決定的事、還沒決定的事
+  data-format.md               exercises.json 每個欄位的意思
+  exercise-taxonomy.md         動作搜尋／分類 facets
+  exercise-coverage.md         動作庫覆蓋率
+  exercise-library-handoff.md  後續 Agent 的交接入口
+  roadmap.md                   分階段要做什麼、做到哪
 ```
 
 ## 改動作資料時
@@ -85,9 +92,11 @@ docs/
 python3 -m unittest discover -s tests -v
 node --test tests/js/*.test.mjs
 python3 tools/validate.py
+python3 tools/validate_exercise_library.py
 python3 tools/build_figures.py
 python3 tools/build_catalog.py
-git diff --exit-code -- assets/exercises catalog.html
+python3 tools/build_exercise_coverage.py
+git diff --exit-code -- assets/exercises catalog.html docs/exercise-coverage.md
 ```
 
 GitHub Actions 也會跑同一組 guardrails。CI 沒過不要合併，也不要用刪測試或放寬檢查來掩蓋問題；應先確認是產品規則改了，還是真的改壞。
@@ -106,3 +115,13 @@ GitHub Actions 也會跑同一組 guardrails。CI 沒過不要合併，也不要
 - 第 3 階段的「產生課表」規則、左右分開、時間限制、難度調整，都寫在 `src/workout-engine.js`（或在 `src/` 另開不碰畫面的檔案），並在 `tests/js/` 補測試。
 - `src/ui.js` 的按鈕事件只呼叫上面這些函式，不要在裡面直接寫訓練規則。
 - 改 `src/routine-code.js` 時，`tests/js/routine-code.test.mjs` 裡的舊連結一定要還讀得回來。
+
+
+## 動作庫擴充
+
+要新增或研究大量動作時，先讀 `docs/exercise-library-handoff.md` 和 `docs/exercise-taxonomy.md`。
+
+- `data/exercise-candidates.json` 是候選池，不是正式產品資料。
+- candidate 的自動 facets 只能拿來搜尋，`needs_review=true` 時不得直接升成推薦。
+- 升成正式動作前，要補齊 Spinnin-Up 自己的中文內容、dose、watch 與 SVG，並跑完整 checks。
+- 外部來源一定要先看 `research/exercise-sources/sources.json` 的授權狀態。
