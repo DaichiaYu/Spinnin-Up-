@@ -1,0 +1,665 @@
+{
+  "version": 1,
+  "note": "Spinnin-Up 已核准動作的情境/姿勢 facets。這些欄位經本專案確認，可用於正式篩選；外部候選請看 exercise-candidates.json。",
+  "exercises": {
+    "wall-sit": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "wall",
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "glute-bridge-hold": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "single-leg-glute-bridge-hold": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "split-squat-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "optional",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "chair-sit-to-stand": {
+      "positions": [
+        "seated",
+        "standing"
+      ],
+      "contexts": [
+        "chair",
+        "tiny_space"
+      ],
+      "impact": "low",
+      "hand_support": "optional",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "moderate",
+      "special": [
+        "no_jump",
+        "small_space"
+      ]
+    },
+    "seated-knee-extension-hold": {
+      "positions": [
+        "seated"
+      ],
+      "contexts": [
+        "chair",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "low",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "hip-hinge": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "calf-raise-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "optional",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "moderate",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "side-lying-leg-raise-hold": {
+      "positions": [
+        "side_lying"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "single-leg-stand": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "optional",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "high",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "single-leg-tabletop-hold": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "tabletop-hold": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "dead-bug": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "alternating",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "band-anti-rotation-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "forearm-plank": {
+      "positions": [
+        "plank"
+      ],
+      "contexts": [
+        "floor",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "bodyweight",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "band-pull-apart-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "band-row-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "prone-w-hold": {
+      "positions": [
+        "prone"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "wall-press-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "wall",
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "dumbbell-curl-hold": {
+      "positions": [
+        "standing",
+        "seated"
+      ],
+      "contexts": [
+        "chair",
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "low",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "towel-pull-apart-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "towel-curl-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "front-carry-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "optional",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "limited_grip_friendly"
+      ]
+    },
+    "suitcase-carry-hold": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "tiny_space",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "light",
+      "grip": "required",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "one_side_ok"
+      ]
+    },
+    "step-up": {
+      "positions": [
+        "standing"
+      ],
+      "contexts": [
+        "stairs"
+      ],
+      "impact": "low",
+      "hand_support": "optional",
+      "grip": "none",
+      "overhead": false,
+      "sided": "unilateral",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "moderate",
+      "special": [
+        "no_jump",
+        "one_side_ok"
+      ]
+    },
+    "pillow-squeeze-hold": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    },
+    "march-in-place": {
+      "positions": [
+        "standing",
+        "moving"
+      ],
+      "contexts": [
+        "tiny_space"
+      ],
+      "impact": "low",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "alternating",
+      "balance_demand": "moderate",
+      "space": "small",
+      "noise": "moderate",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "small_space"
+      ]
+    },
+    "supine-breathing": {
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ],
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "bed_ok",
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space"
+      ]
+    }
+  }
+}
