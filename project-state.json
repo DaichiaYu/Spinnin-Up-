@@ -43,7 +43,9 @@
       "src/screens.js": "home, profile, today, feedback screens"
     },
     "device_preferences_storage": "localStorage spinnin-up.sound (sound mode and volume only, no body data)",
-    "body_data_persistence": "in memory only; user downloads/uploads a CSV file"
+    "body_data_persistence": "in memory only; user downloads/uploads a CSV file",
+    "exercise_candidate_data": "data/exercise-candidates.json",
+    "exercise_facets": "data/exercise-facets.json"
   },
   "phase": {
     "current": 3,
@@ -72,7 +74,12 @@
     "trial_exercises": "done",
     "left_right_separate_dose": "done",
     "stretch_exercises_for_relax_goal": "planned",
-    "body_map_for_feedback": "planned"
+    "body_map_for_feedback": "planned",
+    "exercise_library_taxonomy": "done",
+    "exercise_candidate_pool": "done",
+    "exercise_coverage_report": "done",
+    "exercise_library_second_source_import": "planned",
+    "face_neck_special_library": "planned"
   },
   "product_constraints": {
     "human_keeps_final_control": true,
@@ -95,9 +102,11 @@
       "python3 -m unittest discover -s tests -v",
       "node --test tests/js/*.test.mjs",
       "python3 tools/validate.py",
+      "python3 tools/validate_exercise_library.py",
       "python3 tools/build_figures.py",
       "python3 tools/build_catalog.py",
-      "git diff --exit-code -- assets/exercises catalog.html"
+      "python3 tools/build_exercise_coverage.py",
+      "git diff --exit-code -- assets/exercises catalog.html docs/exercise-coverage.md"
     ],
     "update_project_state_when": [
       "phase changes",
