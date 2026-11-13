@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "updated": "2026-11-13",
+  "sources": [
+    {
+      "id": "free-exercise-db",
+      "name": "yuhonas/free-exercise-db",
+      "url": "https://github.com/yuhonas/free-exercise-db",
+      "license": "Unlicense / Public Domain",
+      "ingest": "allowed",
+      "redistribution": "allowed",
+      "use": "Primary import source for candidate metadata. Do not reuse external images in Spinnin-Up approved exercises.",
+      "expected_count": "800+"
+    },
+    {
+      "id": "kinetic-exercises-db",
+      "name": "kinetic-place/exercises-db",
+      "url": "https://github.com/kinetic-place/exercises-db",
+      "license": "MIT",
+      "ingest": "allowed",
+      "redistribution": "allowed_with_license_notice",
+      "use": "Secondary import source; useful for muscle/equipment/category cross-checking. Importer may fetch it when network access is available.",
+      "expected_count": "900+"
+    },
+    {
+      "id": "repdb-free",
+      "name": "RepDB exercise-dataset free tier",
+      "url": "https://github.com/RepDB/exercise-dataset",
+      "license": "RepDB Free Tier License v1.0",
+      "ingest": "reference_only",
+      "redistribution": "not_allowed_as_dataset",
+      "use": "May be consulted or used inside an app with required attribution, but do NOT copy its dataset into this public candidate pool or use its images as generation references.",
+      "expected_count": "700+"
+    }
+  ]
+}
