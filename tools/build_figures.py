@@ -246,6 +246,12 @@ BACK_POSES = {
 }
 
 
+def exercise_names():
+    import json
+    data = json.loads((OUT.parent.parent / "data" / "exercises.json").read_text(encoding="utf-8"))
+    return {e["id"]: e["name"] for e in data["exercises"]}
+
+
 def svg(body, title):
     floor = line((14, GROUND + 1.5), (W - 14, GROUND + 1.5), FLOOR, 2)
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" role="img" aria-label="{title}">'
@@ -254,6 +260,7 @@ def svg(body, title):
 
 def build():
     OUT.mkdir(parents=True, exist_ok=True)
+    names = exercise_names()
     for name, pose in POSES.items():
         j, fig = side_figure(pose)
         body = list(pose.get("props", []))
@@ -271,7 +278,7 @@ def build():
         if "pillow_at" in pose:
             x, y = j[pose["pillow_at"]]
             body += [f'<ellipse cx="{x+4:.1f}" cy="{y+2:.1f}" rx="9" ry="12" fill="{TOWEL}" opacity="0.95"/>']
-        (OUT / f"{name}.svg").write_text(svg(body, name), encoding="utf-8")
+        (OUT / f"{name}.svg").write_text(svg(body, names.get(name, name) + "的姿勢示意圖"), encoding="utf-8")
     for name, p in BACK_POSES.items():
         body = []
         if "post" in p:
@@ -283,7 +290,7 @@ def build():
             body += fig + band(*p["band"])
         else:
             body += fig + band(*p["band"]) + [circle((127, 80), 5, NEAR)]
-        (OUT / f"{name}.svg").write_text(svg(body, name), encoding="utf-8")
+        (OUT / f"{name}.svg").write_text(svg(body, names.get(name, name) + "的姿勢示意圖"), encoding="utf-8")
     print(f"畫好 {len(POSES) + len(BACK_POSES)} 張圖 → {OUT}")
 
 

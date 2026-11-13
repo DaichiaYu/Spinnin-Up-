@@ -25,7 +25,18 @@
     "generated_assets": [
       "assets/exercises/*.svg",
       "catalog.html"
-    ]
+    ],
+    "entry": "index.html -> src/main.js (ES modules, no build step)",
+    "modules": {
+      "src/workout-engine.js": "training logic, no DOM",
+      "src/routine-code.js": "routine link code v1, no DOM",
+      "src/calendar.js": "ICS + input validation, no DOM",
+      "src/player.js": "player timing state machine, no DOM/audio",
+      "src/sound.js": "sound settings, beeps, speech",
+      "src/ui.js": "rendering and user input only",
+      "src/main.js": "bootstrap + window.__spin test hook"
+    },
+    "device_preferences_storage": "localStorage spinnin-up.sound (sound mode and volume only, no body data)"
   },
   "phase": {
     "current": 2,
@@ -45,7 +56,10 @@
     "onboarding_questionnaire": "planned",
     "workout_generation_rules": "planned",
     "post_workout_feedback": "planned",
-    "adaptive_adjustment": "planned"
+    "adaptive_adjustment": "planned",
+    "sound_modes_and_volume": "done",
+    "narration_text_highlight": "done",
+    "share_sheet_on_mobile": "done"
   },
   "product_constraints": {
     "human_keeps_final_control": true,
@@ -65,6 +79,7 @@
     ],
     "required_checks": [
       "python3 -m unittest discover -s tests -v",
+      "node --test tests/js/*.test.mjs",
       "python3 tools/validate.py",
       "python3 tools/build_figures.py",
       "python3 tools/build_catalog.py",

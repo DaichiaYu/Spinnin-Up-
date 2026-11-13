@@ -32,8 +32,19 @@ tools/
   build_catalog.py  產生 catalog.html
   validate.py       檢查資料有沒有對得上
 catalog.html        動作總覽頁（程式產生的，不要手改）
+index.html          網站入口，載入 src/main.js
+app.css             網站的樣式
+src/
+  main.js           啟動：讀資料、讀網址裡的課表；window.__spin 測試入口（不要拿掉）
+  workout-engine.js 訓練邏輯：展開步驟、總時間、部位比例、器材、替換建議（不碰畫面）
+  routine-code.js   訓練代碼（網址 #r=），舊連結要一直讀得回來（不碰畫面）
+  calendar.js       行事曆檔與欄位檢查（不碰畫面）
+  player.js         播放器的時間邏輯：步驟、倒數、暫停、背景補進度（不碰畫面、不出聲）
+  sound.js          播報模式、音量、提示音、語音
+  ui.js             畫面：只負責顯示和收集操作，不放訓練規則
 project-state.json  給 Agent 先讀的機器可解析專案狀態
 tests/              不可被功能改動破壞的 repository contracts
+tests/js/           src/ 邏輯的單元測試（node --test，不用 npm）
 .github/workflows/  push / PR 自動驗證
 docs/
   decisions.md      已經決定的事、還沒決定的事
@@ -66,6 +77,7 @@ docs/
 
 ```
 python3 -m unittest discover -s tests -v
+node --test tests/js/*.test.mjs
 python3 tools/validate.py
 python3 tools/build_figures.py
 python3 tools/build_catalog.py
@@ -82,3 +94,9 @@ GitHub Actions 也會跑同一組 guardrails。CI 沒過不要合併，也不要
 - source of truth 的位置或優先順序改變
 
 如果產品規格、公開文件、程式實作彼此不一致，先回到私人 `Spin-Up/plan.md` 查明意圖，再修正衝突；不要自行挑一份看起來最新的文件當真相。
+
+## 程式放哪裡
+
+- 第 3 階段的「產生課表」規則、左右分開、時間限制、難度調整，都寫在 `src/workout-engine.js`（或在 `src/` 另開不碰畫面的檔案），並在 `tests/js/` 補測試。
+- `src/ui.js` 的按鈕事件只呼叫上面這些函式，不要在裡面直接寫訓練規則。
+- 改 `src/routine-code.js` 時，`tests/js/routine-code.test.mjs` 裡的舊連結一定要還讀得回來。

@@ -3,7 +3,7 @@
 import { clamp, pad } from './util.js';
 import { encode, decode } from './routine-code.js';
 import { REGION, REGION_ORDER, SAMPLE, newItem, buildSteps, totalSec, regionShare, canDo, missingEquipment, swapSuggestions } from './workout-engine.js';
-import { buildICS } from './calendar.js';
+import { buildICS, validateCalendarInput } from './calendar.js';
 import { createPlayer } from './player.js';
 import * as sound from './sound.js';
 
@@ -114,7 +114,7 @@ export function renderPlan() {
     h('p', { class: 'mute', text: '這組主要會用到：' }), chips));
 
   wrap.appendChild(h('div', { class: 'row' },
-    h('button', { class: 'btn small', id: 'btn-link', text: '複製訓練連結', onclick: copyLink }),
+    h('button', { class: 'btn small', id: 'btn-link', text: shareLabel(), onclick: copyLink }),
     h('button', { class: 'btn small', id: 'btn-ics', text: '加入行事曆', onclick: openCalendar }),
     h('button', { class: 'btn small', id: 'btn-sound', text: soundLabel(), onclick: openSound }),
     h('span', { class: 'spacer' }),
@@ -200,6 +200,7 @@ function openPicker(swapIndex) {
   function close() { dlg.close(); dlg.remove(); }
 
   var equipBox = h('fieldset', {}, h('legend', { text: '我手邊有的東西（沒有的取消打勾）' }),
+    h('p', { class: 'mute', text: '取消打勾後，需要那樣東西的動作會變淡、不能加入。打勾回來就能加。' }),
     h('div', { class: 'checks' }, db.equip.filter(function (e) { return e.id !== 'none'; }).map(function (e) {
       return h('label', {}, h('input', { type: 'checkbox', checked: state.owned.has(e.id), value: e.id,
         onchange: function (ev) {
@@ -219,8 +220,10 @@ function openPicker(swapIndex) {
       h('div', {}, h('b', { text: ex.name }),
         h('small', { text: ex.primary.map(areaName).join('、') + '｜難度 ' + ex.level + '/5' +
           (ex.upper_load === 'full' ? '｜手要撐體重' : '') }),
-        ok ? null : h('small', { text: '　需要：' + missingEquipment(ex, state.owned, db.equip).join('、') })),
-      h('button', { class: 'btn small', text: swapping ? '換成這個' : '加入', 'data-pick': ex.id, onclick: function () { choose(ex); } }));
+        ok ? null : h('small', { class: 'need', text: '需要：' + missingEquipment(ex, state.owned, db.equip).join('、') })),
+      h('button', { class: 'btn small', text: swapping ? '換成這個' : '加入', 'data-pick': ex.id, disabled: !ok,
+        'aria-label': (swapping ? '換成' : '加入') + ex.name + (ok ? '' : '（缺少器材，不能加入）'),
+        onclick: function () { if (canDo(ex, state.owned)) choose(ex); } }));
   }
   function draw() {
     body.textContent = '';
@@ -262,8 +265,20 @@ function openPicker(swapIndex) {
 }
 
 /* ---------- 連結和行事曆 ---------- */
+function canShare() {
+  return !!navigator.share && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+}
+function shareLabel() { return canShare() ? '分享訓練連結' : '複製訓練連結'; }
 function copyLink() {
   var url = link();
+  if (canShare()) {
+    navigator.share({ title: 'Spinnin-Up 訓練', text: '這組訓練：' + state.items.map(function (it) { return db.ex[it.id].name; }).join('、'), url: url })
+      .catch(function (e) { if (e && e.name !== 'AbortError') copyToClipboard(url); });
+    return;
+  }
+  copyToClipboard(url);
+}
+function copyToClipboard(url) {
   function fallback() { window.prompt('長按複製這個連結：', url); }
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(url).then(function () { toast('已複製連結，下次打開就是這一組'); }, fallback);
@@ -277,21 +292,33 @@ function openCalendar() {
   var every = h('select', { id: 'ics-every' }, [1, 2, 3, 4, 7].map(function (n) {
     return h('option', { value: n, selected: n === state.freq.every, text: n === 1 ? '每天' : n === 7 ? '每週一次' : '每 ' + n + ' 天一次' + (n === 2 ? '（隔天）' : '') });
   }));
-  var count = h('input', { type: 'number', min: 1, max: 60, value: state.freq.count, id: 'ics-count', inputmode: 'numeric' });
+  var count = h('input', { type: 'number', min: 1, max: 60, step: 1, value: state.freq.count, id: 'ics-count', inputmode: 'numeric',
+    'aria-describedby': 'ics-count-err' });
+  var errs = {
+    start: h('p', { class: 'err', id: 'ics-when-err', role: 'alert' }),
+    every: h('p', { class: 'err', id: 'ics-every-err', role: 'alert' }),
+    count: h('p', { class: 'err', id: 'ics-count-err', role: 'alert' })
+  };
+  when.setAttribute('aria-describedby', 'ics-when-err');
+  var fields = { start: when, every: every, count: count };
   var dlg = h('dialog', { 'aria-label': '加入行事曆' },
     h('div', { class: 'dlg-head' }, h('div', { class: 'row' }, h('h2', { text: '加入行事曆' }),
       h('button', { class: 'btn small', text: '關閉', onclick: function () { dlg.close(); dlg.remove(); } }))),
     h('div', { class: 'dlg-body' },
       h('p', { class: 'mute', text: '建議同一組隔天做一次。你可以照自己的情況調整。行事曆的活動裡會附上這組訓練的連結，到時候點一下就能開始。' }),
-      h('label', { class: 'field' }, h('span', { text: '第一次是什麼時候' }), when),
-      h('label', { class: 'field' }, h('span', { text: '多久做一次' }), every),
-      h('label', { class: 'field' }, h('span', { text: '總共做幾次' }), count),
+      h('label', { class: 'field' }, h('span', { text: '第一次是什麼時候' }), when), errs.start,
+      h('label', { class: 'field' }, h('span', { text: '多久做一次' }), every), errs.every,
+      h('label', { class: 'field' }, h('span', { text: '總共做幾次（1–60）' }), count), errs.count,
       h('button', { class: 'btn accent', id: 'ics-go', text: '下載行事曆檔', onclick: function () {
-        var start = new Date(when.value);
-        if (isNaN(start)) { toast('請選第一次的時間'); return; }
-        state.freq = { every: clamp(parseInt(every.value, 10) || 2, 1, 14), count: clamp(parseInt(count.value, 10) || 10, 1, 60) };
+        var r = validateCalendarInput({ start: when.value, every: every.value, count: count.value });
+        Object.keys(errs).forEach(function (k) {
+          errs[k].textContent = r.ok ? '' : (r.errors[k] || '');
+          fields[k].setAttribute('aria-invalid', String(!r.ok && !!r.errors[k]));
+        });
+        if (!r.ok) { fields[Object.keys(r.errors)[0]].focus(); return; }
+        state.freq = { every: r.value.every, count: r.value.count };
         syncHash();
-        downloadICS(start);
+        downloadICS(r.value.start);
         dlg.close(); dlg.remove();
         toast('打開下載的檔案，就能加進行事曆');
       } })));
@@ -446,16 +473,19 @@ function renderStep() {
     h('div', { class: 'where' },
       h('span', { text: '第 ' + (w.idx + 1) + '／' + state.items.length + ' 個動作' }),
       h('span', { text: '第 ' + w.set + '／' + w.sets + ' 組' })),
-    h('div', {}, h('span', { class: 'phase' + (isRest ? ' rest' : ''), id: 'phase', 'data-say': 'set', text: isRest ? s.label + '，接下來是' : '進行中' })),
-    h('h2', { id: 'ex-name', 'data-say': 'name', text: ex.name }),
-    w.side ? h('div', { class: 'side', 'data-say': 'side', text: w.side }) : null,
-    h('div', { class: 'fig' }, img(ex)),
-    h('div', { class: 'clock', id: 'clock', 'data-say': 'clock', 'aria-live': 'off' }, '',
-      h('small', { text: isRest ? '秒後開始' : (s.timed ? '秒' : '下，做完按「做完了」') })),
-    h('p', { class: 'feel' }, '應該有感覺的地方：', h('b', { text: ex.primary.length ? ex.primary.map(areaName).join('、') : '全身放鬆' })),
-    h('ul', { class: 'cues' }, ex.cues.map(function (c, i) { return h('li', { 'data-say': 'cue-' + i, text: c }); })),
-    h('div', { class: 'grow' }),
-    h('p', { class: 'mute', text: next ? '之後：' + next.ex.name : '這是最後一個動作' }),
+    h('div', { class: 'stage' },
+      h('div', { class: 'stage-a' },
+        h('div', { class: 'title-row' },
+          h('span', { class: 'phase' + (isRest ? ' rest' : ''), id: 'phase', 'data-say': 'set', text: isRest ? s.label + '，接下來是' : '進行中' }),
+          w.side ? h('span', { class: 'side', 'data-say': 'side', text: w.side }) : null),
+        h('h2', { id: 'ex-name', 'data-say': 'name', text: ex.name }),
+        h('div', { class: 'fig' }, img(ex))),
+      h('div', { class: 'stage-b' },
+        h('div', { class: 'clock', id: 'clock', 'data-say': 'clock', 'aria-live': 'off' }, '',
+          h('small', { text: isRest ? '秒後開始' : (s.timed ? '秒' : '下，做完按「做完了」') })),
+        h('p', { class: 'feel' }, '應該有感覺的地方：', h('b', { text: ex.primary.length ? ex.primary.map(areaName).join('、') : '全身放鬆' })),
+        h('ul', { class: 'cues' }, ex.cues.map(function (c, i) { return h('li', { 'data-say': 'cue-' + i, text: c }); })),
+        h('p', { class: 'mute next', text: next ? '之後：' + next.ex.name : '這是最後一個動作' }))),
     h('div', { class: 'ctrl' },
       h('button', { class: 'btn', id: 'p-prev', text: '上一步', onclick: function () { player.prev(Date.now()); } }),
       (!isRest && !s.timed)
@@ -491,7 +521,7 @@ function finish(t0) {
     h('div', { class: 'row', style: 'justify-content:center;margin-top:18px' },
       h('button', { class: 'btn', text: '回到課表', onclick: renderPlan }),
       h('button', { class: 'btn', text: '加入行事曆', onclick: openCalendar }),
-      h('button', { class: 'btn', text: '複製訓練連結', onclick: copyLink })),
+      h('button', { class: 'btn', text: shareLabel(), onclick: copyLink })),
     h('p', { class: 'mute', style: 'margin-top:24px', text: '做完之後的回報（做得怎麼樣、哪裡有感覺）會在下一個階段加上。' }))));
 }
 

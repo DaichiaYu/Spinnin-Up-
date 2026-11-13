@@ -69,12 +69,12 @@ header{{padding:20px 16px 8px;max-width:960px;margin:auto}}
 h1{{font-size:1.5rem;margin:0 0 4px}}
 header p{{margin:0;color:var(--mute);font-size:.92rem}}
 .legend{{display:inline-block;width:.8em;height:.8em;border-radius:50%;background:var(--accent);vertical-align:-1px}}
-nav{{position:sticky;top:0;background:var(--bg);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;max-width:960px;margin:auto;z-index:2}}
-nav button{{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer}}
+nav{{position:sticky;top:0;background:var(--bg);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;max-width:960px;margin:auto;z-index:2}}
+nav button{{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 16px;min-height:44px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer}}
 nav button[aria-pressed=true]{{background:var(--ink);color:#fff;border-color:var(--ink)}}
 nav button:focus-visible,summary:focus-visible{{outline:2px solid var(--accent);outline-offset:2px}}
 main{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:6px 16px 40px;max-width:960px;margin:auto}}
-.card{{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}}
+.card{{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;scroll-margin-top:calc(var(--nav-h,64px) + 8px)}}
 .fig{{background:#fbfaf7;border-bottom:1px solid var(--line);padding:6px 10px}}
 .fig svg{{display:block;width:100%;height:auto}}
 .body{{padding:12px 14px 14px}}
@@ -87,8 +87,15 @@ h3{{font-size:.92rem;margin:12px 0 2px}}
 .chip.p{{background:var(--accent-bg);border-color:#f6c9a0;color:#8a3d05;font-weight:600}}
 .effect{{margin:6px 0}}
 details{{border-top:1px solid var(--line);margin-top:10px;padding-top:8px}}
-summary{{cursor:pointer;color:var(--mute);font-size:.92rem;padding:4px 0}}
+summary{{cursor:pointer;color:var(--mute);font-size:.92rem;padding:10px 0;min-height:44px}}
 ol,ul{{margin:2px 0;padding-left:1.3em;font-size:.94rem}}
+@media (orientation:landscape) and (max-height:520px){{
+  nav{{position:static}}
+  main{{grid-template-columns:1fr;max-width:none;padding-left:calc(16px + env(safe-area-inset-left));padding-right:calc(16px + env(safe-area-inset-right))}}
+  .card{{display:grid;grid-template-columns:minmax(200px,34%) 1fr;scroll-margin-top:8px}}
+  .fig{{border-bottom:0;border-right:1px solid var(--line);display:flex;align-items:center}}
+  .fig svg{{max-height:52vh}}
+}}
 footer{{max-width:960px;margin:auto;padding:0 16px 40px;color:var(--mute);font-size:.84rem}}
 </style></head><body>
 <header><p style="margin:0 0 6px"><a href="./" style="color:var(--mute)">← 回到課表</a></p><h1>動作總覽</h1>
@@ -99,6 +106,13 @@ footer{{max-width:960px;margin:auto;padding:0 16px 40px;color:var(--mute);font-s
 <main>{cards}</main>
 <footer>內容是一般訓練常識的整理，以個人狀況為準；有疼痛或疑慮，請洽自己的物理治療師或醫師。</footer>
 <script>
+function navH(){{var n=document.querySelector('nav');document.documentElement.style.setProperty('--nav-h',(getComputedStyle(n).position==='sticky'?n.offsetHeight:0)+'px');}}
+navH();window.addEventListener('resize',navH);
+document.querySelectorAll('details').forEach(function(d){{d.addEventListener('toggle',function(){{
+  if(!d.open)return;var card=d.closest('.card'),n=document.querySelector('nav');
+  var top=getComputedStyle(n).position==='sticky'?n.getBoundingClientRect().bottom:0;
+  if(card.getBoundingClientRect().top<top+4)card.scrollIntoView({{behavior:'smooth',block:'start'}});
+}})}});
 document.querySelectorAll('nav button').forEach(function(b){{b.addEventListener('click',function(){{
   document.querySelectorAll('nav button').forEach(function(x){{x.setAttribute('aria-pressed',x===b)}});
   document.querySelectorAll('.card').forEach(function(c){{c.hidden=b.dataset.f!=='all'&&c.dataset.region!==b.dataset.f}});
