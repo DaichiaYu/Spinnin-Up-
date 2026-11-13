@@ -19,7 +19,8 @@ class RepositoryContracts(unittest.TestCase):
         cls.state = load_json("project-state.json")
         cls.exercises = load_json("data/exercises.json")["exercises"]
         cls.exercise_ids = {e["id"] for e in cls.exercises}
-        cls.app_js = (ROOT / "app.js").read_text(encoding="utf-8")
+        cls.main_js = (ROOT / "src" / "main.js").read_text(encoding="utf-8")
+        cls.routine_js = (ROOT / "src" / "routine-code.js").read_text(encoding="utf-8")
 
     def test_project_state_has_known_feature_statuses(self):
         allowed = {"done", "pending", "planned", "blocked"}
@@ -56,7 +57,7 @@ class RepositoryContracts(unittest.TestCase):
         )
 
     def test_public_test_hooks_are_not_removed(self):
-        match = re.search(r"window\.__spin\s*=\s*\{(?P<body>.*?)\};", self.app_js, re.S)
+        match = re.search(r"window\.__spin\s*=\s*\{(?P<body>.*?)\n\};", self.main_js, re.S)
         self.assertIsNotNone(match, "window.__spin test hook must remain available")
         body = match.group("body")
         for name in ("state", "db", "buildSteps", "totalSec", "encode", "decode", "buildICS", "player"):
@@ -64,10 +65,17 @@ class RepositoryContracts(unittest.TestCase):
 
     def test_routine_format_keeps_version_marker(self):
         self.assertIn(
-            "return '1;' + state.items.map",
-            self.app_js,
+            "export const ROUTINE_VERSION = '1';",
+            self.routine_js,
             "Routine Code v1 marker changed; update migration/compatibility deliberately",
         )
+
+    def test_logic_modules_do_not_touch_the_page(self):
+        """訓練邏輯、訓練代碼、行事曆、播放器的時間邏輯不能直接操作畫面（#13）。"""
+        for name in ("workout-engine.js", "routine-code.js", "calendar.js", "player.js"):
+            text = (ROOT / "src" / name).read_text(encoding="utf-8")
+            for banned in ("document.", "window.", "localStorage", "speechSynthesis"):
+                self.assertNotIn(banned, text, f"src/{name} must not use {banned}")
 
 
 if __name__ == "__main__":

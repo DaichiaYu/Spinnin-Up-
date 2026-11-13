@@ -19,8 +19,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Run repository contract tests
         run: python3 -m unittest discover -s tests -v
+
+      - name: Run JavaScript logic tests (no npm dependencies)
+        run: node --test tests/js/*.test.mjs
 
       - name: Validate exercise data
         run: python3 tools/validate.py
