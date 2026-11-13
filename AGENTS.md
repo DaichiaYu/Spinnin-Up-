@@ -42,14 +42,14 @@ src/
   routine-code.js   訓練代碼（網址 #r=），舊連結要一直讀得回來（不碰畫面）
   calendar.js       行事曆檔與欄位檢查（不碰畫面）
   player.js         播放器的時間邏輯：步驟、倒數、暫停、背景補進度（不碰畫面、不出聲）
-  profile.js        身體資料：欄位、每個數字算出什麼、表格檔（CSV）讀寫、分析、傾向（不碰畫面）
+  profile.js        身體資料：分層的資料模型、欄位、自我觀察、表格檔（CSV）讀寫、分析、能力傾向（不碰畫面）
   generator.js      自動排課表的規則和理由（不碰畫面）
   feedback.js       做完回報 → 下次怎麼調（不碰畫面）
   sound.js          播報模式、音量、提示音、語音
   store.js          這次打開頁面期間的狀態（只在記憶體裡）
   dom.js            畫面用的小工具
   ui.js             畫面：課表頁、加動作、行事曆、聲音、播放畫面
-  screens.js        畫面：首頁、我的資料、今天的設定、做完回報
+  screens.js        畫面：首頁、我的身體（人體圖）、今天想怎麼練、做完回報
 project-state.json  給 Agent 先讀的機器可解析專案狀態
 tests/              不可被功能改動破壞的 repository contracts
 tests/js/           src/ 邏輯的單元測試（node --test，不用 npm）

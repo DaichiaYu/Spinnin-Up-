@@ -86,6 +86,7 @@ export function renderPlan() {
     wrap.appendChild(h('details', { class: 'card reasons', id: 'reasons', open: true },
       h('summary', { text: '為什麼這樣排' }),
       h('ul', {}, session.reasons.map(function (r) { return h('li', { text: r }); })),
+      session.used.length ? h('p', { class: 'mute', id: 'used', text: '這次用到的資料：' + session.used.join('、') + '。' }) : null,
       h('p', { class: 'mute', text: '這是系統的建議。每個動作都可以刪掉、替換或改量，最後由你決定。' })));
   }
 
@@ -108,9 +109,17 @@ export function renderPlan() {
     h('button', { class: 'btn accent', id: 'btn-start', text: '開始', onclick: startPlayer }))));
 }
 
-function goHome() { state.items = []; session.why = {}; session.reasons = []; syncHash(); renderPlan(); }
+function goHome() { state.items = []; session.why = {}; session.reasons = []; session.used = []; syncHash(); renderPlan(); }
 export function footerNote() {
   return h('footer', { class: 'note', text: '內容是一般訓練常識的整理，以個人狀況為準；有疼痛或疑慮，請洽自己的物理治療師或醫師。你填的資料只留在這個頁面裡，不會傳到任何地方；要保存請下載檔案。' });
+}
+
+function gearNote(ex) {
+  var g = session.profile.gear, out = [];
+  if (ex.equipment.indexOf('dumbbell') >= 0 && g.dumbbell_kg) out.push('啞鈴 ' + g.dumbbell_kg + ' 公斤');
+  if (ex.equipment.indexOf('weight_bag') >= 0 && g.bag_kg) out.push('包包大約 ' + g.bag_kg + ' 公斤');
+  if (ex.equipment.indexOf('band') >= 0 && g.band && g.band !== 'unknown') out.push('彈力帶：' + { light: '輕', medium: '中', heavy: '重' }[g.band]);
+  return out.length ? '你的器材：' + out.join('、') : '';
 }
 
 function stepper(label, text, onMinus, onPlus, canMinus, canPlus) {
@@ -134,7 +143,8 @@ function itemRow(it, i) {
         ex.primary.map(function (a) { return h('span', { class: 'chip p', text: areaName(a) }); }),
         ex.secondary.map(function (a) { return h('span', { class: 'chip', text: areaName(a) }); })),
       h('p', { class: 'effect', text: ex.effect }),
-      session.why[ex.id] ? h('p', { class: 'why', text: '為什麼排這個：' + session.why[ex.id] }) : null),
+      session.why[ex.id] ? h('p', { class: 'why', text: '為什麼排這個：' + session.why[ex.id] }) : null,
+      gearNote(ex) ? h('p', { class: 'mute', text: gearNote(ex) }) : null),
     h('details', { class: 'how' },
       h('summary', { text: '怎麼做、注意什麼' }),
       h('h4', { text: '步驟' }), h('ol', {}, ex.setup.map(function (s) { return h('li', { text: s }); })),
@@ -176,7 +186,7 @@ function itemRow(it, i) {
 }
 
 function useSample() {
-  session.why = {}; session.reasons = [];
+  session.why = {}; session.reasons = []; session.used = [];
   state.items = SAMPLE.filter(function (id) { return db.ex[id]; }).map(function (id) { return newItem(db.ex[id]); });
   syncHash(); renderPlan();
 }

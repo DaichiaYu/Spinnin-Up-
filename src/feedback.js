@@ -45,6 +45,10 @@ export function evaluate(ex, cur, answer, prevAdj, areaName) {
   } else {
     var how = answer.how || answer.howL || answer.howR;
     var s = stepDose(ex, cur.dose, how, adj.streak, block);
+    // 做不到預定的量、而且有填實際做到多少：下次就用實際做到的量（無條件捨去到一格）
+    if (how === 'short' && answer.actual > 0 && answer.actual < cur.dose) {
+      s.dose = clamp(Math.floor(answer.actual / ex.dose.step) * ex.dose.step, ex.dose.min, ex.dose.max);
+    }
     adj.dose = s.dose; adj.streak = s.streak;
     delete adj.L; delete adj.R; delete adj.streakL; delete adj.streakR;
     if (s.dose !== cur.dose) msgs.push('下次：' + s.dose + unit + '（這次是 ' + cur.dose + unit + '）。');

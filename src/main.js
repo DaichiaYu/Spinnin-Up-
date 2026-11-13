@@ -7,12 +7,14 @@ import { buildSteps, totalSec } from './workout-engine.js';
 function getJSON(url) { return fetch(url).then(function (r) { if (!r.ok) throw new Error(url); return r.json(); }); }
 
 ui.mount(document.getElementById('app'));
-Promise.all([getJSON('data/exercises.json'), getJSON('data/areas.json'), getJSON('data/equipment.json')]).then(function (res) {
+Promise.all([getJSON('data/exercises.json'), getJSON('data/areas.json'), getJSON('data/equipment.json'),
+  getJSON('data/exercise-facets.json').catch(function () { return { exercises: {} }; })]).then(function (res) {
   var db = ui.db;
   db.list = res[0].exercises;
   db.list.forEach(function (e) { db.ex[e.id] = e; });
   res[1].areas.forEach(function (a) { db.areas[a.id] = a; });
   db.equip = res[2].equipment;
+  db.facets = res[3].exercises || {};
   db.equip.forEach(function (e) { ui.state.owned.add(e.id); });
   ui.loadFromHash();
   ui.renderPlan();

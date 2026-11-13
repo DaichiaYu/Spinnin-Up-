@@ -49,7 +49,7 @@
   },
   "phase": {
     "current": 3,
-    "status": "complete_pending_user_validation",
+    "status": "body_profile_spec_v1_pending_user_review",
     "next": 4
   },
   "features": {
@@ -73,13 +73,25 @@
     "body_ratio_analysis": "done",
     "trial_exercises": "done",
     "left_right_separate_dose": "done",
-    "stretch_exercises_for_relax_goal": "planned",
     "body_map_for_feedback": "planned",
     "exercise_library_taxonomy": "done",
     "exercise_candidate_pool": "done",
     "exercise_coverage_report": "done",
     "exercise_library_second_source_import": "planned",
-    "face_neck_special_library": "planned"
+    "face_neck_special_library": "planned",
+    "body_map_region_panels": "done",
+    "self_observations": "done",
+    "structure_relative_left_right": "done",
+    "capability_by_movement_pattern": "done",
+    "today_state": "done",
+    "goal_effect_where_intensity": "done",
+    "custom_minutes": "done",
+    "bed_context": "done",
+    "equipment_weight_recorded": "done",
+    "frame_size_estimate": "done",
+    "observation_free_text_affects_plan": "planned",
+    "mobility_stretch_exercises": "planned",
+    "equipment_weight_affects_difficulty": "planned"
   },
   "product_constraints": {
     "human_keeps_final_control": true,
@@ -114,5 +126,6 @@
       "architecture changes",
       "source-of-truth location changes"
     ]
-  }
+  },
+  "sources_of_truth": {}
 }

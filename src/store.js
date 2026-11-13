@@ -1,7 +1,7 @@
 // 這次打開頁面期間的狀態。都只在記憶體裡，關掉頁面就沒了（身體資料要靠下載檔案保存）。
 import { emptyProfile } from './profile.js';
 
-export const db = { ex: {}, list: [], areas: {}, equip: [] };
+export const db = { ex: {}, list: [], areas: {}, equip: [], facets: {} };
 export const state = {
   items: [],                 // [{id, dose, sets, rest, sideDose?}]
   freq: { every: 2, count: 10 },
@@ -12,6 +12,7 @@ export const session = {
   dirty: false,              // 有還沒下載的變更
   why: {},                   // 自動排的課表：每個動作為什麼排進來
   reasons: [],               // 自動排的課表：整體的理由
+  used: [],                  // 自動排的課表：用了哪些資料
   trial: null,               // 正在試做時，暫存原本的課表
-  today: { minutes: 15, strict: false, goal: 'strength', focus: '' }
+  today: { minutes: 15, strict: false, effect: 'strength', where: 'all', focus: '', intensity: 'normal', energy: '', fatigue: '', sore: [], place: 'any' }
 };

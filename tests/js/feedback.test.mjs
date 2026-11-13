@@ -55,3 +55,7 @@ test('左右分開回報：兩邊各自調整', () => {
   assert.deepEqual(it.sideDose, { L: 15, R: 25 });
   assert.equal(applyAdj({ id: stand.id, dose: 20, sets: 2, rest: 15 }, stand, r.adj, false).sideDose, undefined);
 });
+
+test('做不到時有填實際做到幾秒，下次就用實際做到的量', () => {
+  assert.equal(evaluate(wall, { dose: 30 }, { how: 'short', actual: 18, areas: [] }).adj.dose, 15);
+});
