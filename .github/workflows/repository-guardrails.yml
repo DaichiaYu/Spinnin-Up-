@@ -33,11 +33,17 @@ jobs:
       - name: Validate exercise data
         run: python3 tools/validate.py
 
+      - name: Validate exercise library foundation
+        run: python3 tools/validate_exercise_library.py
+
       - name: Rebuild generated exercise figures
         run: python3 tools/build_figures.py
 
       - name: Rebuild exercise catalog
         run: python3 tools/build_catalog.py
 
+      - name: Rebuild exercise library coverage report
+        run: python3 tools/build_exercise_coverage.py
+
       - name: Ensure generated files are committed and reproducible
-        run: git diff --exit-code -- assets/exercises catalog.html
+        run: git diff --exit-code -- assets/exercises catalog.html docs/exercise-coverage.md
