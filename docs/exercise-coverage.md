@@ -1,16 +1,15 @@
 # Exercise library coverage
 
-這是初始盤點；之後執行 `python3 tools/build_exercise_coverage.py` 可由資料重建。候選動作不代表已經可以直接推薦給使用者。
+這是工具產生的盤點，不代表候選動作已經可以直接推薦給使用者。
 
 - Approved：28
-- External candidates：876（free-exercise-db）
+- External candidates：876
 - Candidate movement pattern 尚未判定：308
 - 可能床上候選：22
 - 頸部候選：9
 - 戶外移動候選：13
 
 ## Approved：場景
-
 | 項目 | 數量 |
 |---|---:|
 | quiet | 25 |
@@ -22,7 +21,6 @@
 | stairs | 1 |
 
 ## Approved：姿勢
-
 | 項目 | 數量 |
 |---|---:|
 | standing | 17 |
@@ -34,7 +32,6 @@
 | side_lying | 1 |
 
 ## Approved：特殊搜尋標籤
-
 | 項目 | 數量 |
 |---|---:|
 | no_jump | 28 |
@@ -45,8 +42,7 @@
 | bed_ok | 9 |
 | limited_grip_friendly | 1 |
 
-## Candidate：movement patterns（初始主要類別）
-
+## Candidate：movement patterns（前 25）
 | 項目 | 數量 |
 |---|---:|
 | unknown | 308 |
@@ -64,16 +60,33 @@
 | calf | 12 |
 | trunk_rotation | 12 |
 | lunge | 10 |
+| grip | 9 |
+| scap_retraction | 9 |
+| bridge | 8 |
+| balance | 5 |
+| hip_adduction | 5 |
+| step | 5 |
+| anti_extension | 2 |
+| anti_rotation | 2 |
+| carry | 2 |
+| knee_extension | 2 |
+
+## Candidate：body regions
+| 項目 | 數量 |
+|---|---:|
+| upper | 555 |
+| lower | 359 |
+| core | 256 |
+| neck | 9 |
 
 ## 目前明顯缺口
 
 - **臉部**：正式庫 0；不要從一般健身庫硬湊，之後另找有證據脈絡的來源。
 - **頸部**：正式庫 0；候選池有少量，可優先人工審。
-- **床上**：正式庫已有仰躺／側躺／趴姿動作；外部候選目前只標 `possible_bed_candidate`，升級前要確認床墊穩定性是否影響動作。
-- **戶外移動**：正式庫幾乎沒有；候選池有基本走、跑類，後續應補坡道、樓梯、走跑間歇等情境型內容。
-- **足踝／足弓**：目前只有零散小腿和平衡動作，缺專門足部控制、活動度與足弓相關內容。
+- **床上**：正式庫已有一批仰躺／側躺／趴姿動作，但候選的 bed 標籤仍只是 possible，需要逐個確認床墊穩定性是否影響動作。
+- **戶外移動**：正式庫幾乎沒有；候選池有走、跑等 locomotion，後續應再補坡道、樓梯、走跑間歇等情境型內容。
+- **足踝／足弓**：目前只有零散小腿和平衡動作，缺專門的足部控制、活動度與足弓相關內容。
 - **limited grip**：正式庫只有少數可不靠手掌抓握的動作，應額外盤點。
-- **movement pattern 正規化**：876 筆裡仍有 308 筆 unknown，下一輪應優先改善規則或人工審常見名稱，而不是盲目再加資料源。
 
 ## 下一階段怎麼用
 
