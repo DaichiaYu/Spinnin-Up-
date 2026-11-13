@@ -1,5 +1,6 @@
 // 啟動：讀資料、讀網址裡的課表、畫出課表頁。
 import * as ui from './ui.js';
+import { session } from './store.js';
 import { encode, decode } from './routine-code.js';
 import { buildSteps, totalSec } from './workout-engine.js';
 
@@ -23,6 +24,7 @@ Promise.all([getJSON('data/exercises.json'), getJSON('data/areas.json'), getJSON
 
 // 測試用：讓自動測試可以讀到內部狀態。不要拿掉（tests/ 會檢查）。
 window.__spin = {
+  session: session,
   state: ui.state,
   db: ui.db,
   buildSteps: function (items) { return buildSteps(items, ui.db.ex); },

@@ -72,7 +72,7 @@ class RepositoryContracts(unittest.TestCase):
 
     def test_logic_modules_do_not_touch_the_page(self):
         """訓練邏輯、訓練代碼、行事曆、播放器的時間邏輯不能直接操作畫面（#13）。"""
-        for name in ("workout-engine.js", "routine-code.js", "calendar.js", "player.js"):
+        for name in ("workout-engine.js", "routine-code.js", "calendar.js", "player.js", "profile.js", "generator.js", "feedback.js"):
             text = (ROOT / "src" / name).read_text(encoding="utf-8")
             for banned in ("document.", "window.", "localStorage", "speechSynthesis"):
                 self.assertNotIn(banned, text, f"src/{name} must not use {banned}")

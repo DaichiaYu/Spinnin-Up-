@@ -7,54 +7,26 @@ import { buildICS, validateCalendarInput } from './calendar.js';
 import { createPlayer } from './player.js';
 import * as sound from './sound.js';
 
-export const db = { ex: {}, list: [], areas: {}, equip: [] };
-export const state = {
-  items: [],                 // [{id, dose, sets, rest}]
-  freq: { every: 2, count: 10 },
-  owned: new Set()           // 手邊有的器材 id
-};
+import { db, state, session } from './store.js';
+import { h, toast, downloadText } from './dom.js';
+import * as screens from './screens.js';
+export { db, state };
 var app = null;
 var player = null, ticker = null, wake = null, hl = null;
 
-/* ---------- 小工具 ---------- */
-export function h(tag, attrs) {
-  var el = document.createElement(tag), i, k;
-  attrs = attrs || {};
-  for (k in attrs) {
-    if (attrs[k] === false || attrs[k] == null) continue;
-    if (k === 'class') el.className = attrs[k];
-    else if (k === 'text') el.textContent = attrs[k];
-    else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), attrs[k]);
-    else el.setAttribute(k, attrs[k] === true ? '' : attrs[k]);
-  }
-  for (i = 2; i < arguments.length; i++) add(el, arguments[i]);
-  return el;
-}
-function add(el, c) {
-  if (c == null || c === false) return;
-  if (Array.isArray(c)) c.forEach(function (x) { add(el, x); });
-  else el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
-}
-function areaName(id) { return db.areas[id] ? db.areas[id].name : id; }
-function img(ex) { return h('img', { src: 'assets/exercises/' + ex.id + '.svg', alt: ex.name + '的姿勢示意圖', loading: 'lazy' }); }
-var toastTimer;
-function toast(msg) {
-  var old = document.querySelector('.toast');
-  if (old) old.remove();
-  var t = h('div', { class: 'toast', role: 'status', text: msg });
-  document.body.appendChild(t);
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function () { t.remove(); }, 2600);
-}
+export function areaName(id) { return db.areas[id] ? db.areas[id].name : id; }
+export function img(ex) { return h('img', { src: 'assets/exercises/' + ex.id + '.svg', alt: ex.name + '的姿勢示意圖', loading: 'lazy' }); }
 function doseText(ex, it) {
-  return it.dose + (ex.mode === 'hold' ? ' 秒' : ' 下') + ' × ' + it.sets + ' 組' + (ex.sided ? '（每邊）' : '');
+  var unit = ex.mode === 'hold' ? ' 秒' : ' 下';
+  if (it.sideDose) return '左 ' + it.sideDose.L + '／右 ' + it.sideDose.R + unit + ' × ' + it.sets + ' 組';
+  return it.dose + unit + ' × ' + it.sets + ' 組' + (ex.sided ? '（每邊）' : '');
 }
 function steps() { return buildSteps(state.items, db.ex); }
 
 /* ---------- 網址裡的課表 ---------- */
 export function currentCode() { return encode(state.items, state.freq); }
 function link() { return location.origin + location.pathname + '#r=' + currentCode(); }
-function syncHash() {
+export function syncHash() {
   var c = currentCode();
   history.replaceState(null, '', c ? '#r=' + c : location.pathname + location.search);
 }
@@ -78,16 +50,13 @@ export function renderPlan() {
   var wrap = h('div', { class: 'wrap' },
     h('header', { class: 'top' },
       h('h1', { text: 'Spinnin-Up' }),
-      h('a', { href: 'catalog.html', text: '動作總覽' })));
+      h('nav', { class: 'toplinks' },
+        state.items.length ? h('button', { class: 'linkbtn', id: 'nav-home', text: '首頁', onclick: goHome }) : null,
+        h('a', { href: 'catalog.html', text: '動作總覽' }))));
   app.appendChild(wrap);
 
   if (!state.items.length) {
-    wrap.appendChild(h('div', { class: 'card empty' },
-      h('h2', { text: '先排一組今天要做的動作' }),
-      h('p', { text: '可以自己一個一個加，也可以先用範例，再刪掉或換成你想做的。' }),
-      h('div', { class: 'row', style: 'justify-content:center' },
-        h('button', { class: 'btn accent', id: 'btn-sample', text: '用範例開始', onclick: useSample }),
-        h('button', { class: 'btn', id: 'btn-add-empty', text: '自己加動作', onclick: function () { openPicker(null); } }))));
+    screens.renderHome(wrap, { useSample: useSample, addOwn: function () { openPicker(null); } });
     wrap.appendChild(footerNote());
     return;
   }
@@ -113,13 +82,20 @@ export function renderPlan() {
     bar, legend,
     h('p', { class: 'mute', text: '這組主要會用到：' }), chips));
 
+  if (session.reasons.length) {
+    wrap.appendChild(h('details', { class: 'card reasons', id: 'reasons', open: true },
+      h('summary', { text: '為什麼這樣排' }),
+      h('ul', {}, session.reasons.map(function (r) { return h('li', { text: r }); })),
+      h('p', { class: 'mute', text: '這是系統的建議。每個動作都可以刪掉、替換或改量，最後由你決定。' })));
+  }
+
   wrap.appendChild(h('div', { class: 'row' },
     h('button', { class: 'btn small', id: 'btn-link', text: shareLabel(), onclick: copyLink }),
     h('button', { class: 'btn small', id: 'btn-ics', text: '加入行事曆', onclick: openCalendar }),
     h('button', { class: 'btn small', id: 'btn-sound', text: soundLabel(), onclick: openSound }),
     h('span', { class: 'spacer' }),
     h('button', { class: 'btn small ghost danger', text: '全部清空', onclick: function () {
-      if (confirm('確定要清空這組課表嗎？')) { state.items = []; syncHash(); renderPlan(); }
+      if (confirm('確定要清空這組課表嗎？')) goHome();
     } })));
 
   var list = h('div', { id: 'list' });
@@ -132,8 +108,9 @@ export function renderPlan() {
     h('button', { class: 'btn accent', id: 'btn-start', text: '開始', onclick: startPlayer }))));
 }
 
-function footerNote() {
-  return h('footer', { class: 'note', text: '內容是一般訓練常識的整理，以個人狀況為準；有疼痛或疑慮，請洽自己的物理治療師或醫師。這個頁面不會儲存或傳送你的任何資料。' });
+function goHome() { state.items = []; session.why = {}; session.reasons = []; syncHash(); renderPlan(); }
+export function footerNote() {
+  return h('footer', { class: 'note', text: '內容是一般訓練常識的整理，以個人狀況為準；有疼痛或疑慮，請洽自己的物理治療師或醫師。你填的資料只留在這個頁面裡，不會傳到任何地方；要保存請下載檔案。' });
 }
 
 function stepper(label, text, onMinus, onPlus, canMinus, canPlus) {
@@ -145,7 +122,9 @@ function stepper(label, text, onMinus, onPlus, canMinus, canPlus) {
 
 function itemRow(it, i) {
   var ex = db.ex[it.id], d = ex.dose;
+  var unit = ex.mode === 'hold' ? ' 秒' : ' 下';
   function change(fn) { fn(); syncHash(); renderPlan(); }
+  function setSide(k, v) { it.sideDose[k] = clamp(v, d.min, d.max); it.dose = Math.max(it.sideDose.L, it.sideDose.R); }
   var row = h('article', { class: 'card item', 'data-id': ex.id },
     h('div', { class: 'fig' }, img(ex)),
     h('div', {},
@@ -154,7 +133,8 @@ function itemRow(it, i) {
       h('div', { class: 'chips' },
         ex.primary.map(function (a) { return h('span', { class: 'chip p', text: areaName(a) }); }),
         ex.secondary.map(function (a) { return h('span', { class: 'chip', text: areaName(a) }); })),
-      h('p', { class: 'effect', text: ex.effect })),
+      h('p', { class: 'effect', text: ex.effect }),
+      session.why[ex.id] ? h('p', { class: 'why', text: '為什麼排這個：' + session.why[ex.id] }) : null),
     h('details', { class: 'how' },
       h('summary', { text: '怎麼做、注意什麼' }),
       h('h4', { text: '步驟' }), h('ol', {}, ex.setup.map(function (s) { return h('li', { text: s }); })),
@@ -164,7 +144,13 @@ function itemRow(it, i) {
         h('ul', {}, ex.watch.map(function (w) { return h('li', {}, h('b', { text: areaName(w.area) }), '：' + w.meaning); }))] : null,
       ex.easier_tip ? h('p', { class: 'mute', text: '太難的話：' + ex.easier_tip }) : null),
     h('div', { class: 'controls' },
-      stepper(ex.mode === 'hold' ? '秒數' : '次數', it.dose + (ex.mode === 'hold' ? ' 秒' : ' 下'),
+      it.sideDose ? ['L', 'R'].map(function (k) {
+        var nm = k === 'L' ? '左邊' : '右邊';
+        return stepper(nm + (ex.mode === 'hold' ? '秒數' : '次數'), nm.charAt(0) + ' ' + it.sideDose[k] + unit,
+          function () { change(function () { setSide(k, it.sideDose[k] - d.step); }); },
+          function () { change(function () { setSide(k, it.sideDose[k] + d.step); }); },
+          it.sideDose[k] > d.min, it.sideDose[k] < d.max);
+      }) : stepper(ex.mode === 'hold' ? '秒數' : '次數', it.dose + unit,
         function () { change(function () { it.dose = clamp(it.dose - d.step, d.min, d.max); }); },
         function () { change(function () { it.dose = clamp(it.dose + d.step, d.min, d.max); }); },
         it.dose > d.min, it.dose < d.max),
@@ -172,6 +158,8 @@ function itemRow(it, i) {
         function () { change(function () { it.sets = clamp(it.sets - 1, 1, 6); }); },
         function () { change(function () { it.sets = clamp(it.sets + 1, 1, 6); }); },
         it.sets > 1, it.sets < 6),
+      ex.sided ? h('button', { class: 'btn small', 'data-sides': ex.id, 'aria-pressed': String(!!it.sideDose), text: it.sideDose ? '左右改回一樣' : '左右分開',
+        onclick: function () { change(function () { if (it.sideDose) delete it.sideDose; else it.sideDose = { L: it.dose, R: it.dose }; }); } }) : null,
       h('span', { class: 'spacer' }),
       h('button', { class: 'btn small', 'aria-label': '往上移', disabled: i === 0, text: '↑',
         onclick: function () { change(function () { state.items.splice(i - 1, 0, state.items.splice(i, 1)[0]); }); } }),
@@ -180,12 +168,15 @@ function itemRow(it, i) {
       h('button', { class: 'btn small', text: '替換', onclick: function () { openPicker(i); } }),
       h('button', { class: 'btn small danger', text: '刪除',
         onclick: function () { change(function () { state.items.splice(i, 1); }); } })));
+  if (it.sideDose) row.querySelector('.controls').appendChild(
+    h('p', { class: 'mute', style: 'flex-basis:100%', text: '左右兩邊不一樣是可以的。以個人狀況為準，有疑慮請洽自己的物理治療師。' }));
   if (d.max === it.dose) row.querySelector('.controls').appendChild(
     h('p', { class: 'mute', style: 'flex-basis:100%', text: '已經是建議範圍的上限。' }));
   return row;
 }
 
 function useSample() {
+  session.why = {}; session.reasons = [];
   state.items = SAMPLE.filter(function (id) { return db.ex[id]; }).map(function (id) { return newItem(db.ex[id]); });
   syncHash(); renderPlan();
 }
@@ -268,8 +259,8 @@ function openPicker(swapIndex) {
 function canShare() {
   return !!navigator.share && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
 }
-function shareLabel() { return canShare() ? '分享訓練連結' : '複製訓練連結'; }
-function copyLink() {
+export function shareLabel() { return canShare() ? '分享訓練連結' : '複製訓練連結'; }
+export function copyLink() {
   var url = link();
   if (canShare()) {
     navigator.share({ title: 'Spinnin-Up 訓練', text: '這組訓練：' + state.items.map(function (it) { return db.ex[it.id].name; }).join('、'), url: url })
@@ -284,7 +275,7 @@ function copyToClipboard(url) {
     navigator.clipboard.writeText(url).then(function () { toast('已複製連結，下次打開就是這一組'); }, fallback);
   } else fallback();
 }
-function openCalendar() {
+export function openCalendar() {
   var d = new Date(Date.now() + 86400000);
   d.setMinutes(0, 0, 0);
   var def = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':00';
@@ -331,12 +322,7 @@ function icsText(start) {
     minutes: Math.round(totalSec(state.items, db.ex) / 60), url: link(),
     names: state.items.map(function (it) { return db.ex[it.id].name; }) });
 }
-function downloadICS(start) {
-  var blob = new Blob([icsText(start)], { type: 'text/calendar;charset=utf-8' });
-  var a = h('a', { href: URL.createObjectURL(blob), download: 'spinnin-up.ics' });
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
-}
+function downloadICS(start) { downloadText('spinnin-up.ics', icsText(start), 'text/calendar;charset=utf-8'); }
 
 /* ---------- 聲音設定 ---------- */
 function soundLabel() { return '聲音：' + sound.SOUND_MODES[sound.settings.mode].short; }
@@ -413,18 +399,18 @@ function narrate(s, pos) {
     var w = s.next;
     if (s.label === '換邊') { sound.SFX.side(); say('換' + w.side + '。', 'side'); }
     else if (s.newEx) say((pos === 0 ? '準備。第一個：' : '休息。下一個：') + w.ex.name + '。' + (w.side ? w.side + '。' : '') +
-      w.it.dose + (w.ex.mode === 'hold' ? '秒。' : '下。'), 'name');
+      w.dose + (w.ex.mode === 'hold' ? '秒。' : '下。'), 'name');
     else say('休息。第 ' + w.set + ' 組。' + (w.side ? w.side + '。' : ''), 'set');
   } else {
     sound.SFX.start();
     var first = s.set === 1 && !(/右/.test(s.side || ''));
-    if (!s.timed) say('開始，' + s.it.dose + '下。做完按一下。' + (first ? s.ex.cues[0] : ''), first ? 'cue-0' : 'clock');
+    if (!s.timed) say('開始，' + s.dose + '下。做完按一下。' + (first ? s.ex.cues[0] : ''), first ? 'cue-0' : 'clock');
     else if (first) say('開始。' + s.ex.cues[0], 'cue-0');
     else say('開始。', 'clock');
   }
 }
 
-function startPlayer() {
+export function startPlayer() {
   if (!state.items.length) return;
   sound.ensureAudio();
   var t0 = Date.now();
@@ -459,7 +445,7 @@ function updateClock() {
   if (!player) return;
   var now = Date.now(), s = player.current(), clock = document.getElementById('clock'), bar = document.getElementById('pbar');
   if (!clock || !s) return;
-  clock.firstChild.nodeValue = (s.kind === 'ready' || s.timed) ? String(Math.ceil(player.remainingMs(now) / 1000)) : String(s.it.dose);
+  clock.firstChild.nodeValue = (s.kind === 'ready' || s.timed) ? String(Math.ceil(player.remainingMs(now) / 1000)) : String(s.dose);
   if (bar) bar.style.width = (player.progress(now) * 100).toFixed(1) + '%';
   paintHighlight();
 }
@@ -495,7 +481,7 @@ function renderStep() {
     h('div', { class: 'ctrl2' },
       h('button', { class: 'btn small ghost', id: 'p-sound', text: soundLabel(), onclick: openSound }),
       h('button', { class: 'btn small ghost danger', id: 'p-quit', text: '結束', onclick: function () {
-        if (confirm('要結束這次訓練嗎？')) renderPlan();
+        if (confirm('要結束這次訓練嗎？')) { screens.endTrial(); renderPlan(); }
       } })));
   app.appendChild(view);
   updateClock();
@@ -513,16 +499,7 @@ function finish(t0) {
   sound.SFX.finish();
   sound.speak('完成了。辛苦了。');
   stopPlayer();
-  app.textContent = '';
-  app.appendChild(h('div', { class: 'wrap' }, h('div', { class: 'done', id: 'done' },
-    h('p', { class: 'big', text: '完成了' }),
-    h('p', { class: 'mute', text: '這次花了大約 ' + mins + ' 分鐘，做了 ' + state.items.length + ' 個動作。' }),
-    h('p', { class: 'mute', text: '建議 ' + (state.freq.every === 1 ? '明天' : state.freq.every + ' 天後') + '再做一次。' }),
-    h('div', { class: 'row', style: 'justify-content:center;margin-top:18px' },
-      h('button', { class: 'btn', text: '回到課表', onclick: renderPlan }),
-      h('button', { class: 'btn', text: '加入行事曆', onclick: openCalendar }),
-      h('button', { class: 'btn', text: shareLabel(), onclick: copyLink })),
-    h('p', { class: 'mute', style: 'margin-top:24px', text: '做完之後的回報（做得怎麼樣、哪裡有感覺）會在下一個階段加上。' }))));
+  screens.renderFeedback(app, mins);
 }
 
 export function renderError() {

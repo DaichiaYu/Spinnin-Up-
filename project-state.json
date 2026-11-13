@@ -34,14 +34,21 @@
       "src/player.js": "player timing state machine, no DOM/audio",
       "src/sound.js": "sound settings, beeps, speech",
       "src/ui.js": "rendering and user input only",
-      "src/main.js": "bootstrap + window.__spin test hook"
+      "src/main.js": "bootstrap + window.__spin test hook",
+      "src/profile.js": "body data fields, CSV, analysis, tendency, no DOM",
+      "src/generator.js": "workout generation rules + reasons, no DOM",
+      "src/feedback.js": "feedback → adjustment rules, no DOM",
+      "src/store.js": "in-memory session state",
+      "src/dom.js": "DOM helpers",
+      "src/screens.js": "home, profile, today, feedback screens"
     },
-    "device_preferences_storage": "localStorage spinnin-up.sound (sound mode and volume only, no body data)"
+    "device_preferences_storage": "localStorage spinnin-up.sound (sound mode and volume only, no body data)",
+    "body_data_persistence": "in memory only; user downloads/uploads a CSV file"
   },
   "phase": {
-    "current": 2,
-    "status": "complete_pending_mobile_validation",
-    "next": 3
+    "current": 3,
+    "status": "complete_pending_user_validation",
+    "next": 4
   },
   "features": {
     "exercise_data_model": "done",
@@ -53,13 +60,19 @@
     "routine_link": "done",
     "calendar_export": "done",
     "mobile_background_validation": "pending",
-    "onboarding_questionnaire": "planned",
-    "workout_generation_rules": "planned",
-    "post_workout_feedback": "planned",
-    "adaptive_adjustment": "planned",
+    "onboarding_questionnaire": "done",
+    "workout_generation_rules": "done",
+    "post_workout_feedback": "done",
+    "adaptive_adjustment": "done",
     "sound_modes_and_volume": "done",
     "narration_text_highlight": "done",
-    "share_sheet_on_mobile": "done"
+    "share_sheet_on_mobile": "done",
+    "body_data_csv_download_upload": "done",
+    "body_ratio_analysis": "done",
+    "trial_exercises": "done",
+    "left_right_separate_dose": "done",
+    "stretch_exercises_for_relax_goal": "planned",
+    "body_map_for_feedback": "planned"
   },
   "product_constraints": {
     "human_keeps_final_control": true,
@@ -67,7 +80,8 @@
     "body_data_in_share_link": false,
     "external_exercise_images": false,
     "pain_feedback_action": "stop",
-    "medical_treatment_claims": false
+    "medical_treatment_claims": false,
+    "body_data_in_browser_storage": false
   },
   "agent_contract": {
     "read_order": [

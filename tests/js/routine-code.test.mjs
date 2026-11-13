@@ -35,3 +35,12 @@ test('不是版本 1 或空的代碼回傳 null；空課表編成空字串', () 
   assert.equal(decode('', exById), null);
   assert.equal(encode([], { every: 2, count: 10 }), '');
 });
+
+test('左右分開的量會寫進連結，也讀得回來；舊連結沒有這兩欄也沒關係', () => {
+  const items = [{ id: 'single-leg-stand', dose: 25, sets: 2, rest: 15, sideDose: { L: 15, R: 25 } }];
+  const code = encode(items, { every: 2, count: 10 });
+  assert.equal(code, '1;single-leg-stand.25.2.15.15.25;2.10');
+  assert.deepEqual(decode(code, exById).items, items);
+  assert.equal(decode('1;single-leg-stand.20.2.15;2.10', exById).items[0].sideDose, undefined);
+  assert.equal(decode('1;wall-sit.20.2.40.10.15;2.10', exById).items[0].sideDose, undefined);   // 不分邊的動作忽略
+});
