@@ -43,7 +43,9 @@ src/
   calendar.js       行事曆檔與欄位檢查（不碰畫面）
   player.js         播放器的時間邏輯：步驟、倒數、暫停、背景補進度（不碰畫面、不出聲）
   profile.js        身體資料：分層的資料模型、欄位、自我觀察、表格檔（CSV）讀寫、分析、能力傾向（不碰畫面）
-  generator.js      自動排課表的規則和理由（不碰畫面）\n  recovery.js       區域感受 × 意圖的純規則及溫和活動排程（不碰畫面）
+  generator.js      自動排課表的規則和理由（不碰畫面）
+  recovery.js       區域意圖規則與溫和活動排程（不碰畫面）
+  workout-history.js 訓練歷史快照、事後感受／困難度及 append-only 紀錄（不碰畫面）
   feedback.js       做完回報 → 下次怎麼調（不碰畫面）
   sound.js          播報模式、音量、提示音、語音
   store.js          這次打開頁面期間的狀態（只在記憶體裡）
@@ -134,3 +136,13 @@ GitHub Actions 也會跑同一組 guardrails。CI 沒過不要合併，也不要
 - 記錄各部位的狀態只放記憶體（`session.today.regionNeeds`）；不存至課表網址。
 - 新動作必須有自己的示意圖與測試，不拿候選池未審核內容充數。
 - 更新後執行 `node --test tests/js/*.test.mjs`，尤其確認疼痛排除與恢復目標不互相衝突。
+
+## 方案 B 與訓練歷史（2026-11-15）
+
+- 先讀 `docs/workout-history-v3.md`；使用者已正式選 **事前只問意圖、事後才問感受**。不要把事前症狀選項加回來。
+- `src/ui.js` 開始播放器時記錄原始課表快照；`src/screens.js` 結束時才 append 一筆到 `profile.history`。
+- `src/workout-history.js` 是歷史資料模型；`profile.js` 的 CSV v3 輸出 `hist.w-*` 紀錄、支援舊版匯入。
+- 使用者在網站裡只能看歷史，不可編輯／刪除；外部檔案仍可能被修改，不可宣稱防竄改。
+- 即使略過問卷也要存完成的訓練紀錄；先前歷史不能在新回報時覆寫。
+- 身體資料和歷史不准進入 URL、後端、localStorage；這個版本只用使用者下載／上傳的 CSV。
+- 完成前跑 `tests/js/workout-history.test.mjs`、`tests/js/recovery.test.mjs` 與全部 CI。
