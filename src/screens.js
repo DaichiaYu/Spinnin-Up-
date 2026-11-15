@@ -99,12 +99,47 @@ export function renderHome(wrap, actions) {
     session.dirty ? h('p', { class: 'banner', id: 'dirty-note', text: '有新的資料還沒下載。關掉頁面就會不見，記得按「下載最新檔案」。' }) : null,
     h('div', { class: 'row' },
       h('button', { class: 'btn', id: 'btn-profile', text: has ? '查看或修改' : '在頁面上填', onclick: function () { renderProfile(); } }),
-      h('button', { class: 'btn', id: 'btn-trial', text: t.tested ? '重做試做動作' : '做試做動作（約 4 分鐘）', onclick: startTrial })),
+      h('button', { class: 'btn', id: 'btn-trial', text: t.tested ? '重做試做動作' : '做試做動作（約 4 分鐘）', onclick: startTrial }),
+      (p.history || []).length ? h('button', { class: 'btn', id: 'btn-history', text: '訓練歷史（' + p.history.length + '）', onclick: renderHistory }) : null),
     h('div', { class: 'row', style: 'margin-top:8px' },
       h('button', { class: 'btn small', id: 'btn-upload', text: '上傳我的檔案', onclick: function () { upload(); } }),
       h('button', { class: 'btn small', id: 'btn-blank', text: '下載空白表格', onclick: downloadBlank }),
       has ? h('button', { class: 'btn small' + (session.dirty ? ' primary' : ''), id: 'btn-save-file', text: '下載最新檔案', onclick: function () { downloadLatest(); ui.renderPlan(); } }) : null),
     h('p', { class: 'mute', text: '這個頁面不會幫你存資料。要留到下次，就下載檔案，下次再傳上來。也可以下載空白表格，用試算表填好再上傳。' })));
+}
+
+/* ========== 歷史紀錄（僅顯示、無修改入口） ========== */
+export function renderHistory() {
+  var entries = (session.profile.history || []).slice().reverse();
+  var wrap = page('訓練歷史');
+  wrap.appendChild(h('p', { class: 'mute', text: '這裡只讀取過去的訓練快照，不能在 App 內更改或刪除。紀錄會隨「下載最新檔案」保存，下次上傳可繼續查看。下載的 CSV 仍能在外部被修改，並非防竄改證明。' }));
+  if (!entries.length) wrap.appendChild(h('p', { class: 'card', text: '目前還沒有訓練紀錄。' }));
+  entries.forEach(function(entry) {
+    var exNames = entry.exercises.map(function(it) { return db.ex[it.id] ? db.ex[it.id].name : it.id; });
+    var contents = [h('p', { class: 'mute', text: '原先目標：' + (EFFECTS[entry.plan.effect] || '自行安排') + '；' + entry.minutes + ' 分鐘實際訓練' }),
+      h('p', { text: '原始動作：' + (exNames.join('、') || '未記錄') })];
+    var intents = Object.keys(entry.intentions || {});
+    if (intents.length) contents.push(h('p', { text: '開始前的意圖：' + intents.map(function(r) {
+      var reg = REGIONS.find(function(x){return x.id===r;});
+      return (reg ? reg.name : r) + '：' + (REGION_INTENTS[entry.intentions[r]] || entry.intentions[r]);
+    }).join('；') }));
+    var rep = entry.report || {}, summary = [];
+    if (rep.overall?.feeling) summary.push('做完的感覺：' + POST_FEELINGS[rep.overall.feeling]);
+    if (rep.overall?.difficulty) summary.push('整體難度：' + POST_DIFFICULTY[rep.overall.difficulty]);
+    Object.keys(rep.regions || {}).forEach(function(r) {
+      var row=rep.regions[r] || {}, reg=REGIONS.find(function(x){return x.id===r;});
+      summary.push((reg?reg.name:r) + '：' + [row.feeling ? POST_FEELINGS[row.feeling] : '',row.difficulty ? POST_DIFFICULTY[row.difficulty] : ''].filter(Boolean).join('、'));
+    });
+    if (summary.length) contents.push(h('ul', {}, summary.map(function(s){return h('li',{text:s});})));
+    var n=Object.keys(rep.exercises || {}).length;
+    contents.push(h('p', { class:'mute', text: rep.skipped ? '這次略過事後回報。' : '動作詳細回報：' + n + ' 筆（下次劑量調整仍依原始回報進行）。' }));
+    wrap.appendChild(h('details', { class:'card' },
+      h('summary', { text: dateText(entry.at) + '｜' + (entry.trial?'試做':'訓練') + '｜' + entry.minutes + ' 分鐘' }),
+      contents));
+  });
+  wrap.appendChild(h('div', { class:'row' },
+    h('button', { class:'btn primary', text:'下載最新檔案', onclick: downloadLatest }),
+    h('button', { class:'btn', text:'回首頁', onclick: ui.renderPlan })));
 }
 
 /* ========== 我的身體 ========== */
