@@ -87,7 +87,9 @@ export function generateWorkout(o) {
   var focusRegion = focusArea ? (TRAIN_REGIONS.indexOf(o.areas[focusArea].region) >= 0 ? o.areas[focusArea].region : null) : (where !== 'all' && where !== 'area' ? where : null);
   var asymMode = P.asym.has === 'yes' ? P.asym.mode : '';
   var wantSides = asymMode === 'separate' || asymMode === 'structural', allowSides = asymMode !== 'same';
-  var sore = blockedRegions(regionNeeds).filter(function (r) { return REGION_AREAS[r]; }), soreAreas = {}, deloadAreas = {};
+  var sore = blockedRegions(regionNeeds).filter(function (r) { return REGION_AREAS[r]; }), soreAreas = {}, deloadAreas = {}, gentleAreas = {};
+  var gentleRegions = gentleTargetRegions(regionNeeds);
+  gentleRegions.forEach(function (r) { (REGION_AREAS[r] || []).forEach(function (a) { gentleAreas[a] = true; }); });
   sore.forEach(function (r) { REGION_AREAS[r].forEach(function (a) { soreAreas[a] = r; }); });
   Object.keys(regionNeeds).forEach(function (r) {
     if (regionPolicy(regionNeeds[r]) === 'deload' && REGION_AREAS[r]) {
@@ -120,6 +122,8 @@ export function generateWorkout(o) {
     var adj = P.adj[ex.id] || {}, hit;
     if (ex.category !== 'train') return false;
     if (ex.primary.some(function (a) { return soreAreas[a]; })) { dropped.sore++; return false; }
+    // 指定部位想放鬆時，避免又把同一區排成負重肌力訓練。
+    if (ex.primary.some(function (a) { return gentleAreas[a]; })) return false;
     if (adj.stopped) { dropped.stopped++; return false; }
     if (!canDo(ex, o.owned)) { dropped.equip++; return false; }
     if (o.place === 'bed' && !bedOk(ex)) { dropped.place++; return false; }
@@ -141,13 +145,28 @@ export function generateWorkout(o) {
     return item;
   }
   var warm = exById['march-in-place'], cool = exById['supine-breathing'], frame = [];
-  var warmSore = warm && warm.primary.some(function (x) { return soreAreas[x]; });
+  var warmSore = warm && warm.primary.some(function (x) { return soreAreas[x] || gentleAreas[x]; });
   if (warm && !warmSore && o.place !== 'bed' && o.minutes >= 10) frame.push({ id: warm.id, dose: warm.dose.default, sets: 1, rest: 0 });
   var coolOk = cool && canDo(cool, o.owned) && !(sig.limits.floor && o.place !== 'bed') && (o.minutes >= 10 || gentle);
   var coolItem = coolOk ? { id: cool.id, dose: gentle ? 120 : cool.dose.default, sets: 1, rest: 0 } : null;
 
+  // 混合模式：其他部位仍訓練，指定「溫和活動」的區域保留 1–2 個正式 mobility 動作。
+  var gentleTail = [];
+  if (gentleRegions.length) {
+    var candidates = o.exercises.filter(function (ex) {
+      if (ex.category !== 'mobility' || !canDo(ex, o.owned)) return false;
+      if (P.adj[ex.id] && P.adj[ex.id].stopped) return false;
+      if (o.place === 'bed' && !bedOk(ex)) return false;
+      if ((ex.recovery_regions || []).some(function (r) { return sore.indexOf(r) >= 0; })) return false;
+      return (ex.recovery_regions || []).some(function (r) { return gentleRegions.indexOf(r) >= 0; });
+    }).sort(function (a,b) { return a.id.localeCompare(b.id); });
+    candidates.slice(0,2).forEach(function (ex) {
+      gentleTail.push({ id: ex.id, dose: ex.dose.default, sets: 1, rest: 0 });
+      why[ex.id] = '你選擇這個部位想溫和活動，因此用低負荷活動取代該區直接肌力訓練；有疼痛就停止。';
+    });
+  }
   var picked = [], usedIds = {}, patterns = {}, covered = {}, work = { lower: 0, core: 0, upper: 0 }, dead = {};
-  function withFrame(list) { return frame.concat(list, coolItem ? [coolItem] : []); }
+  function withFrame(list) { return frame.concat(list, gentleTail, coolItem ? [coolItem] : []); }
   function fits(list) { return totalSec(withFrame(list), exById) <= budget; }
   function score(ex) {
     var s = 0, cap = capOf(ex), target = effect === 'strength' || level === 2 ? cap : Math.min(cap, 2);
@@ -222,13 +241,13 @@ export function generateWorkout(o) {
   }
   if (frame.length) why[warm.id] = '暖身，讓身體熱起來。';
   if (coolItem) why[cool.id] = '收操，讓呼吸慢下來。';
-  var items = picked.length ? withFrame(ordered) : [];
+  var items = picked.length || gentleTail.length ? withFrame(ordered) : [];
 
   // ---- 理由（照資料的優先順序寫） ----
   var regionName = function (id) { return REGIONS.filter(function (r) { return r.id === id; })[0].name; };
   if (sore.length) { reasons.push('你今天不舒服或選擇「' + sore.map(regionName).join('、') + '」要避開或有明確疼痛，因此相關直接訓練的 ' + dropped.sore + ' 個動作先不排。'); used.push('今天各部位的狀態與意圖'); }
   if (Object.keys(deloadAreas).length) reasons.push('你選擇部分部位可以練但輕一點，那些部位的動作會限制一組並縮短時間。');
-  if (gentleTargetRegions(regionNeeds).length) reasons.push('你標示了想溫和活動的部位；要優先安排放鬆動作，請選「恢復、放鬆」或「活動度、伸展」。');
+  if (gentleRegions.length) reasons.push(gentleTail.length ? '你標示的部分部位想溫和活動，所以把該區直接肌力訓練換成 ' + gentleTail.length + ' 個低負荷活動。' : '你有部位想溫和活動，但目前沒有符合條件的正式動作；沒有用肌力訓練充數。');
   if (dropped.stopped) { reasons.push('有 ' + dropped.stopped + ' 個動作你之前回報過疼痛，先不排。'); used.push('之前的疼痛回報'); }
   var LIMIT_NAME = { hands: '用手撐體重', floor: '躺或趴著', grip: '用力握東西', single: '一次只做一邊' };
   Object.keys(dropped.limit).forEach(function (k) { reasons.push(sig.limits[k] + '，所以需要「' + LIMIT_NAME[k] + '」的 ' + dropped.limit[k] + ' 個動作沒有排。'); });
