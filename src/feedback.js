@@ -16,7 +16,7 @@ export function stepDose(ex, dose, how, streak, blockIncrease) {
 // cur：{ dose, sideDose?: {L, R} }。answer：{ how } 或 { howL, howR }，加上 areas: [部位id]、pain: bool。
 // 回傳 { adj, messages: [文字] }。adj 會存進檔案，下次排課表時用。
 export function evaluate(ex, cur, answer, prevAdj, areaName) {
-  var adj = Object.assign({}, prevAdj || {}), msgs = [], unit = ex.mode === 'hold' ? ' 秒' : ' 下';
+  var adj = Object.assign({}, prevAdj || {}), msgs = [], unit = ex.mode !== 'reps' ? ' 秒' : ' 下';
   var name = areaName || function (id) { return id; };
   if (answer.pain) {
     adj.stopped = true;
