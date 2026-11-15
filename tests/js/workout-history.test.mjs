@@ -71,12 +71,12 @@ test('未填事後問卷或跳過，仍保存一筆完成的快照',()=>{
 test('舊版 CSV 仍能匯入，無效歷史列提示但不破壞身體資料',()=>{
   const old=['代號（不要改）,項目,你的值,單位或選項,說明',
     'meta.version,表格版本,2,,','sex,性別,女,,','age,年紀,28,,',
-    'height,身高,160,,','weight,體重,55,,'].join('\\r\\n');
+    'height,身高,160,,','weight,體重,55,,'].join('\r\n');
   const loaded=fromCSV(old);
   assert.deepEqual(loaded.warnings,[]);
   assert.deepEqual(loaded.profile.history,[]);
   assert.equal(loaded.profile.basics.weight,55);
-  const broken=fromCSV(old+'\\r\\nhist.w-000001,訓練歷史,bad-encoded-record,,');
+  const broken=fromCSV(old+'\r\nhist.w-000001,訓練歷史,bad-encoded-record,,');
   assert.equal(broken.profile.basics.height,160);
   assert.equal(broken.profile.history.length,0);
   assert.ok(broken.warnings.some(x=>x.includes('歷史')));
