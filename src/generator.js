@@ -161,7 +161,10 @@ export function generateWorkout(o) {
       return (ex.recovery_regions || []).some(function (r) { return gentleRegions.indexOf(r) >= 0; });
     }).sort(function (a,b) { return a.id.localeCompare(b.id); });
     candidates.slice(0,2).forEach(function (ex) {
-      gentleTail.push({ id: ex.id, dose: ex.dose.default, sets: 1, rest: 0 });
+      var it = { id: ex.id, dose: ex.dose.default, sets: 1, rest: 0 };
+      var trial = frame.concat(gentleTail, [it], coolItem ? [coolItem] : []);
+      if (totalSec(trial, exById) > budget) return;
+      gentleTail.push(it);
       why[ex.id] = '你選擇這個部位想溫和活動，因此用低負荷活動取代該區直接肌力訓練；有疼痛就停止。';
     });
   }
