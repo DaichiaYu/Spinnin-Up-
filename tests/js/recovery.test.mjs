@@ -25,7 +25,17 @@ test('今天的狀態與意圖有明確合法選項',()=>{
   assert.equal(regionPolicy({condition:'tight',intent:'relax'}),'target_gentle');
   assert.equal(regionPolicy({condition:'pain',intent:'relax'}),'avoid');
   assert.equal(regionPolicy({condition:'unsure',intent:'gentle'}),'avoid');
-  assert.deepEqual(normalizeNeeds({},['head_neck']),{head_neck:{condition:'unsure',intent:'avoid'}});
+  assert.deepEqual(normalizeNeeds({},['head_neck']),{head_neck:{intent:'avoid'}});
+  assert.equal(regionPolicy({intent:'relax'}),'target_gentle');
+  assert.equal(regionPolicy({intent:'avoid'}),'avoid');
+});
+
+test('方案 B：運動前只填意圖就能排出指定部位，不要求先選感覺',()=>{
+  const r=gen({regionNeeds:{head_neck:{intent:'relax'}}});
+  assert.ok(ids(r).includes('gentle-neck-turn'));
+  assert.ok(!ids(r).includes('gentle-ankle-pumps'));
+  const q=gen({regionNeeds:{head_neck:{intent:'avoid'}}});
+  assert.ok(!ids(q).includes('gentle-neck-turn'));
 });
 
 test('緊繃＋想放鬆頸肩，真的排頸肩活動，不以肌力動作充數',()=>{
