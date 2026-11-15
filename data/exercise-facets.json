@@ -660,6 +660,111 @@
         "low_noise",
         "small_space"
       ]
+    },
+    "gentle-neck-turn": {
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "bed_ok"
+      ],
+      "positions": [
+        "seated",
+        "standing"
+      ],
+      "contexts": [
+        "chair",
+        "bed",
+        "tiny_space",
+        "quiet"
+      ]
+    },
+    "gentle-shoulder-circles": {
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "bed_ok"
+      ],
+      "positions": [
+        "seated",
+        "standing"
+      ],
+      "contexts": [
+        "chair",
+        "bed",
+        "tiny_space",
+        "quiet"
+      ]
+    },
+    "gentle-ankle-pumps": {
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "tiny",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "bed_ok"
+      ],
+      "positions": [
+        "seated"
+      ],
+      "contexts": [
+        "chair",
+        "bed",
+        "tiny_space",
+        "quiet"
+      ]
+    },
+    "gentle-knee-rolls": {
+      "impact": "none",
+      "hand_support": "none",
+      "grip": "none",
+      "overhead": false,
+      "sided": "bilateral",
+      "balance_demand": "low",
+      "space": "small",
+      "noise": "quiet",
+      "special": [
+        "no_hand_support",
+        "no_jump",
+        "low_noise",
+        "small_space",
+        "bed_ok"
+      ],
+      "positions": [
+        "supine"
+      ],
+      "contexts": [
+        "floor",
+        "bed",
+        "quiet"
+      ]
     }
   }
 }
