@@ -226,6 +226,16 @@ POSES = {
                            n_arm=(115, 80), f_arm=(55, -15)),
     "supine-breathing": dict(**SUPINE, n_leg=BENT_ON_FLOOR, n_arm=(15, -45), order="legs-torso-arms",
                              props=mat()),
+    "gentle-neck-turn": dict(hip=(84, 119), torso=-90, head=-78, n_leg=(0, 90, 0), n_arm=(92, 85),
+                              props=chair(62, 128), spots=[("shoulder", "head", 0.62, 4, 7, 7)]),
+    "gentle-shoulder-circles": dict(hip=(112, 86), torso=-90, n_leg=STAND_LEG, n_arm=(88, 88),
+                                   spots=[("shoulder", "n_elbow", 0.06, 4, 8, 8)]),
+    "gentle-ankle-pumps": dict(hip=(84, 119), torso=-90, n_leg=(0, 90, -18),
+                               f_leg=(0, 90, 4), n_arm=(92, 88), props=chair(62, 128),
+                               spots=[("n_ankle", "n_toe", 0.45, 0, 10, 6)]),
+    "gentle-knee-rolls": dict(**SUPINE, n_leg=BENT_ON_FLOOR, f_leg=BENT_ON_FLOOR,
+                              n_arm=(12, 2), order="arms-legs-torso", props=mat(),
+                              spots=[("hip", "n_knee", 0.18, 6, 11, 7)]),
 }
 
 BACK_POSES = {
