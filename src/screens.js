@@ -326,16 +326,20 @@ export function renderToday() {
       var item = t.regionNeeds[region];
       regionNeedPanel.appendChild(h('div', { class: 'need-item', 'data-need': region },
         h('h3', { text: regionOpts[region] || region }),
-        h('p', { class: 'flabel', text: '這裡目前是什麼感覺？' }),
-        pills('need-condition-' + region, CONDITIONS, item.condition, function (k) {
-          item.condition = k;
-          drawRegionNeeds();
-        }),
-        h('p', { class: 'flabel', text: '今天希望怎麼處理？' }),
-        pills('need-intent-' + region, REGION_INTENTS, item.intent, function (k) {
-          item.intent = k;
-          drawRegionNeeds();
-        }),
+        h('label', { class: 'field' }, h('span', { text: '這裡目前是什麼感覺？' }),
+          h('select', { id: 'need-condition-' + region, onchange: function (e) {
+            item.condition = e.target.value;
+            drawRegionNeeds();
+          } }, Object.keys(CONDITIONS).map(function (k) {
+            return h('option', { value: k, selected: k === item.condition, text: CONDITIONS[k] });
+          }))),
+        h('label', { class: 'field' }, h('span', { text: '今天希望怎麼處理？' }),
+          h('select', { id: 'need-intent-' + region, onchange: function (e) {
+            item.intent = e.target.value;
+            drawRegionNeeds();
+          } }, Object.keys(REGION_INTENTS).map(function (k) {
+            return h('option', { value: k, selected: k === item.intent, text: REGION_INTENTS[k] });
+          }))),
         (item.condition === 'pain' && item.intent !== 'avoid')
           ? h('p', { class: 'banner', text: '你選了「明確疼痛」，系統會先避開這一區的直接動作，即使選擇想放鬆也不會強行安排。' }) : null,
         (item.condition === 'unsure')
