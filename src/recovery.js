@@ -55,6 +55,9 @@ export function planRecovery(o, needs, regionAreas, allRegionLabels) {
     if (!canDo(ex, o.owned)) return false;
     if (o.profile.adj?.[ex.id]?.stopped) return false;
     const tags = ex.recovery_regions || [];
+    if (['upper','lower','core'].includes(o.where) && ex.region !== o.where) return false;
+    if (o.where === 'area' && o.focus && !ex.primary.includes(o.focus) && !ex.secondary.includes(o.focus)) return false;
+    if (target.length && !tags.some(r => target.includes(r))) return false;
     if (tags.some(r => blocked.has(r))) return false;
     if (Object.entries(areas).some(([r, ids]) => blocked.has(r) && ex.primary.some(a => ids.has(a)))) return false;
     if (o.place === 'bed' && !(o.facets?.[ex.id]?.special || []).includes('bed_ok')) return false;
