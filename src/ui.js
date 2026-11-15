@@ -17,7 +17,7 @@ var player = null, ticker = null, wake = null, hl = null;
 export function areaName(id) { return db.areas[id] ? db.areas[id].name : id; }
 export function img(ex) { return h('img', { src: 'assets/exercises/' + ex.id + '.svg', alt: ex.name + '的姿勢示意圖', loading: 'lazy' }); }
 function doseText(ex, it) {
-  var unit = ex.mode === 'hold' ? ' 秒' : ' 下';
+  var unit = ex.mode !== 'reps' ? ' 秒' : ' 下';
   if (it.sideDose) return '左 ' + it.sideDose.L + '／右 ' + it.sideDose.R + unit + ' × ' + it.sets + ' 組';
   return it.dose + unit + ' × ' + it.sets + ' 組' + (ex.sided ? '（每邊）' : '');
 }
@@ -131,7 +131,7 @@ function stepper(label, text, onMinus, onPlus, canMinus, canPlus) {
 
 function itemRow(it, i) {
   var ex = db.ex[it.id], d = ex.dose;
-  var unit = ex.mode === 'hold' ? ' 秒' : ' 下';
+  var unit = ex.mode !== 'reps' ? ' 秒' : ' 下';
   function change(fn) { fn(); syncHash(); renderPlan(); }
   function setSide(k, v) { it.sideDose[k] = clamp(v, d.min, d.max); it.dose = Math.max(it.sideDose.L, it.sideDose.R); }
   var row = h('article', { class: 'card item', 'data-id': ex.id },
@@ -156,11 +156,11 @@ function itemRow(it, i) {
     h('div', { class: 'controls' },
       it.sideDose ? ['L', 'R'].map(function (k) {
         var nm = k === 'L' ? '左邊' : '右邊';
-        return stepper(nm + (ex.mode === 'hold' ? '秒數' : '次數'), nm.charAt(0) + ' ' + it.sideDose[k] + unit,
+        return stepper(nm + (ex.mode !== 'reps' ? '秒數' : '次數'), nm.charAt(0) + ' ' + it.sideDose[k] + unit,
           function () { change(function () { setSide(k, it.sideDose[k] - d.step); }); },
           function () { change(function () { setSide(k, it.sideDose[k] + d.step); }); },
           it.sideDose[k] > d.min, it.sideDose[k] < d.max);
-      }) : stepper(ex.mode === 'hold' ? '秒數' : '次數', it.dose + unit,
+      }) : stepper(ex.mode !== 'reps' ? '秒數' : '次數', it.dose + unit,
         function () { change(function () { it.dose = clamp(it.dose - d.step, d.min, d.max); }); },
         function () { change(function () { it.dose = clamp(it.dose + d.step, d.min, d.max); }); },
         it.dose > d.min, it.dose < d.max),
@@ -409,7 +409,7 @@ function narrate(s, pos) {
     var w = s.next;
     if (s.label === '換邊') { sound.SFX.side(); say('換' + w.side + '。', 'side'); }
     else if (s.newEx) say((pos === 0 ? '準備。第一個：' : '休息。下一個：') + w.ex.name + '。' + (w.side ? w.side + '。' : '') +
-      w.dose + (w.ex.mode === 'hold' ? '秒。' : '下。'), 'name');
+      w.dose + (w.ex.mode !== 'reps' ? '秒。' : '下。'), 'name');
     else say('休息。第 ' + w.set + ' 組。' + (w.side ? w.side + '。' : ''), 'set');
   } else {
     sound.SFX.start();

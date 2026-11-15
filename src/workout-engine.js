@@ -18,7 +18,7 @@ export function buildSteps(items, exById) {
         // 左右分開設定時，兩邊的量可以不一樣
         var dose = side && it.sideDose ? (side === '左邊' ? it.sideDose.L : it.sideDose.R) : it.dose;
         var work = { kind: 'work', idx: idx, ex: ex, it: it, set: s, sets: it.sets, side: side, dose: dose,
-          timed: ex.mode === 'hold', dur: ex.mode === 'hold' ? dose : dose * SEC_PER_REP };
+          timed: ex.mode !== 'reps', dur: ex.mode !== 'reps' ? dose : dose * SEC_PER_REP };
         var ready = { kind: 'ready', timed: true, next: work };
         if (!prev) { ready.dur = 8; ready.label = '準備'; ready.newEx = true; }
         else if (prev.idx === idx && prev.set === s) { ready.dur = 5; ready.label = '換邊'; }

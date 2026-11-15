@@ -2,7 +2,7 @@
 
 這是工具產生的盤點，不代表候選動作已經可以直接推薦給使用者。
 
-- Approved：28
+- Approved：32
 - External candidates：876
 - Candidate movement pattern 尚未判定：308
 - 可能床上候選：22
@@ -12,20 +12,20 @@
 ## Approved：場景
 | 項目 | 數量 |
 |---|---:|
-| quiet | 25 |
-| tiny_space | 16 |
-| floor | 10 |
-| bed | 9 |
-| chair | 3 |
+| quiet | 29 |
+| tiny_space | 19 |
+| bed | 13 |
+| floor | 11 |
+| chair | 6 |
 | wall | 2 |
 | stairs | 1 |
 
 ## Approved：姿勢
 | 項目 | 數量 |
 |---|---:|
-| standing | 17 |
-| supine | 7 |
-| seated | 3 |
+| standing | 19 |
+| supine | 8 |
+| seated | 6 |
 | moving | 1 |
 | plank | 1 |
 | prone | 1 |
@@ -34,12 +34,12 @@
 ## Approved：特殊搜尋標籤
 | 項目 | 數量 |
 |---|---:|
-| no_jump | 28 |
-| small_space | 27 |
-| low_noise | 25 |
-| no_hand_support | 13 |
+| no_jump | 32 |
+| small_space | 31 |
+| low_noise | 29 |
+| no_hand_support | 17 |
+| bed_ok | 13 |
 | one_side_ok | 11 |
-| bed_ok | 9 |
 | limited_grip_friendly | 1 |
 
 ## Candidate：movement patterns（前 25）

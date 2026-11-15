@@ -24,18 +24,18 @@ for e in exs:
     for k in REQUIRED:
         if k not in e:
             err(eid, f"缺欄位 {k}")
-    if e["category"] not in ("train", "warmup", "cooldown"):
+    if e["category"] not in ("train", "warmup", "cooldown", "mobility"):
         err(eid, "category 不對")
     if e["region"] not in ("lower", "core", "upper", "full"):
         err(eid, "region 不對")
-    if e["mode"] not in ("hold", "reps"):
+    if e["mode"] not in ("hold", "reps", "time"):
         err(eid, "mode 不對")
     if e["upper_load"] not in ("none", "light", "full"):
         err(eid, "upper_load 不對")
     if not 1 <= e["level"] <= 5:
         err(eid, "level 要在 1–5")
     d = e["dose"]
-    if d["unit"] != ("sec" if e["mode"] == "hold" else "reps"):
+    if d["unit"] != ("reps" if e["mode"] == "reps" else "sec"):
         err(eid, "dose.unit 和 mode 對不上")
     if not d["min"] <= d["default"] <= d["max"]:
         err(eid, "dose 的 default 不在 min–max 之間")
