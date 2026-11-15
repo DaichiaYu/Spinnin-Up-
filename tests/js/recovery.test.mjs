@@ -35,6 +35,7 @@ test('緊繃＋想放鬆頸肩，真的排頸肩活動，不以肌力動作充�
   }});
   assert.ok(ids(r).includes('gentle-neck-turn'), ids(r));
   assert.ok(ids(r).includes('gentle-shoulder-circles'), ids(r));
+  assert.ok(!ids(r).includes('gentle-ankle-pumps'), '不能拿無關的腳踝活動填時間');
   assert.ok(r.items.every(it=>exById[it.id].category==='mobility'));
   assert.ok(r.reasons.some(x=>x.includes('有對應動作')));
   assert.ok(totalSec(r.items,exById)<=15*60);
@@ -51,6 +52,7 @@ test('明確疼痛＋想放鬆同一區，不能繞過排除；其他區可以�
 test('想放鬆腳踝時，優先安排腳踝；完全避開則不排',()=>{
   const a=gen({regionNeeds:{foot:{condition:'stiff',intent:'mobility'}}});
   assert.equal(a.items[0].id,'gentle-ankle-pumps');
+  assert.ok(a.items.every(it=>it.id==='gentle-ankle-pumps'));
   const b=gen({regionNeeds:{foot:{condition:'tired',intent:'avoid'}}});
   assert.ok(!ids(b).includes('gentle-ankle-pumps'));
 });
