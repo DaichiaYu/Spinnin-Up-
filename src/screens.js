@@ -7,6 +7,7 @@ import { FIELDS, CHOICES, GEAR, REGIONS, OBSERVATIONS, STALE_WEEKS, emptyProfile
   analyze, tendency, isStale, toCSV, fromCSV } from './profile.js';
 import { EFFECTS, WHERE, INTENSITY, ENERGY, FATIGUE, PLACE, MINUTES, PATTERN_NAMES, flexExtra, generateWorkout, trialItems, relatedAreas } from './generator.js';
 import { HOW, evaluate, applyAdj } from './feedback.js';
+import { CONDITIONS, REGION_INTENTS } from './recovery.js';
 import { REGION } from './workout-engine.js';
 import * as ui from './ui.js';
 
@@ -317,13 +318,43 @@ export function renderToday() {
       h('span', { class: 'unit', text: '分鐘（3–90）' })));
   }
   var regionOpts = {}; REGIONS.forEach(function (r) { regionOpts[r.id] = r.name; });
+  if (!t.regionNeeds) t.regionNeeds = {};
+  var regionNeedPanel = h('div', { id: 'region-need-panel' });
+  function drawRegionNeeds() {
+    regionNeedPanel.textContent = '';
+    Object.keys(t.regionNeeds).forEach(function (region) {
+      var item = t.regionNeeds[region];
+      regionNeedPanel.appendChild(h('div', { class: 'need-item', 'data-need': region },
+        h('h3', { text: regionOpts[region] || region }),
+        h('p', { class: 'flabel', text: '這裡目前是什麼感覺？' }),
+        pills('need-condition-' + region, CONDITIONS, item.condition, function (k) {
+          item.condition = k;
+          drawRegionNeeds();
+        }),
+        h('p', { class: 'flabel', text: '今天希望怎麼處理？' }),
+        pills('need-intent-' + region, REGION_INTENTS, item.intent, function (k) {
+          item.intent = k;
+          drawRegionNeeds();
+        }),
+        (item.condition === 'pain' && item.intent !== 'avoid')
+          ? h('p', { class: 'banner', text: '你選了「明確疼痛」，系統會先避開這一區的直接動作，即使選擇想放鬆也不會強行安排。' }) : null,
+        (item.condition === 'unsure')
+          ? h('p', { class: 'why', text: '狀況不清楚時，先保守避開。選擇更貼近的感覺後，才能安排溫和活動。' }) : null
+      ));
+    });
+  }
 
   wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '今天的狀態' }),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '精神' }), pills('t-energy', ENERGY, t.energy, function (k) { t.energy = k; })),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '肌肉痠累' }), pills('t-fatigue', FATIGUE, t.fatigue, function (k) { t.fatigue = k; })),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天哪裡不舒服（沒有就不用選）' }),
-      pills('t-sore', regionOpts, t.sore, function (k, on) { t.sore = on ? t.sore.concat([k]) : t.sore.filter(function (x) { return x !== k; }); }, true),
-      h('p', { class: 'why', text: '選了的地方，今天不會排主要練那裡的動作。' }))));
+    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天有狀況、或特別想溫和活動的部位（可以不選）' }),
+      pills('t-sore', regionOpts, Object.keys(t.regionNeeds), function (k, on) {
+        if (on) t.regionNeeds[k] = { condition: 'unsure', intent: 'avoid' };
+        else delete t.regionNeeds[k];
+        drawRegionNeeds();
+      }, true),
+      h('p', { class: 'why', text: '點部位後才會展開兩題：「怎麼不舒服？」與「希望怎麼處理？」。緊繃和肌肉痠累可以選擇溫和活動；明確疼痛則先避開。' }),
+      regionNeedPanel)));
   wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '想怎麼練' }),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天主要想要的效果' }), pills('t-effect', EFFECTS, t.effect, function (k) { t.effect = k; })),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '想練哪裡' }), pills('t-where', WHERE, t.where, function (k) { t.where = k; drawFocus(); }), focusBox),
@@ -357,13 +388,13 @@ export function renderToday() {
     h('button', { class: 'btn accent', id: 'btn-generate', text: '排出課表', onclick: function () {
       var r = generateWorkout({ exercises: db.list, exById: db.ex, areas: db.areas, facets: db.facets, owned: state.owned,
         minutes: t.minutes, strict: t.strict, effect: t.effect, where: t.where, focus: t.focus, intensity: t.intensity,
-        energy: t.energy, fatigue: t.fatigue, sore: t.sore, place: t.place, profile: p });
+        energy: t.energy, fatigue: t.fatigue, sore: t.sore, regionNeeds: t.regionNeeds, place: t.place, profile: p });
       if (!r.items.length) { alert(r.reasons[r.reasons.length - 1]); return; }
       state.items = r.items; session.why = r.why; session.reasons = r.reasons; session.used = r.used;
       ui.syncHash(); ui.renderPlan();
     } })));
   wrap.appendChild(ui.footerNote());
-  drawFocus(); drawStrict(); drawCustom(isCustom);
+  drawFocus(); drawStrict(); drawCustom(isCustom); drawRegionNeeds();
 }
 
 /* ========== 做完回報 ========== */
