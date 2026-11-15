@@ -1,5 +1,5 @@
 // 區域狀態 × 今天意圖的純函式；沒有 DOM、沒有帳號或儲存。
-// 「緊／疲勞」可做溫和活動；「疼痛／明確不要碰」不可被「想放鬆」覆蓋。
+// 運動前只確定想怎麼做；感受與難度運動後才填。既有明確疼痛資料及「不要碰」仍優先排除。
 import { canDo, totalSec } from './workout-engine.js';
 
 export const CONDITIONS = {
@@ -21,18 +21,19 @@ export const REGION_INTENTS = {
 export function normalizeNeeds(needs = {}, legacySore = []) {
   const clean = {};
   for (const [region, raw] of Object.entries(needs || {})) {
-    if (!raw || !CONDITIONS[raw.condition] || !REGION_INTENTS[raw.intent]) continue;
-    clean[region] = { condition: raw.condition, intent: raw.intent };
+    if (!raw || !REGION_INTENTS[raw.intent]) continue;
+    clean[region] = { intent: raw.intent };
+    if (CONDITIONS[raw.condition]) clean[region].condition = raw.condition;
   }
   for (const region of legacySore || []) {
-    if (!clean[region]) clean[region] = { condition: 'unsure', intent: 'avoid' };
+    if (!clean[region]) clean[region] = { intent: 'avoid' };
   }
   return clean;
 }
 
 export function regionPolicy(need) {
   if (!need) return 'normal';
-  if (need.intent === 'avoid' || need.condition === 'pain' || need.condition === 'unsure') return 'avoid';
+  if (need.intent === 'avoid' || need.condition === 'pain') return 'avoid';
   if (['relax','mobility','gentle'].includes(need.intent)) return 'target_gentle';
   return 'deload';
 }
