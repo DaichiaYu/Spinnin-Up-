@@ -1809,6 +1809,244 @@
       "harder": null,
       "swaps": [],
       "easier_tip": ""
+    },
+    {
+      "id": "gentle-neck-turn",
+      "name": "坐姿溫和轉頭",
+      "name_en": "Gentle Seated Neck Rotation",
+      "category": "mobility",
+      "region": "upper",
+      "pattern": "neck_rotation",
+      "mode": "time",
+      "primary": [
+        "neck_muscles"
+      ],
+      "secondary": [],
+      "equipment": [
+        "none"
+      ],
+      "upper_load": "none",
+      "sided": false,
+      "level": 1,
+      "dose": {
+        "unit": "sec",
+        "default": 30,
+        "min": 15,
+        "max": 60,
+        "step": 5
+      },
+      "sets": 1,
+      "rest_sec": 0,
+      "effect": "溫和活動頸部左右轉動的範圍，不以拉到極限為目標。",
+      "setup": [
+        "坐穩或站穩，視線先看正前方，肩膀放鬆。",
+        "頭慢慢轉向左側，到舒服的位置後回正，再轉向右側。",
+        "在不疼痛的範圍內輕輕來回活動，呼吸自然。"
+      ],
+      "cues": [
+        "轉動要慢，不要甩頭。",
+        "肩膀放鬆，不用扭身體幫忙。",
+        "動到舒服的位置就好。"
+      ],
+      "avoid": [
+        "用手硬扳頭。",
+        "仰頭或快速甩動。",
+        "頭暈、疼痛仍繼續。"
+      ],
+      "watch": [
+        {
+          "area": "neck",
+          "meaning": "如果是明確疼痛或越動越不舒服，請停止這個動作。"
+        }
+      ],
+      "easier": null,
+      "harder": null,
+      "swaps": [],
+      "easier_tip": "只轉很小的角度，甚至先做幾次舒服的抬頭與回正。",
+      "recovery_regions": [
+        "head_neck"
+      ]
+    },
+    {
+      "id": "gentle-shoulder-circles",
+      "name": "緩慢肩膀繞圈",
+      "name_en": "Gentle Shoulder Circles",
+      "category": "mobility",
+      "region": "upper",
+      "pattern": "mobility",
+      "mode": "time",
+      "primary": [
+        "shoulders"
+      ],
+      "secondary": [
+        "upper_back"
+      ],
+      "equipment": [
+        "none"
+      ],
+      "upper_load": "none",
+      "sided": false,
+      "level": 1,
+      "dose": {
+        "unit": "sec",
+        "default": 35,
+        "min": 15,
+        "max": 65,
+        "step": 5
+      },
+      "sets": 1,
+      "rest_sec": 0,
+      "effect": "溫和活動肩膀與肩胛附近，減少久坐後一直維持同一姿勢的感覺。",
+      "setup": [
+        "坐著或站著，雙手自然放在身體兩側。",
+        "肩膀慢慢往前、往上、往後、往下畫小圈。",
+        "方向可以換邊；兩側活動範圍不一樣也可以。"
+      ],
+      "cues": [
+        "圈小一點也可以。",
+        "保持呼吸，頸部別跟著出力。",
+        "每一次移動都慢慢來。"
+      ],
+      "avoid": [
+        "用力聳肩憋住不放。",
+        "快速甩肩。",
+        "越做越痛還繼續。"
+      ],
+      "watch": [
+        {
+          "area": "shoulder_joint",
+          "meaning": "若關節疼痛或有夾擠感，請縮小範圍；仍不舒服就停止。"
+        }
+      ],
+      "easier": null,
+      "harder": null,
+      "swaps": [],
+      "easier_tip": "只做前後輕輕滑動，不必繞完整圈。",
+      "recovery_regions": [
+        "shoulder_chest",
+        "head_neck",
+        "arms"
+      ]
+    },
+    {
+      "id": "gentle-ankle-pumps",
+      "name": "坐姿腳踝上下活動",
+      "name_en": "Gentle Seated Ankle Pumps",
+      "category": "mobility",
+      "region": "lower",
+      "pattern": "mobility",
+      "mode": "time",
+      "primary": [
+        "feet"
+      ],
+      "secondary": [
+        "calves"
+      ],
+      "equipment": [
+        "none"
+      ],
+      "upper_load": "none",
+      "sided": false,
+      "level": 1,
+      "dose": {
+        "unit": "sec",
+        "default": 35,
+        "min": 15,
+        "max": 65,
+        "step": 5
+      },
+      "sets": 1,
+      "rest_sec": 0,
+      "effect": "讓腳踝慢慢上下活動，適合久坐後做一段輕量動作。",
+      "setup": [
+        "坐穩，雙腳可放地上或一腳伸向前方。",
+        "腳尖緩慢朝自己勾，再輕輕往前伸。",
+        "左右腳依舒服的幅度活動，不必一樣大。"
+      ],
+      "cues": [
+        "腳踝動就好，不必整條腿甩動。",
+        "不要用力壓到最底。",
+        "呼吸自然。"
+      ],
+      "avoid": [
+        "快速彈腳。",
+        "出現關節疼痛仍繼續。"
+      ],
+      "watch": [
+        {
+          "area": "ankle",
+          "meaning": "如果活動時明確疼痛，請停止；改成其他不疼痛的動作。"
+        }
+      ],
+      "easier": null,
+      "harder": null,
+      "swaps": [],
+      "easier_tip": "腳尖上下只動一點點。",
+      "recovery_regions": [
+        "foot",
+        "calf"
+      ]
+    },
+    {
+      "id": "gentle-knee-rolls",
+      "name": "仰躺雙膝小幅擺動",
+      "name_en": "Gentle Supine Knee Rolls",
+      "category": "mobility",
+      "region": "core",
+      "pattern": "mobility",
+      "mode": "time",
+      "primary": [
+        "obliques"
+      ],
+      "secondary": [
+        "lower_back_muscle",
+        "glutes"
+      ],
+      "equipment": [
+        "mat"
+      ],
+      "upper_load": "none",
+      "sided": false,
+      "level": 1,
+      "dose": {
+        "unit": "sec",
+        "default": 40,
+        "min": 20,
+        "max": 70,
+        "step": 5
+      },
+      "sets": 1,
+      "rest_sec": 0,
+      "effect": "在舒服的範圍內讓腰背與骨盆附近輕輕轉動。",
+      "setup": [
+        "仰躺，雙膝彎曲、雙腳踩穩墊子，雙手自然放在旁邊。",
+        "兩膝靠近，慢慢向左擺一小段，再回到中間。",
+        "換右側，幅度以腰背舒服為準。"
+      ],
+      "cues": [
+        "骨盆慢慢跟著動，不要甩。",
+        "呼吸自然，不需要把膝蓋壓到地上。",
+        "腰背有明顯疼痛就停止。"
+      ],
+      "avoid": [
+        "用力把膝蓋壓到側邊。",
+        "讓肩頸緊繃。",
+        "有疼痛仍強行增加角度。"
+      ],
+      "watch": [
+        {
+          "area": "lower_back",
+          "meaning": "如果有尖銳疼痛或越動越痛，請停止。"
+        }
+      ],
+      "easier": null,
+      "harder": null,
+      "swaps": [],
+      "easier_tip": "只左右移動幾公分，或先改為仰躺呼吸。",
+      "recovery_regions": [
+        "trunk",
+        "pelvis"
+      ]
     }
   ]
 }
