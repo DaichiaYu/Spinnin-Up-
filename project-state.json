@@ -40,7 +40,8 @@
       "src/feedback.js": "feedback → adjustment rules, no DOM",
       "src/store.js": "in-memory session state",
       "src/dom.js": "DOM helpers",
-      "src/screens.js": "home, profile, today, feedback screens"
+      "src/screens.js": "home, profile, today, feedback screens",
+      "src/recovery.js": "region condition-intent policy + dedicated gentle mobility workout generation"
     },
     "device_preferences_storage": "localStorage spinnin-up.sound (sound mode and volume only, no body data)",
     "body_data_persistence": "in memory only; user downloads/uploads a CSV file",
@@ -91,7 +92,10 @@
     "frame_size_estimate": "done",
     "observation_free_text_affects_plan": "planned",
     "mobility_stretch_exercises": "planned",
-    "equipment_weight_affects_difficulty": "planned"
+    "equipment_weight_affects_difficulty": "planned",
+    "condition_intent_region_inputs": "done",
+    "recovery_mobility_pilot": "done",
+    "recovery_mobile_user_validation": "pending"
   },
   "product_constraints": {
     "human_keeps_final_control": true,
