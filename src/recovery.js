@@ -33,7 +33,7 @@ export function normalizeNeeds(needs = {}, legacySore = []) {
 
 export function regionPolicy(need) {
   if (!need) return 'normal';
-  if (need.intent === 'avoid' || need.condition === 'pain') return 'avoid';
+  if (need.intent === 'avoid' || need.condition === 'pain' || need.condition === 'unsure') return 'avoid';
   if (['relax','mobility','gentle'].includes(need.intent)) return 'target_gentle';
   return 'deload';
 }
