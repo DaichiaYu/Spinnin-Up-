@@ -376,7 +376,7 @@ export function renderFeedback(app, mins) {
   wrap.appendChild(h('p', { class: 'mute', text: '每個動作兩題：做得怎麼樣、哪裡有感覺。有回答的動作，下次會依這個小幅調整；沒做或不想答的可以留空。' }));
 
   list.forEach(function (it) {
-    var ex = db.ex[it.id], a = answers[ex.id] = { areas: [] }, unit = ex.mode === 'hold' ? '秒' : '下';
+    var ex = db.ex[it.id], a = answers[ex.id] = { areas: [] }, unit = ex.mode !== 'reps' ? '秒' : '下';
     var near = ex.primary.concat(ex.secondary, ex.watch.map(function (w) { return w.area; })).filter(function (x, i, arr) { return arr.indexOf(x) === i; });
     var rest = Object.keys(db.areas).filter(function (id) { return near.indexOf(id) < 0; });
     var actualBox = h('div', { class: 'actual', hidden: true },
