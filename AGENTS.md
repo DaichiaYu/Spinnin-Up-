@@ -43,7 +43,7 @@ src/
   calendar.js       行事曆檔與欄位檢查（不碰畫面）
   player.js         播放器的時間邏輯：步驟、倒數、暫停、背景補進度（不碰畫面、不出聲）
   profile.js        身體資料：分層的資料模型、欄位、自我觀察、表格檔（CSV）讀寫、分析、能力傾向（不碰畫面）
-  generator.js      自動排課表的規則和理由（不碰畫面）
+  generator.js      自動排課表的規則和理由（不碰畫面）\n  recovery.js       區域感受 × 意圖的純規則及溫和活動排程（不碰畫面）
   feedback.js       做完回報 → 下次怎麼調（不碰畫面）
   sound.js          播報模式、音量、提示音、語音
   store.js          這次打開頁面期間的狀態（只在記憶體裡）
@@ -125,3 +125,12 @@ GitHub Actions 也會跑同一組 guardrails。CI 沒過不要合併，也不要
 - candidate 的自動 facets 只能拿來搜尋，`needs_review=true` 時不得直接升成推薦。
 - 升成正式動作前，要補齊 Spinnin-Up 自己的中文內容、dose、watch 與 SVG，並跑完整 checks。
 - 外部來源一定要先看 `research/exercise-sources/sources.json` 的授權狀態。
+
+## 恢復／放鬆功能
+
+- `src/recovery.js` 是身體區域 condition × intent 的單一規則來源。
+- 疼痛回報停止原動作的規則不可被「我想放鬆」覆蓋；明確疼痛的區域先不安排直接活動。
+- `category=mobility` 是溫和活動動作，不是把肌力動作縮成一組；`mode=time` 是持續慢動作的計時。
+- 記錄各部位的狀態只放記憶體（`session.today.regionNeeds`）；不存至課表網址。
+- 新動作必須有自己的示意圖與測試，不拿候選池未審核內容充數。
+- 更新後執行 `node --test tests/js/*.test.mjs`，尤其確認疼痛排除與恢復目標不互相衝突。
