@@ -4,11 +4,11 @@
 |---|---|
 | `id` | 英文代號。訂了就不要改。 |
 | `name` / `name_en` | 中文、英文名稱 |
-| `category` | `train` 訓練動作、`warmup` 暖身、`cooldown` 收操 |
+| `category` | `train` 訓練動作、`mobility` 溫和活動／恢復、`warmup` 暖身、`cooldown` 收操 |
 | `region` | `lower` 下半身、`core` 核心、`upper` 上半身、`full` 全身 |
 | `pattern` | 動作類型（蹲、髖鉸鏈、拉、推、抗伸展…）。找替代動作、檢查課表完整性時用。 |
-| `mode` | `hold` 撐住算秒數、`reps` 算次數 |
-| `primary` | 主要發力的部位。預覽時顯示，也是「應該在哪裡有感覺」。 |
+| `mode` | `hold` 靜態維持算秒數、`time` 動態持續活動算秒數、`reps` 算次數 |
+| `recovery_regions` | 可選。溫和活動動作對應的人體圖區域；供狀態 × 意圖選課使用。 |\n| `primary` | 主要發力的部位。預覽時顯示，也是「應該在哪裡有感覺」。 |
 | `secondary` | 會一起用到的部位 |
 | `equipment` | 需要的器材，全部都要有才能做 |
 | `upper_load` | 手臂的負擔：`none` 不用承重、`light` 輕度出力、`full` 要撐體重。上肢承重不適合的人用這個篩掉動作。 |
