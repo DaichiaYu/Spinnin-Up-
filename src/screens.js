@@ -131,8 +131,19 @@ export function renderHistory() {
       summary.push((reg?reg.name:r) + '：' + [row.feeling ? POST_FEELINGS[row.feeling] : '',row.difficulty ? POST_DIFFICULTY[row.difficulty] : ''].filter(Boolean).join('、'));
     });
     if (summary.length) contents.push(h('ul', {}, summary.map(function(s){return h('li',{text:s});})));
-    var n=Object.keys(rep.exercises || {}).length;
-    contents.push(h('p', { class:'mute', text: rep.skipped ? '這次略過事後回報。' : '動作詳細回報：' + n + ' 筆（下次劑量調整仍依原始回報進行）。' }));
+    var exerciseReports = Object.entries(rep.exercises || {});
+    if (exerciseReports.length) contents.push(h('details', { class:'more' },
+      h('summary', { text:'這次的逐動作回報（' + exerciseReports.length + ' 筆）' }),
+      h('ul', {}, exerciseReports.map(function(pair) {
+        var id=pair[0], ans=pair[1] || {}, labels=[];
+        if (ans.how) labels.push(HOW[ans.how] || ans.how);
+        if (ans.howL || ans.howR) labels.push('左：' + (HOW[ans.howL] || '未填') + '／右：' + (HOW[ans.howR] || '未填'));
+        if (ans.pain) labels.push('曾回報疼痛');
+        if (ans.actual) labels.push('實際 ' + ans.actual);
+        if (ans.areas?.length) labels.push('有感覺的部位：' + ans.areas.map(areaName).join('、'));
+        return h('li', { text: (db.ex[id]?.name || id) + '：' + labels.join('；') });
+      }))));
+    contents.push(h('p', { class:'mute', text: rep.skipped ? '這次略過事後回報。' : '原始回報為歷史快照；之後調整課表不會改寫這一筆。' }));
     wrap.appendChild(h('details', { class:'card' },
       h('summary', { text: dateText(entry.at) + '｜' + (entry.trial?'試做':'訓練') + '｜' + entry.minutes + ' 分鐘' }),
       contents));
@@ -549,7 +560,7 @@ function renderDone(mins, results, trial, report) {
     touch();
     recorded = true;
   }
-  var count = state.items.length;
+  var count = snapshot ? snapshot.exercises.length : state.items.length;
   if (trial) endTrial();
   var p = session.profile, t = tendency(p, db.ex);
   var wrap = page(trial ? '試做完成' : '完成了');
@@ -571,6 +582,7 @@ function renderDone(mins, results, trial, report) {
   if (recorded) wrap.appendChild(h('p', { class:'banner', text:'這次訓練已加入唯讀歷史。記得下載最新檔案，下次上傳才能保留紀錄。' }));
   wrap.appendChild(h('div', { class: 'row', style: 'margin:14px 0' },
     recorded || results.length ? h('button', { class: 'btn primary', id: 'btn-save-file3', text: '下載最新檔案（含訓練歷史）', onclick: downloadLatest }) : null,
+    recorded ? h('button', { class:'btn', id:'btn-view-history', text:'查看訓練歷史', onclick: renderHistory }) : null,
     trial ? h('button', { class: 'btn accent', text: '幫我排一組', onclick: renderToday }) : null,
     h('button', { class: 'btn', id: 'btn-back-plan', text: trial ? '回首頁' : '回到課表', onclick: ui.renderPlan }),
     trial ? null : h('button', { class: 'btn', text: '加入行事曆', onclick: ui.openCalendar }),
