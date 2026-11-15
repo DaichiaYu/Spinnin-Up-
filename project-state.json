@@ -41,10 +41,11 @@
       "src/store.js": "in-memory session state",
       "src/dom.js": "DOM helpers",
       "src/screens.js": "home, profile, today, feedback screens",
-      "src/recovery.js": "region condition-intent policy + dedicated gentle mobility workout generation"
+      "src/recovery.js": "region condition-intent policy + dedicated gentle mobility workout generation",
+      "src/workout-history.js": "append-only workout event model and post-session responses; no DOM"
     },
     "device_preferences_storage": "localStorage spinnin-up.sound (sound mode and volume only, no body data)",
-    "body_data_persistence": "in memory only; user downloads/uploads a CSV file",
+    "body_data_persistence": "in memory only; user downloads/uploads CSV v3 including append-only workout history",
     "exercise_candidate_data": "data/exercise-candidates.json",
     "exercise_facets": "data/exercise-facets.json"
   },
@@ -95,7 +96,12 @@
     "equipment_weight_affects_difficulty": "planned",
     "condition_intent_region_inputs": "done",
     "recovery_mobility_pilot": "done",
-    "recovery_mobile_user_validation": "pending"
+    "recovery_mobile_user_validation": "pending",
+    "intent_first_preworkout_ui": "done",
+    "postworkout_feelings_and_difficulty": "done",
+    "workout_history_readonly_ui": "done",
+    "workout_history_csv_v3": "done",
+    "history_mobile_user_validation": "pending"
   },
   "product_constraints": {
     "human_keeps_final_control": true,
@@ -104,7 +110,9 @@
     "external_exercise_images": false,
     "pain_feedback_action": "stop",
     "medical_treatment_claims": false,
-    "body_data_in_browser_storage": false
+    "body_data_in_browser_storage": false,
+    "workout_history_editable_in_app": false,
+    "history_file_tamper_proof": false
   },
   "agent_contract": {
     "read_order": [

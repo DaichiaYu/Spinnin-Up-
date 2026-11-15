@@ -422,6 +422,18 @@ function narrate(s, pos) {
 
 export function startPlayer() {
   if (!state.items.length) return;
+  // 保存開始當下的意圖與原始課表，不能被運動後的自動劑量調整覆寫。
+  var t = session.today;
+  session.activeWorkout = {
+    at: new Date().toISOString(),
+    trial: !!session.trial,
+    plan: { effect: t.effect, where: t.where, focus: t.focus, intensity: t.intensity, place: t.place,
+      minutes: t.minutes, strict: t.strict },
+    intentions: Object.fromEntries(Object.entries(t.regionNeeds || {}).filter(function(entry) {
+      return entry[1] && entry[1].intent;
+    }).map(function(entry) { return [entry[0], entry[1].intent]; })),
+    exercises: JSON.parse(JSON.stringify(state.items))
+  };
   sound.ensureAudio();
   var t0 = Date.now();
   player = createPlayer(steps(), {

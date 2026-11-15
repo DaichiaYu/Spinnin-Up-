@@ -7,7 +7,8 @@ import { FIELDS, CHOICES, GEAR, REGIONS, OBSERVATIONS, STALE_WEEKS, emptyProfile
   analyze, tendency, isStale, toCSV, fromCSV } from './profile.js';
 import { EFFECTS, WHERE, INTENSITY, ENERGY, FATIGUE, PLACE, MINUTES, PATTERN_NAMES, flexExtra, generateWorkout, trialItems, relatedAreas } from './generator.js';
 import { HOW, evaluate, applyAdj } from './feedback.js';
-import { CONDITIONS, REGION_INTENTS } from './recovery.js';
+import { REGION_INTENTS } from './recovery.js';
+import { POST_FEELINGS, POST_DIFFICULTY, createWorkoutEntry, appendWorkoutEntry } from './workout-history.js';
 import { REGION } from './workout-engine.js';
 import * as ui from './ui.js';
 
@@ -98,12 +99,58 @@ export function renderHome(wrap, actions) {
     session.dirty ? h('p', { class: 'banner', id: 'dirty-note', text: '有新的資料還沒下載。關掉頁面就會不見，記得按「下載最新檔案」。' }) : null,
     h('div', { class: 'row' },
       h('button', { class: 'btn', id: 'btn-profile', text: has ? '查看或修改' : '在頁面上填', onclick: function () { renderProfile(); } }),
-      h('button', { class: 'btn', id: 'btn-trial', text: t.tested ? '重做試做動作' : '做試做動作（約 4 分鐘）', onclick: startTrial })),
+      h('button', { class: 'btn', id: 'btn-trial', text: t.tested ? '重做試做動作' : '做試做動作（約 4 分鐘）', onclick: startTrial }),
+      (p.history || []).length ? h('button', { class: 'btn', id: 'btn-history', text: '訓練歷史（' + p.history.length + '）', onclick: renderHistory }) : null),
     h('div', { class: 'row', style: 'margin-top:8px' },
       h('button', { class: 'btn small', id: 'btn-upload', text: '上傳我的檔案', onclick: function () { upload(); } }),
       h('button', { class: 'btn small', id: 'btn-blank', text: '下載空白表格', onclick: downloadBlank }),
       has ? h('button', { class: 'btn small' + (session.dirty ? ' primary' : ''), id: 'btn-save-file', text: '下載最新檔案', onclick: function () { downloadLatest(); ui.renderPlan(); } }) : null),
     h('p', { class: 'mute', text: '這個頁面不會幫你存資料。要留到下次，就下載檔案，下次再傳上來。也可以下載空白表格，用試算表填好再上傳。' })));
+}
+
+/* ========== 歷史紀錄（僅顯示、無修改入口） ========== */
+export function renderHistory() {
+  var entries = (session.profile.history || []).slice().reverse();
+  var wrap = page('訓練歷史');
+  wrap.appendChild(h('p', { class: 'mute', text: '這裡只讀取過去的訓練快照，不能在 App 內更改或刪除。紀錄會隨「下載最新檔案」保存，下次上傳可繼續查看。下載的 CSV 仍能在外部被修改，並非防竄改證明。' }));
+  if (!entries.length) wrap.appendChild(h('p', { class: 'card', text: '目前還沒有訓練紀錄。' }));
+  entries.forEach(function(entry) {
+    var exNames = entry.exercises.map(function(it) { return db.ex[it.id] ? db.ex[it.id].name : it.id; });
+    var contents = [h('p', { class: 'mute', text: '原先目標：' + (EFFECTS[entry.plan.effect] || '自行安排') + '；' + entry.minutes + ' 分鐘實際訓練' }),
+      h('p', { text: '原始動作：' + (exNames.join('、') || '未記錄') })];
+    var intents = Object.keys(entry.intentions || {});
+    if (intents.length) contents.push(h('p', { text: '開始前的意圖：' + intents.map(function(r) {
+      var reg = REGIONS.find(function(x){return x.id===r;});
+      return (reg ? reg.name : r) + '：' + (REGION_INTENTS[entry.intentions[r]] || entry.intentions[r]);
+    }).join('；') }));
+    var rep = entry.report || {}, summary = [];
+    if (rep.overall?.feeling) summary.push('做完的感覺：' + POST_FEELINGS[rep.overall.feeling]);
+    if (rep.overall?.difficulty) summary.push('整體難度：' + POST_DIFFICULTY[rep.overall.difficulty]);
+    Object.keys(rep.regions || {}).forEach(function(r) {
+      var row=rep.regions[r] || {}, reg=REGIONS.find(function(x){return x.id===r;});
+      summary.push((reg?reg.name:r) + '：' + [row.feeling ? POST_FEELINGS[row.feeling] : '',row.difficulty ? POST_DIFFICULTY[row.difficulty] : ''].filter(Boolean).join('、'));
+    });
+    if (summary.length) contents.push(h('ul', {}, summary.map(function(s){return h('li',{text:s});})));
+    var exerciseReports = Object.entries(rep.exercises || {});
+    if (exerciseReports.length) contents.push(h('details', { class:'more' },
+      h('summary', { text:'這次的逐動作回報（' + exerciseReports.length + ' 筆）' }),
+      h('ul', {}, exerciseReports.map(function(pair) {
+        var id=pair[0], ans=pair[1] || {}, labels=[];
+        if (ans.how) labels.push(HOW[ans.how] || ans.how);
+        if (ans.howL || ans.howR) labels.push('左：' + (HOW[ans.howL] || '未填') + '／右：' + (HOW[ans.howR] || '未填'));
+        if (ans.pain) labels.push('曾回報疼痛');
+        if (ans.actual) labels.push('實際 ' + ans.actual);
+        if (ans.areas?.length) labels.push('有感覺的部位：' + ans.areas.map(areaName).join('、'));
+        return h('li', { text: (db.ex[id]?.name || id) + '：' + labels.join('；') });
+      }))));
+    contents.push(h('p', { class:'mute', text: rep.skipped ? '這次略過事後回報。' : '原始回報為歷史快照；之後調整課表不會改寫這一筆。' }));
+    wrap.appendChild(h('details', { class:'card' },
+      h('summary', { text: dateText(entry.at) + '｜' + (entry.trial?'試做':'訓練') + '｜' + entry.minutes + ' 分鐘' }),
+      contents));
+  });
+  wrap.appendChild(h('div', { class:'row' },
+    h('button', { class:'btn primary', text:'下載最新檔案', onclick: downloadLatest }),
+    h('button', { class:'btn', text:'回首頁', onclick: ui.renderPlan })));
 }
 
 /* ========== 我的身體 ========== */
@@ -325,40 +372,28 @@ export function renderToday() {
     Object.keys(t.regionNeeds).forEach(function (region) {
       var item = t.regionNeeds[region];
       regionNeedPanel.appendChild(h('div', { class: 'need-item', 'data-need': region },
-        h('h3', { text: regionOpts[region] || region }),
-        h('label', { class: 'field' }, h('span', { text: '這裡目前是什麼感覺？' }),
-          h('select', { id: 'need-condition-' + region, onchange: function (e) {
-            item.condition = e.target.value;
-            drawRegionNeeds();
-          } }, Object.keys(CONDITIONS).map(function (k) {
-            return h('option', { value: k, selected: k === item.condition, text: CONDITIONS[k] });
-          }))),
-        h('label', { class: 'field' }, h('span', { text: '今天希望怎麼處理？' }),
-          h('select', { id: 'need-intent-' + region, onchange: function (e) {
+        h('label', { class: 'field' }, h('span', { text: (regionOpts[region] || region) + '：今天想怎麼處理？' }),
+          h('select', { id: 'need-intent-' + region, onchange: function(e) {
             item.intent = e.target.value;
-            drawRegionNeeds();
-          } }, Object.keys(REGION_INTENTS).map(function (k) {
-            return h('option', { value: k, selected: k === item.intent, text: REGION_INTENTS[k] });
-          }))),
-        (item.condition === 'pain' && item.intent !== 'avoid')
-          ? h('p', { class: 'banner', text: '你選了「明確疼痛」，系統會先避開這一區的直接動作，即使選擇想放鬆也不會強行安排。' }) : null,
-        (item.condition === 'unsure')
-          ? h('p', { class: 'why', text: '狀況不清楚時，先保守避開。選擇更貼近的感覺後，才能安排溫和活動。' }) : null
+          } }, Object.keys(REGION_INTENTS).map(function(k) {
+            return h('option', { value:k, selected:k===item.intent, text:REGION_INTENTS[k] });
+          })))
       ));
     });
   }
 
-  wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '今天的狀態' }),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '精神' }), pills('t-energy', ENERGY, t.energy, function (k) { t.energy = k; })),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '肌肉痠累' }), pills('t-fatigue', FATIGUE, t.fatigue, function (k) { t.fatigue = k; })),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天有狀況、或特別想溫和活動的部位（可以不選）' }),
+  wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '今天想特別處理哪裡？' }),
+    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '不選也可以，會照整體目標排' }),
       pills('t-sore', regionOpts, Object.keys(t.regionNeeds), function (k, on) {
-        if (on) t.regionNeeds[k] = { condition: 'unsure', intent: 'avoid' };
+        if (on) t.regionNeeds[k] = { intent: 'gentle' };
         else delete t.regionNeeds[k];
         drawRegionNeeds();
       }, true),
-      h('p', { class: 'why', text: '點部位後才會展開兩題：「怎麼不舒服？」與「希望怎麼處理？」。緊繃和肌肉痠累可以選擇溫和活動；明確疼痛則先避開。' }),
-      regionNeedPanel)));
+      h('p', { class: 'why', text: '這裡只選「想怎麼做」，做完之後才會問實際感受和困難度。若已有明確疼痛，請選「完全不要碰」，不要勉強活動。' }),
+      regionNeedPanel),
+    h('details', { class:'more' }, h('summary', { text:'今天精神和肌肉狀態（可選，影響強度）' }),
+      h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '精神' }), pills('t-energy', ENERGY, t.energy, function (k) { t.energy = k; })),
+      h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '肌肉痠累' }), pills('t-fatigue', FATIGUE, t.fatigue, function (k) { t.fatigue = k; })))));
   wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '想怎麼練' }),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天主要想要的效果' }), pills('t-effect', EFFECTS, t.effect, function (k) { t.effect = k; })),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '想練哪裡' }), pills('t-where', WHERE, t.where, function (k) { t.where = k; drawFocus(); }), focusBox),
@@ -404,12 +439,39 @@ export function renderToday() {
 /* ========== 做完回報 ========== */
 var HOW_ORDER = ['short', 'form', 'stable'];
 export function renderFeedback(app, mins) {
-  var trial = !!session.trial, p = session.profile, answers = {};
-  var list = state.items.filter(function (it, i, a) { return db.ex[it.id].category === 'train' && a.findIndex(function (x) { return x.id === it.id; }) === i; });
-  if (!list.length) { renderDone(mins, [], trial); return; }
-  var wrap = page(trial ? '試做回報' : '做完了，回報一下', '先跳過', function () { renderDone(mins, [], trial); });
-  wrap.appendChild(h('p', { class: 'mute', text: '每個動作兩題：做得怎麼樣、哪裡有感覺。有回答的動作，下次會依這個小幅調整；沒做或不想答的可以留空。' }));
-
+  var trial = !!session.trial, p = session.profile, answers = {}, regionAnswers = {}, overall = {};
+  var list = state.items.filter(function (it, i, a) {
+    return (db.ex[it.id].category === 'train' || db.ex[it.id].category === 'mobility') &&
+      a.findIndex(function (x) { return x.id === it.id; }) === i;
+  });
+  var wrap = page(trial ? '試做回報' : '做完了，感覺如何？', '先跳過', function () { renderDone(mins, [], trial, { skipped: true }); });
+  function followupSelect(label, options, onChange, key) {
+    return h('label', { class: 'field' }, h('span', { text: label }),
+      h('select', { 'data-post': key, onchange:function(e) { onChange(e.target.value); } },
+        [h('option', { value:'', text:'這次先不填' })].concat(Object.keys(options).map(function(k) {
+          return h('option', { value:k, text:options[k] });
+        }))));
+  }
+  var feelingCard=h('section', { class:'card', id:'post-summary' }, h('h2', { text:'這次做完的感覺' }),
+    h('p', { class:'mute', text:'想記錄再填，不必每題都答。這些答案會隨最新檔案保存。' }),
+    followupSelect('現在身體感覺如何？', POST_FEELINGS, function(k) { overall.feeling=k; }, 'overall-feeling'),
+    followupSelect('整體來說做起來困難嗎？', POST_DIFFICULTY, function(k) { overall.difficulty=k; }, 'overall-difficulty'));
+  var intents=(session.activeWorkout && session.activeWorkout.intentions) || {};
+  if (Object.keys(intents).length) {
+    feelingCard.appendChild(h('p', { class:'flabel', text:'剛才想特別處理的部位（選填）' }));
+    Object.keys(intents).forEach(function(region) {
+      var label=(REGIONS.find(function(r){return r.id===region;})||{}).name||region;
+      var a=regionAnswers[region]={};
+      feelingCard.appendChild(h('details', { class:'more', 'data-post-region':region },
+        h('summary', { text: label + '｜原本想：' + (REGION_INTENTS[intents[region]] || intents[region]) }),
+        followupSelect('做完後這裡的感覺？',POST_FEELINGS,function(k){a.feeling=k;},region+'-feeling'),
+        followupSelect('這個部位的動作有多困難？',POST_DIFFICULTY,function(k){a.difficulty=k;},region+'-difficulty')));
+    });
+  }
+  wrap.appendChild(feelingCard);
+  var detailed = h('details', { class:'card', id:'post-exercise-details' },
+    h('summary', { text:'逐個動作詳細回報（選填）' }),
+    h('p', { class:'mute', text:'想讓下次更精準再展開：可回報動作難度、出力部位或疼痛；一般肌力動作會依回報微調。' }));
   list.forEach(function (it) {
     var ex = db.ex[it.id], a = answers[ex.id] = { areas: [] }, unit = ex.mode !== 'reps' ? '秒' : '下';
     var near = ex.primary.concat(ex.secondary, ex.watch.map(function (w) { return w.area; })).filter(function (x, i, arr) { return arr.indexOf(x) === i; });
@@ -426,7 +488,7 @@ export function renderFeedback(app, mins) {
         e.currentTarget.setAttribute('aria-pressed', String(on));
       } });
     }
-    wrap.appendChild(h('section', { class: 'card fb', 'data-fb': ex.id },
+    detailed.appendChild(h('section', { class: 'card fb', 'data-fb': ex.id },
       h('div', { class: 'fbhead' }, ui.img(ex), h('div', {}, h('h2', { text: ex.name }),
         h('p', { class: 'mute', text: '應該有感覺的地方：' + ex.primary.map(areaName).join('、') }))),
       h('p', { class: 'flabel', text: '做得怎麼樣？' }),
@@ -444,15 +506,24 @@ export function renderFeedback(app, mins) {
         '這個動作有疼痛或明顯不舒服')));
   });
 
+  if (list.length) wrap.appendChild(detailed);
+
   wrap.appendChild(h('div', { class: 'row', style: 'margin:14px 0' },
     h('button', { class: 'btn accent', id: 'btn-fb-send', text: '送出回報', onclick: function () {
-      var results = [];
+      var results = [], exerciseAnswers = {};
       list.forEach(function (it) {
         var ex = db.ex[it.id], a = answers[ex.id];
         if (ex.sided && (a.howL || a.howR) && !(a.howL && a.howR)) { a.howL = a.howL || a.howR; a.howR = a.howR || a.howL; }
-        if (!a.pain && !a.how && !a.howL) return;
-        if (a.pain && !a.how && !a.howL) a.how = 'short';
-        var r = evaluate(ex, it, a, p.adj[ex.id], areaName);
+        if (!a.pain && !a.how && !a.howL && !a.howR && !a.areas.length) return;
+        exerciseAnswers[ex.id] = Object.assign({}, a, { areas:a.areas.slice() });
+        if (!a.pain && !a.how && !a.howL && !a.howR) return; // 只選感覺部位，不自動推算難度
+        if (a.pain && !a.how && !a.howL && !a.howR) a.how = 'short';
+        var r;
+        if (ex.category === 'mobility') {
+          // 溫和活動不因「穩定做完」就自動加秒數；明確疼痛仍停止此動作。
+          r = { adj: Object.assign({},p.adj[ex.id] || {},a.pain ? { stopped:true } : {}),
+            messages: [a.pain ? '你回報這個動作有疼痛，先停止並從下次候選排除。' : '這次的溫和活動已記錄，下一次不會自動加量。'] };
+        } else r = evaluate(ex, it, a, p.adj[ex.id], areaName);
         p.adj[ex.id] = r.adj;
         if (trial) {
           // 試做保留原始結果：做了多少、多吃力、哪裡有感覺、左右各自怎麼樣
@@ -470,13 +541,27 @@ export function renderFeedback(app, mins) {
           .map(function (it) { return results.some(function (r) { return r.ex.id === it.id; }) ? applyAdj(it, db.ex[it.id], p.adj[it.id], p.asym.mode !== 'same') : it; });
         ui.syncHash();
       }
-      renderDone(mins, results, trial);
+      renderDone(mins, results, trial, { overall:overall, regions:regionAnswers, exercises:exerciseAnswers, skipped:false });
     } }),
-    h('button', { class: 'btn', id: 'btn-fb-skip', text: '這次先跳過', onclick: function () { renderDone(mins, [], trial); } })));
+    h('button', { class: 'btn', id: 'btn-fb-skip', text: '這次先跳過', onclick: function () { renderDone(mins, [], trial, { skipped:true }); } })));
 }
 
-function renderDone(mins, results, trial) {
-  var count = state.items.length;
+function renderDone(mins, results, trial, report) {
+  // 一次完成只寫一筆 append-only 歷史；必須在試做還原及課表調整前保留原始快照。
+  var snapshot = session.activeWorkout, recorded = false;
+  if (snapshot) {
+    var entry = createWorkoutEntry(session.profile, {
+      at: snapshot.at, minutes: mins, trial: snapshot.trial,
+      plan:snapshot.plan, intentions:snapshot.intentions, exercises:snapshot.exercises,
+      overall:report && report.overall, regionAnswers:report && report.regions,
+      exerciseAnswers:report && report.exercises, skipped:!report || report.skipped
+    });
+    appendWorkoutEntry(session.profile,entry);
+    session.activeWorkout = null;
+    touch();
+    recorded = true;
+  }
+  var count = snapshot ? snapshot.exercises.length : state.items.length;
   if (trial) endTrial();
   var p = session.profile, t = tendency(p, db.ex);
   var wrap = page(trial ? '試做完成' : '完成了');
@@ -495,8 +580,10 @@ function renderDone(mins, results, trial) {
       trial ? null : h('p', { class: 'mute', text: '這些調整已經套用到這組課表和訓練連結，你還是可以自己再改。' })));
     wrap.appendChild(h('p', { class: 'banner', text: '回報只留在這個頁面裡。要讓下次也記得，請下載最新檔案。' }));
   }
+  if (recorded) wrap.appendChild(h('p', { class:'banner', text:'這次訓練已加入唯讀歷史。記得下載最新檔案，下次上傳才能保留紀錄。' }));
   wrap.appendChild(h('div', { class: 'row', style: 'margin:14px 0' },
-    results.length ? h('button', { class: 'btn primary', id: 'btn-save-file3', text: '下載最新檔案', onclick: downloadLatest }) : null,
+    recorded || results.length ? h('button', { class: 'btn primary', id: 'btn-save-file3', text: '下載最新檔案（含訓練歷史）', onclick: downloadLatest }) : null,
+    recorded ? h('button', { class:'btn', id:'btn-view-history', text:'查看訓練歷史', onclick: renderHistory }) : null,
     trial ? h('button', { class: 'btn accent', text: '幫我排一組', onclick: renderToday }) : null,
     h('button', { class: 'btn', id: 'btn-back-plan', text: trial ? '回首頁' : '回到課表', onclick: ui.renderPlan }),
     trial ? null : h('button', { class: 'btn', text: '加入行事曆', onclick: ui.openCalendar }),

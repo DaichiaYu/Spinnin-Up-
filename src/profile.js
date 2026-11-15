@@ -1,9 +1,10 @@
+import { validHistoryEntry } from './workout-history.js';
 // 身體資料：分層的資料模型、欄位、表格檔（CSV）讀寫、分析、傾向。不碰畫面。
 // 規格見私人倉庫 Spin-Up 的 body-profile-spec.md。
 // 分層：basics 基本資料／measurements 量出來的尺寸／structure 長度與左右的相對描述／
 //       observations 使用者自己的觀察（不是診斷）／capability 試做的原始結果／adj 回報後的調整。
 // 資料不自動存在任何地方；使用者下載檔案、下次上傳。
-export const PROFILE_VERSION = '2';
+export const PROFILE_VERSION = '3';
 export const STALE_WEEKS = 8;            // 檔案超過幾週建議重新測量
 export const SIDE_DIFF_PCT = 5;          // 左右差幾 % 以上，建議勾選「左右有差」
 
@@ -125,7 +126,7 @@ export const GEAR = [
 export function emptyProfile() {
   return { basics: {}, measurements: {}, structure: {}, observations: [], otherNote: '',
     asym: { has: '', where: [], mode: '' }, prefs: { freq: '', style: '', strong: '', avoid: [], longGoals: [] },
-    gear: {}, capability: {}, adj: {}, settings: {}, savedAt: null };
+    gear: {}, capability: {}, adj: {}, settings: {}, history: [], savedAt: null };
 }
 export function get(p, key) { var f = FIELD_BY_KEY[key]; return f ? p[f.layer][key] : undefined; }
 var FIELD_BY_KEY = {};
@@ -134,7 +135,7 @@ export function fieldOf(key) { return FIELD_BY_KEY[key]; }
 export function isRequired(f) { return f.layer === 'basics' && f.level === 'basic'; }
 export function hasData(p) {
   return Object.keys(p.basics).length + Object.keys(p.measurements).length + Object.keys(p.structure).length + p.observations.length +
-    Object.keys(p.capability).length + Object.keys(p.adj).length > 0 || !!p.asym.has || !!p.prefs.freq || !!p.otherNote;
+    Object.keys(p.capability).length + Object.keys(p.adj).length + (p.history || []).length > 0 || !!p.asym.has || !!p.prefs.freq || !!p.otherNote;
 }
 // 每個身體區域填了幾項（畫面上顯示用）
 export function regionCount(p, regionId) {
@@ -305,6 +306,15 @@ export function toCSV(p, now) {
   Object.keys(p.capability).forEach(function (id) { extra.push(['cap.' + id, '試做結果', kv(p.capability[id]), '', '']); });
   Object.keys(p.adj).forEach(function (id) { extra.push(['adj.' + id, '依回報的調整', kv(p.adj[id]), '', '']); });
   if (extra.length) { rows.push(['', '【頁面記下來的設定和回報】', '', '', '由頁面填寫，不用手動改']); rows = rows.concat(extra); }
+  // 單一 CSV 下載。歷史紀錄為唯讀資料區，App 不提供修改入口；外部仍可能編輯檔案。
+  if ((p.history || []).length) {
+    rows.push(['', '【訓練歷史：App 內唯讀】', '', '', '不可在 App 內改動過去紀錄。檔案本身沒有防竄改保證。']);
+    (p.history || []).forEach(function (entry) {
+      if (!validHistoryEntry(entry)) return;
+      rows.push(['hist.' + entry.id, '訓練完成時的原始紀錄（唯讀）',
+        encodeURIComponent(JSON.stringify(entry)), 'JSON URI 編碼', '此欄由 App 自動建立，請勿修改。歷史內容可在網頁上閱讀。']);
+    });
+  }
   return '﻿' + rows.map(function (r) { return r.map(esc).join(','); }).join('\r\n') + '\r\n';
 }
 
@@ -389,6 +399,15 @@ export function fromCSV(text) {
       if (kvs.stopped === '1') a.stopped = true;
       if (kvs.avoid === '1') a.avoid = true;
       if (Object.keys(a).length) p.adj[k.slice(4)] = a;
+    }
+  });
+  Object.keys(map).filter(function(k) { return k.indexOf('hist.') === 0 && map[k]; }).sort().forEach(function(k) {
+    try {
+      var entry = JSON.parse(decodeURIComponent(map[k]));
+      if (!validHistoryEntry(entry) || k !== 'hist.' + entry.id || p.history.some(function(x) { return x.id === entry.id; })) throw new Error('invalid');
+      p.history.push(entry);
+    } catch (_) {
+      warnings.push('有一筆訓練歷史紀錄格式無效，已略過。');
     }
   });
   return { profile: p, warnings: warnings };

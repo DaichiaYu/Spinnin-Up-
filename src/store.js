@@ -14,5 +14,6 @@ export const session = {
   reasons: [],               // 自動排的課表：整體的理由
   used: [],                  // 自動排的課表：用了哪些資料
   trial: null,               // 正在試做時，暫存原本的課表
+  activeWorkout: null,       // 開始訓練時的快照；完成後寫入唯讀歷史
   today: { minutes: 15, strict: false, effect: 'strength', where: 'all', focus: '', intensity: 'normal', energy: '', fatigue: '', sore: [], regionNeeds: {}, place: 'any' }
 };
