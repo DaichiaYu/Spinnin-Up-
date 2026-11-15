@@ -23,6 +23,10 @@ export function validHistoryEntry(entry) {
   if (!Array.isArray(entry.exercises) || !entry.plan || !entry.report) return false;
   if (!entry.intentions || typeof entry.intentions !== 'object' || Array.isArray(entry.intentions)) return false;
   for (const k of Object.keys(entry.intentions)) if (!own(REGION_INTENTS, entry.intentions[k])) return false;
+  if (entry.report.overall) {
+    const v=entry.report.overall;
+    if ((v.feeling && !own(POST_FEELINGS,v.feeling)) || (v.difficulty && !own(POST_DIFFICULTY,v.difficulty))) return false;
+  }
   const rf = entry.report.regions;
   if (!rf || typeof rf !== 'object' || Array.isArray(rf)) return false;
   for (const v of Object.values(rf)) {
@@ -56,13 +60,16 @@ export function createWorkoutEntry(profile, options) {
       if (answer && answer[key] !== undefined) a[key]=jsonClone(answer[key]);
     if (Object.keys(a).length) exerciseAnswers[exId]=a;
   }
+  const overall = {};
+  if (options.overall && own(POST_FEELINGS,options.overall.feeling)) overall.feeling=options.overall.feeling;
+  if (options.overall && own(POST_DIFFICULTY,options.overall.difficulty)) overall.difficulty=options.overall.difficulty;
   const entry={
     id, at: options.at || new Date().toISOString(), minutes: Math.max(0,Number(options.minutes)||0),
     trial: !!options.trial,
     plan: jsonClone(options.plan || {}),
     intentions,
     exercises: jsonClone(options.exercises || []),
-    report: { skipped: !!options.skipped, regions, exercises: exerciseAnswers }
+    report: { skipped: !!options.skipped, overall, regions, exercises: exerciseAnswers }
   };
   if (!validHistoryEntry(entry)) throw new Error('invalid workout history entry');
   return entry;
