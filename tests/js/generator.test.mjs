@@ -77,8 +77,8 @@ test('目標三個維度：效果 × 範圍 × 強度', () => {
   assert.ok(n(lower, 'lower') > n(lower, 'upper'));
   const focus = gen({ where: 'area', focus: 'glutes', minutes: 20 });
   assert.ok(train(focus).filter((i) => exById[i.id].primary.includes('glutes')).length >= 2);
-  for (const it of train(gen({ effect: 'recover' }))) { assert.equal(exById[it.id].level, 1); assert.equal(it.sets, 1); }
-  assert.ok(gen({ effect: 'mobility' }).reasons.some((x) => x.includes('還沒有伸展')));
+  for (const it of gen({ effect: 'recover' }).items) { assert.equal(exById[it.id].category, 'mobility'); assert.equal(it.sets, 1); }
+  assert.ok(gen({ effect: 'mobility' }).items.some((it) => exById[it.id].pattern === 'mobility' || exById[it.id].pattern === 'neck_rotation'));
   const easy = gen({ intensity: 'easy', minutes: 20 }), push = gen({ intensity: 'push', minutes: 20 });
   assert.ok(Math.max(...train(easy).map((i) => i.sets)) <= 2);
   assert.ok(train(push).reduce((a, i) => a + i.sets, 0) >= train(easy).reduce((a, i) => a + i.sets, 0));
