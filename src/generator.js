@@ -226,7 +226,7 @@ export function generateWorkout(o) {
 
   // ---- 理由（照資料的優先順序寫） ----
   var regionName = function (id) { return REGIONS.filter(function (r) { return r.id === id; })[0].name; };
-  if (sore.length) { reasons.push('你選擇「' + sore.map(regionName).join('、') + '」要避開或有明確疼痛，因此相關直接訓練的 ' + dropped.sore + ' 個動作先不排。'); used.push('今天各部位的狀態與意圖'); }
+  if (sore.length) { reasons.push('你今天不舒服或選擇「' + sore.map(regionName).join('、') + '」要避開或有明確疼痛，因此相關直接訓練的 ' + dropped.sore + ' 個動作先不排。'); used.push('今天各部位的狀態與意圖'); }
   if (Object.keys(deloadAreas).length) reasons.push('你選擇部分部位可以練但輕一點，那些部位的動作會限制一組並縮短時間。');
   if (gentleTargetRegions(regionNeeds).length) reasons.push('你標示了想溫和活動的部位；要優先安排放鬆動作，請選「恢復、放鬆」或「活動度、伸展」。');
   if (dropped.stopped) { reasons.push('有 ' + dropped.stopped + ' 個動作你之前回報過疼痛，先不排。'); used.push('之前的疼痛回報'); }
