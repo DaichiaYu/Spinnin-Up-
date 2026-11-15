@@ -8,6 +8,7 @@ import { REGION, canDo, totalSec } from './workout-engine.js';
 import { tendency, analyze, OBSERVATIONS, REGIONS, REGION_AREAS, fieldOf } from './profile.js';
 import { applyAdj } from './feedback.js';
 import { clamp } from './util.js';
+import { normalizeNeeds, blockedRegions, gentleTargetRegions, regionPolicy, planRecovery } from './recovery.js';
 
 export const EFFECTS = { strength: '增加力量', muscle: '增加肌肉量', endurance: '增加肌耐力', activity: '提高活動量', control: '穩定、控制身體', mobility: '活動度、伸展', recover: '恢復、放鬆' };
 export const WHERE = { all: '全身', upper: '上半身', lower: '下半身', core: '核心', area: '自己選部位' };
@@ -76,6 +77,9 @@ export function generateWorkout(o) {
   var P = o.profile, exById = o.exById, facets = o.facets || {}, t = tendency(P, exById), sig = profileSignals(P), body = analyze(P);
   var effect = EFFECTS[o.effect] ? o.effect : 'strength', where = WHERE[o.where] ? o.where : 'all';
   var gentle = effect === 'recover' || effect === 'mobility';
+  var regionNeeds = normalizeNeeds(o.regionNeeds, o.sore);
+  // 恢復／活動度是一條獨立的推薦路徑，不用降級版肌力訓練充數。
+  if (gentle) return planRecovery(o, regionNeeds, REGION_AREAS, Object.fromEntries(REGIONS.map(r => [r.id, r.name])));
   var level = gentle ? 0 : ['easy', 'normal', 'push'].indexOf(INTENSITY[o.intensity] ? o.intensity : 'normal');
   var tiredToday = o.energy === 'tired' || o.fatigue === 'sore';
   if (tiredToday && level > 0) level--;
@@ -83,8 +87,13 @@ export function generateWorkout(o) {
   var focusRegion = focusArea ? (TRAIN_REGIONS.indexOf(o.areas[focusArea].region) >= 0 ? o.areas[focusArea].region : null) : (where !== 'all' && where !== 'area' ? where : null);
   var asymMode = P.asym.has === 'yes' ? P.asym.mode : '';
   var wantSides = asymMode === 'separate' || asymMode === 'structural', allowSides = asymMode !== 'same';
-  var sore = (o.sore || []).filter(function (r) { return REGION_AREAS[r]; }), soreAreas = {};
+  var sore = blockedRegions(regionNeeds).filter(function (r) { return REGION_AREAS[r]; }), soreAreas = {}, deloadAreas = {};
   sore.forEach(function (r) { REGION_AREAS[r].forEach(function (a) { soreAreas[a] = r; }); });
+  Object.keys(regionNeeds).forEach(function (r) {
+    if (regionPolicy(regionNeeds[r]) === 'deload' && REGION_AREAS[r]) {
+      REGION_AREAS[r].forEach(function (a) { deloadAreas[a] = true; });
+    }
+  });
   var extra = o.strict ? 0 : flexExtra(o.minutes), budget = (o.minutes + extra) * 60;
   var maxSets = gentle ? 1 : level === 0 ? 2 : 3;
   var reasons = [], used = [], why = {}, dropped = { equip: 0, limit: {}, level: 0, stopped: 0, sore: 0, place: 0 };
@@ -124,7 +133,12 @@ export function generateWorkout(o) {
     var dose = ex.dose.default, hasAdj = P.adj[ex.id] && P.adj[ex.id].dose != null;
     if (!hasAdj && (effect === 'endurance' || level === 2)) dose = clamp(dose + ex.dose.step, ex.dose.min, ex.dose.max);
     if (!hasAdj && level === 0 && !gentle) dose = clamp(dose - ex.dose.step, ex.dose.min, ex.dose.max);
-    return applyAdj({ id: ex.id, dose: dose, sets: gentle || level === 0 ? 1 : Math.min(ex.sets, maxSets), rest: rest }, ex, P.adj[ex.id], allowSides);
+    var item = applyAdj({ id: ex.id, dose: dose, sets: level === 0 ? 1 : Math.min(ex.sets, maxSets), rest: rest }, ex, P.adj[ex.id], allowSides);
+    if (ex.primary.some(function(a) {return deloadAreas[a];})) {
+      item.sets = 1;
+      item.dose = clamp(Math.min(item.dose, ex.dose.default - ex.dose.step), ex.dose.min, ex.dose.max);
+    }
+    return item;
   }
   var warm = exById['march-in-place'], cool = exById['supine-breathing'], frame = [];
   var warmSore = warm && warm.primary.some(function (x) { return soreAreas[x]; });
@@ -212,7 +226,9 @@ export function generateWorkout(o) {
 
   // ---- 理由（照資料的優先順序寫） ----
   var regionName = function (id) { return REGIONS.filter(function (r) { return r.id === id; })[0].name; };
-  if (sore.length) { reasons.push('你今天「' + sore.map(regionName).join('、') + '」不舒服，主要練這些地方的 ' + dropped.sore + ' 個動作先不排。不舒服持續的話，請洽物理治療師或醫師。'); used.push('今天不舒服的地方'); }
+  if (sore.length) { reasons.push('你選擇「' + sore.map(regionName).join('、') + '」要避開或有明確疼痛，因此相關直接訓練的 ' + dropped.sore + ' 個動作先不排。'); used.push('今天各部位的狀態與意圖'); }
+  if (Object.keys(deloadAreas).length) reasons.push('你選擇部分部位可以練但輕一點，那些部位的動作會限制一組並縮短時間。');
+  if (gentleTargetRegions(regionNeeds).length) reasons.push('你標示了想溫和活動的部位；要優先安排放鬆動作，請選「恢復、放鬆」或「活動度、伸展」。');
   if (dropped.stopped) { reasons.push('有 ' + dropped.stopped + ' 個動作你之前回報過疼痛，先不排。'); used.push('之前的疼痛回報'); }
   var LIMIT_NAME = { hands: '用手撐體重', floor: '躺或趴著', grip: '用力握東西', single: '一次只做一邊' };
   Object.keys(dropped.limit).forEach(function (k) { reasons.push(sig.limits[k] + '，所以需要「' + LIMIT_NAME[k] + '」的 ' + dropped.limit[k] + ' 個動作沒有排。'); });
