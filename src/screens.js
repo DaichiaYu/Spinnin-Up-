@@ -382,17 +382,18 @@ export function renderToday() {
     });
   }
 
-  wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '今天的狀態' }),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '精神' }), pills('t-energy', ENERGY, t.energy, function (k) { t.energy = k; })),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '肌肉痠累' }), pills('t-fatigue', FATIGUE, t.fatigue, function (k) { t.fatigue = k; })),
-    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天想特別處理哪些部位？（可以不選）' }),
+  wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '今天想特別處理哪裡？' }),
+    h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '不選也可以，會照整體目標排' }),
       pills('t-sore', regionOpts, Object.keys(t.regionNeeds), function (k, on) {
         if (on) t.regionNeeds[k] = { intent: 'gentle' };
         else delete t.regionNeeds[k];
         drawRegionNeeds();
       }, true),
-      h('p', { class: 'why', text: '這裡只決定「想怎麼做」。做完之後才會問實際感受和困難度；若現在已有明確疼痛，請選「完全不要碰」，不要勉強活動。' }),
-      regionNeedPanel)));
+      h('p', { class: 'why', text: '這裡只選「想怎麼做」，做完之後才會問實際感受和困難度。若已有明確疼痛，請選「完全不要碰」，不要勉強活動。' }),
+      regionNeedPanel),
+    h('details', { class:'more' }, h('summary', { text:'今天精神和肌肉狀態（可選，影響強度）' }),
+      h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '精神' }), pills('t-energy', ENERGY, t.energy, function (k) { t.energy = k; })),
+      h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '肌肉痠累' }), pills('t-fatigue', FATIGUE, t.fatigue, function (k) { t.fatigue = k; })))));
   wrap.appendChild(h('section', { class: 'card' }, h('h2', { text: '想怎麼練' }),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '今天主要想要的效果' }), pills('t-effect', EFFECTS, t.effect, function (k) { t.effect = k; })),
     h('div', { class: 'frow' }, h('span', { class: 'flabel', text: '想練哪裡' }), pills('t-where', WHERE, t.where, function (k) { t.where = k; drawFocus(); }), focusBox),
