@@ -57,6 +57,18 @@ test('想放鬆腳踝時，優先安排腳踝；完全避開則不排',()=>{
   assert.ok(!ids(b).includes('gentle-ankle-pumps'));
 });
 
+test('混合模式：其他區正常練，指定放鬆區改做溫和活動',()=>{
+  const r=gen({effect:'strength',minutes:20,regionNeeds:{
+    shoulder_chest:{condition:'tight',intent:'relax'}
+  }});
+  assert.ok(r.items.some(it=>exById[it.id].category==='mobility'));
+  assert.ok(r.items.some(it=>exById[it.id].category==='train'));
+  for(const it of r.items.filter(it=>exById[it.id].category==='train'))
+    assert.ok(!exById[it.id].primary.some(a=>['upper_back','rear_shoulders','shoulders','chest','lats'].includes(a)),it.id);
+  assert.ok(totalSec(r.items,exById)<=20*60);
+  assert.ok(r.reasons.some(x=>x.includes('低負荷活動')));
+});
+
 test('床上模式只用通過 bed_ok 的溫和動作，不超時間',()=>{
   const r=gen({place:'bed',minutes:5});
   assert.ok(r.items.length);
